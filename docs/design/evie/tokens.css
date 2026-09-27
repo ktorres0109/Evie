@@ -1,0 +1,110 @@
+/*
+ * Evie — Night Bloom tokens (proposed replacement for app/src/styles/tokens.css)
+ * Source of truth: "Evie Design Spec v3.dc.html" §02.
+ * The compatibility aliases at the bottom map the existing Lunara variable names so
+ * current views keep compiling. Audit them against app.css before trusting them.
+ */
+@font-face { font-family: 'Plus Jakarta Sans'; src: url('/fonts/PlusJakartaSans-Variable.woff2') format('woff2'); font-weight: 200 800; font-display: swap; }
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #14111C;
+  --surface-1: #1C1826;
+  --surface-2: #241F31;
+  --surface-3: #2E2840;
+  --line: #3A3350;
+  --line-soft: #2A2438;
+  --highlight-top: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+
+  /* Text (all ≥ 4.5:1 on --bg and --surface-1) */
+  --text: #F3EFF7;
+  --text-2: #A9A0BC;
+  --text-3: #978EAF;
+
+  /* Brand / action */
+  --primary: #8B6BE8;
+  --primary-hi: #A98FF3;   /* accent text, links */
+  --primary-lo: #6B4CC9;   /* outlines, pressed */
+  --primary-tint: #2A2144; /* selected fills */
+  --nav-selected: #C4B2FA;
+  --on-primary: #14111C;
+
+  /* Period — berry is marker-only; text on a berry fill uses --berry-deep */
+  --berry: #C2496F;
+  --berry-hi: #E0779A;     /* predicted (dashed) */
+  --berry-deep: #A33755;   /* fills carrying text, with --text on top (5.7:1) */
+  --berry-tint: #34182A;
+
+  /* Health semantics — never used without label + pattern/glyph */
+  --care: #8FBFA8;
+  --fert-potential: #E07A5F;  /* 45° hatch + ◆ */
+  --fert-unknown: #D9A94C;    /* dot stipple + ? */
+  --fert-lower: #4FB3A5;      /* flat + —, always "not zero risk" */
+  --critical: #FF5F56;
+
+  /* Spacing (4px base) */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px;
+  --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-14: 56px;
+
+  /* Radius */
+  --radius-chip: 8px; --radius-field: 12px; --radius-card-sm: 18px; --radius-card: 20px;
+  --radius-sheet: 24px; --radius-pill: 999px;
+
+  /* Elevation — edge first, shadow second */
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 6px 16px rgba(0, 0, 0, 0.5);
+  --shadow-3: 0 14px 36px rgba(0, 0, 0, 0.6);
+  --shadow-log: 0 8px 20px rgba(139, 107, 232, 0.35);
+  --hero-glow: radial-gradient(120% 100% at 15% 0%, rgba(139, 107, 232, 0.20), rgba(20, 17, 28, 0) 70%);
+  --nav-fade: linear-gradient(to bottom, rgba(28, 24, 38, 0), #1C1826);
+
+  /* Type */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-sans);
+  --tracking-display: -0.03em;
+  --tracking-label: 0.08em;
+  /* display 40/44 600 · title-lg 26/32 500 · title 19/26 500 · body 16/24 400 · body-sm 14/20 400 · label 12/16 500 caps */
+
+  /* Motion — animate transform + opacity only */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur-press: 120ms; --dur-chip: 120ms; --dur-screen: 180ms; --dur-sheet: 240ms;
+
+  /* Shell */
+  --tabbar-height: 70px;          /* icons row, excluding the 32px fade */
+  --log-button: 62px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+
+  /* ── Compatibility aliases for existing Lunara views (audit before relying on) ── */
+  --card: var(--surface-1);
+  --surface-raised: var(--surface-2);
+  --surface-glass: var(--surface-1);   /* no backdrop blur in Evie */
+  --line-medium: var(--line);
+  --ink-950: var(--text); --ink-900: var(--text); --ink-800: var(--text);
+  --ink-650: var(--text-2); --ink-500: var(--text-3); --ink-300: var(--line);
+  --paper-50: var(--surface-2); --paper-100: var(--bg); --paper-150: var(--surface-1);
+  --paper-200: var(--surface-2); --paper-300: var(--surface-3);
+  --rose-700: var(--berry-deep); --rose-600: var(--berry); --rose-500: var(--berry);
+  --rose-400: var(--berry-hi); --rose-300: var(--berry-hi); --rose-200: var(--berry-tint); --rose-100: var(--berry-tint);
+  --plum-900: var(--text); --plum-500: var(--text-3);
+  --shadow-card: var(--shadow-1); --shadow-float: var(--shadow-3); --shadow-rose: var(--shadow-log);
+  --radius-sm: var(--radius-field); --radius-cta: var(--radius-pill); --radius-large: var(--radius-sheet);
+  --ease-out: var(--ease); --ease-soft: var(--ease);
+}
+
+[data-theme='day'] {
+  color-scheme: light;
+  --bg: #FAF7F6; --surface-1: #FFFFFF; --surface-2: #F1EBF2; --surface-3: #E3DBE6;
+  --line: #E3DBE6; --line-soft: #EFE8F0;
+  --text: #1E1828; --text-2: #5C5370; --text-3: #6A617E;
+  --primary: #5B3FBF; --primary-hi: #5B3FBF; --primary-tint: #EEE8FB; --nav-selected: #5B3FBF; --on-primary: #FFFFFF;
+  --berry: #A32A50; --berry-deep: #A32A50; --berry-tint: #FBE8EE;
+  --highlight-top: none;
+  --nav-fade: linear-gradient(to bottom, rgba(255, 255, 255, 0), #FFFFFF);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-press: 0ms; --dur-chip: 0ms; --dur-screen: 80ms; --dur-sheet: 80ms; }
+}
