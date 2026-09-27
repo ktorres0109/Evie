@@ -19,7 +19,10 @@
 ## Overview
 Evie is a local-first, AGPL-3.0 cycle tracker, forked from Lunara (`ktorres0109/Evie`). This bundle holds the final visual and UX specification for the core cycle-tracking experience, the optional fertility-awareness mode, local partner pairing, and the care companion. It replaces the current light "mineral paper" theme with a dark theme called **Night Bloom**, plus an optional light **Day Bloom**.
 
-**Target devices:** Samsung Galaxy A50 (412 × 892 CSS px, three-button navigation, Android 11 [LIKELY]) and iPhone 16 Pro Max (440 × 956 pt, home indicator).
+**Target devices (updated 2026-09-27):**
+- **Owner phone: Samsung Galaxy A53** (6.5″, 1080 × 2400, about 412 × 915 CSS px [LIKELY]). It launched on Android 12 and is eligible for updates up to Android 16 [LIKELY], so assume **Android 15+**. The app targets SDK 36, so **edge-to-edge is enforced**: honour `env(safe-area-inset-*)` and the system-bar insets, whether she uses three-button or gesture navigation. The earlier "Android 11, no inset" note no longer applies.
+- **Partner phone: iPhone 16 Pro Max** (440 × 956 pt, home indicator).
+- **Performance floor stays at the Galaxy A50 class** (2020 midrange, 3 GB). The A53 is faster, but the app is meant for anyone.
 **Audience:** women under 30. The feel should be premium, calm, private and smart. It should never feel cute, clinical or pushy.
 
 ## About the design files
@@ -68,9 +71,8 @@ Each phase is shippable on its own. Keep `pnpm test` green after each one.
 - **Log button:** 62px circle, `--primary`, 4px ring in `--surface-1`, raised 28px above the bar, shadow `--shadow-log`, plus icon 28px `--on-primary`. Tapping it opens `LogSheet` for today.
 - **Separation:** a 32px `--nav-fade` above a `--surface-1` bar. **No border-top.**
 - **Bar:** `position: sticky; bottom: 0`, padding `0 12px 10px`, plus `--safe-bottom` on iOS (30pt effective above the home indicator).
-- **Galaxy A50:** the three system buttons sit in their own 48dp strip below the app. Colour that strip `#1C1826` with `@capacitor/status-bar` / Android `navigationBarColor` so the two read as one band.
-  - [LIKELY] On Android 11 the WebView does not extend under the system bar, so `env(safe-area-inset-bottom)` is 0 and no extra padding is needed.
-  - [LIKELY] Android 15+ forces edge-to-edge for targetSdk 35. Test on one modern device as well, and add the inset there.
+- **Galaxy A53 (Android 15+, targetSdk 36):** the app is drawn edge-to-edge, behind the system bar. Pad the bar by `--safe-bottom` on Android as well as iOS, and draw `--surface-1` under the navigation area so the system buttons (or gesture pill) and the tab bar read as one band. Test both three-button and gesture navigation.
+  - Older Android (≤14, the A50 class) may report a 0 inset. The same CSS handles both.
 - **Accessibility:** `aria-label` on every button and `aria-current="page"` on the selected one. TalkBack should read "Calendar, tab 2 of 5, selected".
 - **Behaviour:** keep the existing "tap the active tab to scroll to top" logic.
 - **Partner shell:** four slots (Today `House`, Support `HandHeart`, Shared `Eye`, You `User`) and no Log button.
@@ -95,7 +97,7 @@ Each phase is shippable on its own. Keep `pnpm test` green after each one.
 - **Calendar months:** swap them, don't use a carousel. Mount only one month at a time.
 - **Plant growth:** a 240 ms cross-fade between static stage assets, only when a threshold is crossed.
 - **Haptics:** `@capacitor/haptics` is already installed. Medium impact on destructive confirm only. Nothing else (matches §06).
-- **Performance budgets** (on the A50): cold start under 1800 ms, tab switch under 120 ms, log write under 100 ms, memory under 180 MB. No `backdrop-filter` anywhere.
+- **Performance budgets** (on the A50-class floor device): cold start under 1800 ms, tab switch under 120 ms, log write under 100 ms, memory under 180 MB. No `backdrop-filter` anywhere.
 
 ## State / data
 - **Estimates:** reuse the existing `app/src/engine/` (24 files) and don't rewrite it. The new UI needs the engine to expose, per estimate: the included cycles, the **excluded cycles with a reason**, the median, the spread, and a confidence level from 1 to 5. If the engine doesn't return exclusions yet, that is the one engine change required.

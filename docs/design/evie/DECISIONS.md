@@ -1,6 +1,7 @@
 # Evie — open product decisions
 
-Status: planning. Each item lists options and a recommendation (**Rec**).
+Status: planning. Round 1 answers recorded 2026-09-27 (see **Decided** and
+**Still open** at the bottom). Each item lists options and a recommendation (**Rec**).
 Answer by number (e.g. `B2: b`). Once answered, move the item to "Decided"
 at the bottom with the date.
 
@@ -210,8 +211,42 @@ a review date.
 
 ---
 
+## Still open (round 2)
+
+| # | Question | Why it matters |
+|---|---|---|
+| O1 | Partner transport: are the two phones usually on the same Wi-Fi? | Decides between local sync, QR snapshots, or an end-to-end-encrypted relay |
+| O2 | AI: none, on-device only, or bring-your-own-key? | It's the only feature that could send health data off the phone |
+| O3 | "iPhone and macOS": do you mean building on a Mac, or a Mac app too? | A Mac is required to build for iPhone. A Mac *app* is extra scope |
+| O4 | Apple Developer Program ($99/yr)? | Free signing expires every 7 days. TestFlight and the App Store need the paid account |
+| O5 | Permanent app ID (e.g. `com.<you>.evie`) | Store IDs can never change after release. The display name can |
+| O6 | Final age rule | Tentatively matches Flo (below) |
+
 ## Decided
 
 | Date | Item | Decision |
 |---|---|---|
 | 2026-09-27 | Design contradictions (v0.3) | See "Resolved in v0.4" in README.md |
+| 2026-09-27 | A1 audience | Two-person product: an owner and her partner. Built at public-release quality so any woman can use it and make it hers |
+| 2026-09-27 | A2 platforms | Both at once. Owner app on Android (Galaxy A53), partner app on iPhone (16 Pro Max). One codebase, both roles available on both platforms |
+| 2026-09-27 | A3 age (tentative) | Follow Flo's published rule: 13+ generally, 16+ in the EU, UK and Canada. Some features are limited under 18 (which ones is TBD) |
+| 2026-09-27 | Legal baseline | Store no data on any server, so there is nothing to share, sell or subpoena from us. Flo is the cautionary tale here (2021 FTC settlement; 2025 jury verdict against Meta over Flo data). Still needed before a public release: a truthful privacy policy, the Play Data safety form, Apple privacy labels, and a check against California CMIA and Washington MHMDA if any data ever leaves the phone |
+| 2026-09-27 | A4 adjacent modes | Default: keep pregnancy + doctor report. Hide TTC, perimenopause and backup in v1. AI depends on O2 |
+| 2026-09-27 | B1 methods | All of them, including the new types (progestin-only pill, copper vs hormonal IUD, barrier, emergency contraception) |
+| 2026-09-27 | B2 predictions | Expected withdrawal bleed shown for pill/patch/ring, plus comfort content for those days. Emergency contraception and stopping a method as in B2 |
+| 2026-09-27 | B3 reminders | Pill + patch/ring changes. Neutral lock-screen text |
+| 2026-09-27 | B4 missed dose | Default: log it and point to the leaflet or a pharmacist. No built-in rules |
+| 2026-09-27 | C1–C6 pregnancy endings | Defaults: neutral "Pregnancy ended" entry; date only unless the user opts into detail; never shared with a partner; opt-in per export; "delete this record only"; aftercare warning signs + a sourced resource list; breastfeeding toggle |
+| 2026-09-27 | D1 life context | All rows in v1 |
+| 2026-09-27 | D2 conditions | Self-report only. The app never suggests a condition |
+| 2026-09-27 | E3 languages | English + Spanish in v1. Health copy is reviewed in both languages |
+| 2026-09-27 | E4 name/logo | Can change later |
+| 2026-09-27 | E5 content review | A clinician friend reviews all health copy. Every claim cites a source |
+| 2026-09-27 | Timeline | Take the time: a polished v1, even if it takes about a month |
+
+### Sources for the legal baseline
+- Flo minimum age: <https://help.flo.health/hc/en-us/articles/360042626231-Can-I-use-Flo-below-the-age-of-13>, <https://flo.health/terms-of-service>
+- FTC 2021 settlement and state laws: <https://pmc.ncbi.nlm.nih.gov/articles/PMC11923453/>, <https://jgspl.org/greater-privacy-protections-are-needed-for-womens-health-data-on-period-tracking-apps/>
+- 2025 Meta verdict and $59.5M settlement: <https://www.hipaajournal.com/jury-trial-meta-flo-health-consumer-privacy/>, <https://www.rivkinrounds.com/2025/08/flo-health-data-sharing-case-ends-in-major-jury-verdict-against-meta/>
+
+Not legal advice. Get a lawyer's read before a public store release.
