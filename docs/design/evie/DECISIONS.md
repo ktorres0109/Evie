@@ -215,7 +215,6 @@ a review date.
 
 | # | Question | Why it matters |
 |---|---|---|
-| O8 | New product name ("Evie" is taken, see below) | Needed before the rename step and any public release. Candidates are in the round-3 notes |
 
 ## Decided
 
@@ -245,6 +244,9 @@ a review date.
 | 2026-09-28 | O5 app ID | `io.github.ktorres0109.cycle`. Deliberately name-free, so the product can be renamed any time without breaking installs or store listings |
 | 2026-09-28 | O6 age | Flo's rule: 13+ generally, 16+ in the EU, UK and Canada |
 | 2026-09-28 | Name | Drop "Evie". Movano Health sells the **Evie Ring**, a women's-health smart ring that tracks menstrual cycles (same category, so real trademark risk). Working name stays "Evie" in design docs until O8 is picked; no user-facing string ships with it |
+| 2026-09-28 | O8 name | **Meztli** (Nahuatl: moon, month). Companion plant is named **Yoloxóchitl** (Guerrero heart-flower). Before public release: IMPI + USPTO search |
+| 2026-09-28 | History | Start fresh, with no import from her old app. The first cycles show "not enough data yet" or wide ranges until history builds |
+| 2026-09-28 | Infra | Relay goes on Kelvin's existing Cloudflare account (as a separate Worker). Xcode is installed on his Mac |
 | 2026-09-27 | Timeline | Take the time: a polished v1, even if it takes about a month |
 
 ### Round-3 notes: name candidates
