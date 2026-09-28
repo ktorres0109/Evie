@@ -1,161 +1,89 @@
-# Lunara
+# Meztli
 
-> **⚠️ Unfinished — this is a work in progress.**
-> Lunara is not on the App Store or Google Play, and there is no installer to
-> double-click. You build it from this repository and run it on your own phone.
-> Features are landing continuously and things will break. Do not rely on it as
-> your only record of your health data.
+> **Work in progress.** Meztli is not on any app store yet. You build it from
+> this repository and install it on your own phone. Don't rely on it as your
+> only record of your health data.
 
-**An open-source, local-first cycle, fertility, pregnancy, and perimenopause companion.**
+**A private cycle companion for one person, and the one they choose.**
 
-Lunara ships through native iOS and Android shells powered by Capacitor. Core
-tracking works without an account or Lunara-hosted user database. Optional
-backup and AI features transmit data only after you enable them; their scope and
-security boundaries are documented in the repository.
+*Meztli* (Nahuatl: moon, month) is a local-first cycle, birth-control and
+pregnancy tracker with an optional read-only partner app. Everything
+meaningful works offline. There is no account and no analytics. The only thing
+that ever leaves the phone is the partner update, if you turn it on, and that
+is end-to-end encrypted: the relay stores data it cannot read.
 
-Lunara is an open-source alternative to Flo®. It is not affiliated with, endorsed by, or connected to Flo Health Inc.
+Meztli is not a medical device and is not contraception. Estimates are shown as
+ranges with their method visible ("Why this estimate?"), never as a single
+confident date.
 
-## Why
+## Status
 
-- **No subscription gate.** Tracking, pattern insights, reports, pregnancy
-  guidance, and perimenopause tools are part of the open-source app.
-- **Local first by architecture.** Core logs live in the app's local storage.
-  Optional backup stores a client-encrypted blob; optional AI shares only the
-  categories you select for that request.
-- **No 54-screen onboarding funnel. No paywall gauntlet. No nagging.**
+| Area | State |
+|---|---|
+| Product decisions | [`docs/design/evie/DECISIONS.md`](docs/design/evie/DECISIONS.md) |
+| Design spec (working name "Evie") | [`docs/design/evie/`](docs/design/evie/) |
+| v1 plan | [`docs/design/evie/V1_PLAN.md`](docs/design/evie/V1_PLAN.md) |
+| Research | [`docs/design/evie/RESEARCH_2026-09-28.md`](docs/design/evie/RESEARCH_2026-09-28.md) |
 
----
+## Build it
 
-## Getting Lunara onto your phone
-
-There is no download. You compile the app on a computer and install it on your
-own phone over a cable. **What you need depends on the phone you have:**
-
-| Your phone | Your computer | Works? | What you'll use |
-| --- | --- | --- | --- |
-| iPhone | Mac | ✅ | Xcode |
-| Android | Mac | ✅ | Android Studio |
-| Android | Windows | ✅ | Android Studio |
-| iPhone | Windows | ❌ | Not possible — see below |
-
-**iPhone + Windows is not possible.** Apple only allows iOS apps to be built and
-signed on macOS with Xcode; there is no supported Windows path, and no amount of
-setup works around it. Your options are to borrow a Mac, or run Lunara as a web
-app in your phone's browser (`pnpm dev`, then open the printed network URL on
-your phone) — the browser version keeps your data on the phone but has no
-widgets, notifications, or Health integration.
-
-### 1. Install the shared prerequisites
-
-You need [Git](https://git-scm.com/downloads), [Node.js LTS](https://nodejs.org/en/download),
-and pnpm. With Node installed:
+You need [Git](https://git-scm.com/downloads), [Node.js LTS](https://nodejs.org/en/download)
+and pnpm (`npm install -g pnpm`).
 
 ```sh
-npm install -g pnpm
-```
-
-### 2. Get the code and build the web bundle
-
-```sh
-git clone https://github.com/Blueturboguy07/lunara.git
-cd lunara
+git clone https://github.com/ktorres0109/Evie.git meztli
+cd meztli
 pnpm install
-pnpm --filter @lunara/app native:sync
+pnpm --filter @meztli/app native:sync   # typecheck, build, copy into iOS/Android
 ```
 
-`native:sync` type-checks, builds the web bundle, and copies it into the native
-iOS and Android projects. **Re-run it after every code change** — the native
-shells load a copied bundle, not your live source.
+Re-run `native:sync` after every code change. The native shells load a copied
+bundle, not your live source.
 
-### 3a. iPhone (requires a Mac)
+### Android (Mac, Windows or Linux)
 
-1. Install **Xcode** from the Mac App Store, then open it once so it finishes
-   installing its components.
-2. Open the iOS project:
-   ```sh
-   pnpm --filter @lunara/app native:ios
-   ```
-3. In Xcode, select the **App** target → **Signing & Capabilities**. Under
-   *Team*, pick your Apple ID. A **free** Apple ID works — you do not need the
-   $99/year Developer Program. If you have never added your Apple ID, use
-   *Add an Account…* in the Team dropdown.
-4. If Xcode reports the bundle identifier is unavailable, change it to something
-   unique to you (for example `app.lunara.mobile.yourname`).
-5. Plug in your iPhone, unlock it, and tap **Trust** if asked. Select it from the
-   device dropdown at the top of the Xcode window.
-6. Press **▶ Run**.
-7. The first launch will fail with *"Untrusted Developer."* On your iPhone go to
-   **Settings → General → VPN & Device Management**, tap your Apple ID, and tap
-   **Trust**. Then open Lunara again.
+1. Install [Android Studio](https://developer.android.com/studio) and let it
+   install the default SDK.
+2. On the phone: **Settings → About phone → Software information**, tap
+   **Build number** seven times, then turn on **Developer options → USB debugging**.
+3. `pnpm --filter @meztli/app native:android`, pick the phone, press **▶ Run**.
 
-> With a free Apple ID the app stops working after **7 days**. Re-run step 6 to
-> renew it. A paid Developer Program account extends this to a year.
+### iPhone (needs a Mac with Xcode)
 
-### 3b. Android (Mac or Windows)
+1. `pnpm --filter @meztli/app native:ios`
+2. In Xcode, select the **App** target → **Signing & Capabilities** and pick
+   your Apple ID's **Personal Team** (free). Do the same for the
+   **MeztliWidgetExtension** target.
+3. If the bundle ID is taken, append something unique, e.g.
+   `io.github.ktorres0109.cycle.yourname`.
+4. Plug in the iPhone, select it, press **▶ Run**. The first launch fails with
+   "Untrusted Developer". Go to **Settings → General → VPN & Device Management**,
+   trust your Apple ID, and open the app again.
 
-1. Install [**Android Studio**](https://developer.android.com/studio). On first
-   launch let it install the default SDK and platform tools.
-2. On your phone, enable developer mode: **Settings → About phone**, tap
-   **Build number** seven times. Then in **Settings → System → Developer
-   options**, turn on **USB debugging**.
-3. Open the Android project:
-   ```sh
-   pnpm --filter @lunara/app native:android
-   ```
-4. Plug in your phone and tap **Allow** on the USB-debugging prompt.
-5. Pick your phone from the device dropdown in Android Studio and press **▶ Run**.
+With a free Apple ID the app stops opening after **7 days**; press **▶ Run**
+again to renew it. The free build has no Apple Health, widgets data sharing or
+push notifications. The partner role doesn't need any of them.
 
-### If something goes wrong
+### Develop
 
-- **`pnpm: command not found`** — Node's global bin isn't on your PATH. Close and
-  reopen your terminal, then try again.
-- **`cap: command not found`** — you skipped `pnpm install`, or ran the command
-  from the wrong folder. Run it from the repository root.
-- **Xcode "No account for team"** — you haven't picked a Team under Signing &
-  Capabilities (step 3a.3).
-- **Android Studio doesn't see your phone** — the cable is charge-only, or USB
-  debugging is off. Try a different cable first; it is usually the cable.
-- **Your changes don't show up** — re-run `pnpm --filter @lunara/app native:sync`.
+```sh
+pnpm dev    # run in a browser
+pnpm test   # unit tests (keep the estimate audit at zero violations)
+```
 
 ## Structure
 
-- `app/` — React/Vite product layer plus Capacitor iOS and Android projects
-- `workers/backup/` — stateless zero-knowledge backup relay (Cloudflare Worker + R2)
-- `workers/reminders/` — opt-in generic email reminders (no health terms, ever)
-- `docs/NATIVE_ARCHITECTURE.md` — current runtime and platform design
-- `docs/FEATURE_PARITY.md` — honest implementation and release-readiness map
+- `app/`: React + TypeScript + Vite product layer, Capacitor iOS and Android shells
+- `workers/backup/`: zero-knowledge encrypted blob relay (Cloudflare Worker), the basis for partner sync
+- `docs/design/evie/`: current design, decisions and research
+- `docs/upstream-lunara/`: historical docs from the upstream project
 
-## Develop
+## Credits
 
-```sh
-pnpm install
-pnpm dev      # run the app in a browser
-pnpm test     # engine unit tests
-pnpm --filter @lunara/app native:sync
-```
-
-The cycle engine is covered by a seeded fuzz audit
-(`app/src/engine/estimateAudit.test.ts`) that exercises every user-facing
-estimate across 360 generated histories. It must stay at zero violations —
-run `pnpm test` before touching any prediction math.
-
-## The AI companion is optional and bring-your-own-key
-
-Lunara ships no shared API key and works fully without AI. If you enable it, you
-supply your own credential:
-
-- **Anthropic** — an API key, or a token from `claude setup-token` to bill
-  answers to a Claude subscription instead of API credits.
-- **OpenAI** — a project API key.
-
-Credentials are stored in the iOS Keychain / Android Keystore, never in the
-cycle database and never in a backup. Nothing from your tracker is sent unless
-you tick the specific categories for that message.
-
-## Disclaimer
-
-Lunara is not a medical device and does not diagnose, treat, cure, or prevent any condition. Predictions are estimates for informational purposes only and must not be used to prevent pregnancy.
+Meztli is a fork of [Lunara](https://github.com/Blueturboguy07/lunara) by
+Blueturboguy07 and contributors, used under the AGPL-3.0.
 
 ## License
 
-AGPL-3.0 — see [LICENSE](LICENSE).
+AGPL-3.0. See [LICENSE](LICENSE). If you run a modified version for other
+people, you must offer them its source.

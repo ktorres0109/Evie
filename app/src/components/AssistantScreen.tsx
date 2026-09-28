@@ -26,7 +26,7 @@ import {
   setSecureSecret,
 } from '../native/secureVault'
 import { useApp } from '../state/appStore'
-import { LunaraMark } from './LunaraMark'
+import { MeztliMark } from './MeztliMark'
 import '../styles/assistant.css'
 
 const CONSENT_OPTIONS: Array<{
@@ -261,17 +261,17 @@ export function AssistantScreen() {
       className="overlay assistant-overlay"
       role="dialog"
       aria-modal="true"
-      aria-label="Lunara AI assistant"
+      aria-label="Meztli AI assistant"
     >
       <header className="overlay-head assistant-head">
         <button className="back-btn" onClick={() => setAssistantOpen(false)} aria-label="Close">
           ‹
         </button>
         <div className="assistant-title">
-          <LunaraMark decorative size={25} />
+          <MeztliMark decorative size={25} />
           <span>
             <span className="assistant-kicker">Private companion</span>
-            <h2>Lunara AI</h2>
+            <h2>Meztli AI</h2>
           </span>
         </div>
         <button
@@ -290,7 +290,7 @@ export function AssistantScreen() {
 
       {loading ? (
         <div className="overlay-body assistant-loading">
-          <LunaraMark decorative size={30} />
+          <MeztliMark decorative size={30} />
           <span>Preparing your private space…</span>
         </div>
       ) : setupOpen ? (
@@ -298,7 +298,7 @@ export function AssistantScreen() {
           <section className="assistant-setup-intro">
             <p className="eyebrow">Connection</p>
             <h3>Choose where answers come from</h3>
-            <p>Your key stays on this device. Lunara never ships a shared key.</p>
+            <p>Your key stays on this device. Meztli never ships a shared key.</p>
             <div className="ai-provider-grid">
               <button
                 className={`choice-card compact ${provider === 'anthropic' ? 'selected' : ''}`}
@@ -347,14 +347,14 @@ export function AssistantScreen() {
                 <details className="assistant-key-fallback">
                   <summary>Use your Claude subscription instead (CLI login)</summary>
                   <p className="microcopy">
-                    Lunara runs in a mobile WebView, so it cannot shell out to the{' '}
+                    Meztli runs in a mobile WebView, so it cannot shell out to the{' '}
                     <code>claude</code> CLI the way a server can. Run this once on a computer
                     where you are signed in:
                   </p>
                   <pre className="cli-snippet"><code>claude setup-token</code></pre>
                   <p className="microcopy">
                     Paste the <code>{CLI_TOKEN_PREFIX}…</code> token it prints into the field
-                    above. Lunara sends it as an OAuth bearer credential, so answers are billed
+                    above. Meztli sends it as an OAuth bearer credential, so answers are billed
                     to your Claude subscription rather than to API credits. The token expires —
                     rerun the command to refresh it.
                   </p>
@@ -429,7 +429,7 @@ export function AssistantScreen() {
               aria-controls="assistant-consent-options"
             >
               <span className="assistant-context-mark" aria-hidden="true">
-                <LunaraMark decorative size={18} />
+                <MeztliMark decorative size={18} />
               </span>
               <span className="assistant-context-copy">
                 <strong>Tracker context</strong>
@@ -486,7 +486,7 @@ export function AssistantScreen() {
               <div className="assistant-empty">
                 <div className="assistant-orb" aria-hidden="true">
                   <span />
-                  <LunaraMark decorative size={38} />
+                  <MeztliMark decorative size={38} />
                 </div>
                 <span className="assistant-empty-kicker">Private by design</span>
                 <h3>What would you like to understand?</h3>
@@ -510,16 +510,16 @@ export function AssistantScreen() {
               <div key={index} className={`chat-bubble ${message.role}`}>
                 {message.role === 'assistant' && (
                   <span className="chat-bubble-mark" aria-hidden="true">
-                    <LunaraMark decorative size={14} />
+                    <MeztliMark decorative size={14} />
                   </span>
                 )}
                 <span>{message.content}</span>
               </div>
             ))}
             {busy && (
-              <div className="chat-bubble assistant typing" aria-label="Lunara is thinking">
+              <div className="chat-bubble assistant typing" aria-label="Meztli is thinking">
                 <span className="chat-bubble-mark" aria-hidden="true">
-                  <LunaraMark decorative size={14} />
+                  <MeztliMark decorative size={14} />
                 </span>
                 <span>Thinking</span>
                 <i /><i /><i />
@@ -543,8 +543,8 @@ export function AssistantScreen() {
             <textarea
               ref={composerInput}
               rows={1}
-              placeholder="Message Lunara…"
-              aria-label="Message Lunara"
+              placeholder="Message Meztli…"
+              aria-label="Message Meztli"
               enterKeyHint="send"
               value={input}
               onChange={(event) => setInput(event.target.value)}

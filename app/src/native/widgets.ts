@@ -1,4 +1,4 @@
-import { getLunaraNativeBridge } from './bridge'
+import { getMeztliNativeBridge } from './bridge'
 import { isNative, nativePlatform } from './runtime'
 
 export interface CycleWidgetSnapshot {
@@ -23,13 +23,13 @@ export interface WidgetStatus {
   platform: 'ios' | 'android' | 'web'
 }
 
-interface LunaraNativeWidgetPlugin {
+interface MeztliNativeWidgetPlugin {
   widgetStatus(): Promise<WidgetStatus>
   publishWidgetSnapshot(options: { snapshot: CycleWidgetSnapshot }): Promise<void>
   clearWidgetSnapshot(): Promise<void>
 }
 
-const LunaraNative = getLunaraNativeBridge<LunaraNativeWidgetPlugin>()
+const MeztliNative = getMeztliNativeBridge<MeztliNativeWidgetPlugin>()
 
 function normalizedSnapshot(snapshot: CycleWidgetSnapshot): CycleWidgetSnapshot {
   if (!Number.isFinite(Date.parse(snapshot.generatedAt))) {
@@ -64,18 +64,18 @@ export async function getWidgetStatus(): Promise<WidgetStatus> {
       platform: 'web',
     }
   }
-  return LunaraNative.widgetStatus()
+  return MeztliNative.widgetStatus()
 }
 
 /** Persists only the redacted snapshot contract consumed by the native widget. */
 export async function publishWidgetSnapshot(snapshot: CycleWidgetSnapshot): Promise<void> {
   if (!isNative) return
-  await LunaraNative.publishWidgetSnapshot({ snapshot: normalizedSnapshot(snapshot) })
+  await MeztliNative.publishWidgetSnapshot({ snapshot: normalizedSnapshot(snapshot) })
 }
 
 export async function clearWidgetSnapshot(): Promise<void> {
   if (!isNative) return
-  await LunaraNative.clearWidgetSnapshot()
+  await MeztliNative.clearWidgetSnapshot()
 }
 
 export function currentWidgetPlatform(): WidgetStatus['platform'] {

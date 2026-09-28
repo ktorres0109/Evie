@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Lunara</string>
-    <string name="title_activity_main">Lunara</string>
-    <string name="package_name">app.lunara.mobile</string>
-    <string name="custom_url_scheme">app.lunara.mobile</string>
-    <string name="widget_name">Lunara cycle</string>
-    <string name="widget_description">A private glance at your current Lunara cycle snapshot</string>
+    <string name="app_name">Meztli</string>
+    <string name="title_activity_main">Meztli</string>
+    <string name="package_name">io.github.ktorres0109.cycle</string>
+    <string name="custom_url_scheme">io.github.ktorres0109.cycle</string>
+    <string name="widget_name">Meztli cycle</string>
+    <string name="widget_description">A private glance at your current Meztli cycle snapshot</string>
 </resources>

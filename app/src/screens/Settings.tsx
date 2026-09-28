@@ -314,7 +314,7 @@ export function Settings() {
 
   async function exportPlain() {
     const payload = await collectExport()
-    await shareOrDownload(`lunara-backup-${localToday()}.json`, JSON.stringify(payload, null, 2))
+    await shareOrDownload(`meztli-backup-${localToday()}.json`, JSON.stringify(payload, null, 2))
     setStatus('Exported. Save it somewhere safe.')
   }
 
@@ -322,7 +322,7 @@ export function Settings() {
     const pass = prompt('Choose a passphrase to encrypt this file. You will need it to import.')
     if (!pass) return
     const env = await encryptedExport(pass)
-    await shareOrDownload(`lunara-encrypted-${localToday()}.json`, JSON.stringify(env))
+    await shareOrDownload(`meztli-encrypted-${localToday()}.json`, JSON.stringify(env))
     setStatus('Encrypted export saved.')
   }
 
@@ -381,7 +381,7 @@ export function Settings() {
     }
     setCapabilityBusy(true)
     try {
-      const result = await authenticateWithBiometrics('Confirm biometric unlock for Lunara')
+      const result = await authenticateWithBiometrics('Confirm biometric unlock for Meztli')
       if (!result.authenticated) {
         setStatus('Biometric confirmation was cancelled.')
         return
@@ -515,7 +515,7 @@ export function Settings() {
   }
 
   async function enableBackup() {
-    const endpoint = prompt('Backup relay URL (your deployed Lunara backup Worker):', s!.endpoint)
+    const endpoint = prompt('Backup relay URL (your deployed Meztli backup Worker):', s!.endpoint)
     if (!endpoint) return
     let code = s!.recoveryCode
     if (!code) {
@@ -647,7 +647,7 @@ export function Settings() {
   }
 
   async function wipe() {
-    if (!confirm('Delete ALL Lunara data on this device? This cannot be undone.')) return
+    if (!confirm('Delete ALL Meztli data on this device? This cannot be undone.')) return
     await clearSecureSecrets()
     await db.delete()
     location.reload()
@@ -834,7 +834,7 @@ export function Settings() {
             </span>
           </div>
           <p className="muted" style={{ padding: '8px 0' }}>
-            Health imports are read-only, permission-scoped, and copied into your local Lunara
+            Health imports are read-only, permission-scoped, and copied into your local Meztli
             timeline. Manual entries are never silently replaced, and nothing is uploaded by this
             step.
           </p>
@@ -1047,7 +1047,7 @@ export function Settings() {
 
       <Section title="AI assistant">
         <button className="setting-row" onClick={() => setAssistantOpen(true)}>
-          <span>Open Lunara AI</span>
+          <span>Open Meztli AI</span>
           <span className="muted">
             {s.provider === 'anthropic'
               ? hasAnthropicKey
@@ -1074,7 +1074,7 @@ export function Settings() {
       </Section>
 
       <p className="muted" style={{ textAlign: 'center', marginTop: 8, lineHeight: 1.5 }}>
-        Lunara is open source (AGPL-3.0) and not affiliated with Flo Health Inc. Not a medical
+        Meztli is open source (AGPL-3.0) and not affiliated with Flo Health Inc. Not a medical
         device. Removing the app deletes its local history — keep an encrypted backup.
       </p>
     </div>

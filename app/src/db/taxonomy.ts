@@ -1,6 +1,6 @@
 /**
  * Loggable-item taxonomy, reconstructed category-by-category from
- * docs/RESEARCH.md §5. Icons are emoji placeholders until the original icon
+ * docs/upstream-lunara/RESEARCH.md §5. Icons are emoji placeholders until the original icon
  * set lands (M5).
  */
 import type {
@@ -168,7 +168,7 @@ export interface TrackerGroup {
 
 /**
  * Original, extensible event catalog. Combined with the typed trackers above,
- * Lunara ships more than 80 loggable signals without copying another app's
+ * Meztli ships more than 80 loggable signals without copying another app's
  * labels, ordering, or artwork.
  */
 export const TRACKER_GROUPS: TrackerGroup[] = [

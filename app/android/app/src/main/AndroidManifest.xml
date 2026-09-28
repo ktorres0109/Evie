@@ -38,26 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:scheme="https"
-                    android:host="lunara.app"
-                    android:pathPrefix="/auth/openrouter" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:scheme="lunara"
-                    android:host="openrouter"
-                    android:pathPrefix="/callback" />
-            </intent-filter>
-
             <intent-filter>
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
             </intent-filter>
@@ -80,16 +60,16 @@
         </provider>
 
         <receiver
-            android:name=".LunaraCycleWidgetProvider"
+            android:name=".MeztliCycleWidgetProvider"
             android:exported="true"
             android:label="@string/widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="app.lunara.mobile.WIDGET_REFRESH" />
+                <action android:name="io.github.ktorres0109.cycle.WIDGET_REFRESH" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/lunara_cycle_widget_info" />
+                android:resource="@xml/meztli_cycle_widget_info" />
         </receiver>
 
         <service

@@ -18,34 +18,21 @@
 		</dict>
 	</dict>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Use Face ID to unlock your private Lunara data.</string>
+	<string>Use Face ID to unlock your private Meztli data.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Lunara imports only the health categories you choose so your cycle history can stay current on this device.</string>
+	<string>Meztli imports only the health categories you choose so your cycle history can stay current on this device.</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Lunara connects to a local AI service, such as Ollama, only when you configure one.</string>
+	<string>Meztli connects to a local AI service, such as Ollama, only when you configure one.</string>
 	<key>CAPACITOR_DEBUG</key>
 	<string>$(CAPACITOR_DEBUG)</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>app.lunara.mobile.widget-refresh</string>
+		<string>io.github.ktorres0109.cycle.widget-refresh</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>Lunara</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>app.lunara.mobile.openrouter</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>lunara</string>
-			</array>
-		</dict>
-	</array>
+        <string>Meztli</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

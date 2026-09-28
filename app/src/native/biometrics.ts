@@ -1,4 +1,4 @@
-import { getLunaraNativeBridge } from './bridge'
+import { getMeztliNativeBridge } from './bridge'
 import { isNative } from './runtime'
 
 export type BiometricKind =
@@ -30,12 +30,12 @@ export interface BiometricAuthenticationResult {
   errorCode?: string
 }
 
-interface LunaraNativeBiometricPlugin {
+interface MeztliNativeBiometricPlugin {
   biometricStatus(): Promise<BiometricStatus>
   authenticate(options: { reason: string }): Promise<BiometricAuthenticationResult>
 }
 
-const LunaraNative = getLunaraNativeBridge<LunaraNativeBiometricPlugin>()
+const MeztliNative = getMeztliNativeBridge<MeztliNativeBiometricPlugin>()
 
 export async function getBiometricStatus(): Promise<BiometricStatus> {
   if (!isNative) {
@@ -48,11 +48,11 @@ export async function getBiometricStatus(): Promise<BiometricStatus> {
     }
   }
 
-  return LunaraNative.biometricStatus()
+  return MeztliNative.biometricStatus()
 }
 
 export async function authenticateWithBiometrics(
-  reason = 'Unlock your private Lunara data',
+  reason = 'Unlock your private Meztli data',
 ): Promise<BiometricAuthenticationResult> {
   if (!isNative) {
     return { authenticated: false, kind: 'none', errorCode: 'WEB_UNSUPPORTED' }
@@ -61,5 +61,5 @@ export async function authenticateWithBiometrics(
   const trimmedReason = reason.trim().slice(0, 160)
   if (!trimmedReason) throw new Error('An authentication reason is required.')
 
-  return LunaraNative.authenticate({ reason: trimmedReason })
+  return MeztliNative.authenticate({ reason: trimmedReason })
 }

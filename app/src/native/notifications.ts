@@ -13,16 +13,16 @@ import {
 import { isNative } from './runtime'
 
 const DAILY_REMINDER_ID = 10_001
-const CHANNEL_ID = 'lunara-gentle-reminders'
-const REMINDER_ACTION_TYPE = 'lunara-local-reminder'
-const REMINDER_ENGINE_MARKER = 'lunara-reminder-engine-v1'
+const CHANNEL_ID = 'meztli-gentle-reminders'
+const REMINDER_ACTION_TYPE = 'meztli-local-reminder'
+const REMINDER_ENGINE_MARKER = 'meztli-reminder-engine-v1'
 const IOS_PENDING_REQUEST_LIMIT = 64
 
 async function ensureChannel(): Promise<void> {
   await LocalNotifications.createChannel({
     id: CHANNEL_ID,
     name: 'Gentle reminders',
-    description: 'Private, generic reminders from Lunara',
+    description: 'Private, generic reminders from Meztli',
     importance: 3,
     visibility: 0,
     vibration: true,
@@ -62,7 +62,7 @@ export async function scheduleDailyReminder(time: string): Promise<void> {
   await cancelDailyReminder()
   const notification: LocalNotificationSchema = {
     id: DAILY_REMINDER_ID,
-    title: 'Lunara',
+    title: 'Meztli',
     body: 'A gentle moment to check in with yourself.',
     channelId: CHANNEL_ID,
     schedule: {
@@ -96,7 +96,7 @@ async function registerReminderActions(): Promise<void> {
     types: [
       {
         id: REMINDER_ACTION_TYPE,
-        iosHiddenPreviewsBodyPlaceholder: 'Open Lunara to view this reminder.',
+        iosHiddenPreviewsBodyPlaceholder: 'Open Meztli to view this reminder.',
         actions: [
           { id: 'complete', title: 'Done' },
           { id: 'snooze', title: 'Snooze 15 min' },

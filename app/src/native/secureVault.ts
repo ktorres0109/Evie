@@ -1,7 +1,7 @@
-import { getLunaraNativeBridge } from './bridge'
+import { getMeztliNativeBridge } from './bridge'
 import { isNative, nativePlatform } from './runtime'
 
-interface LunaraNativeVaultPlugin {
+interface MeztliNativeVaultPlugin {
   secureVaultStatus(): Promise<NativeVaultStatus>
   secureSet(options: { key: string; value: string }): Promise<void>
   secureGet(options: { key: string }): Promise<{ value: string | null }>
@@ -28,7 +28,7 @@ export const SECURE_SECRET_KEYS = {
   anthropicApiKey: 'anthropic-api-key',
 } as const
 
-const LunaraNative = getLunaraNativeBridge<LunaraNativeVaultPlugin>()
+const MeztliNative = getMeztliNativeBridge<MeztliNativeVaultPlugin>()
 const browserSecrets = new Map<string, string>()
 
 function assertValidKey(key: string): void {
@@ -47,7 +47,7 @@ export async function secureVaultStatus(): Promise<SecureVaultStatus> {
     }
   }
 
-  return LunaraNative.secureVaultStatus()
+  return MeztliNative.secureVaultStatus()
 }
 
 export async function setSecureSecret(key: string, value: string): Promise<void> {
@@ -59,13 +59,13 @@ export async function setSecureSecret(key: string, value: string): Promise<void>
     return
   }
 
-  await LunaraNative.secureSet({ key, value })
+  await MeztliNative.secureSet({ key, value })
 }
 
 export async function getSecureSecret(key: string): Promise<string | null> {
   assertValidKey(key)
   if (!isNative) return browserSecrets.get(key) ?? null
-  return (await LunaraNative.secureGet({ key })).value
+  return (await MeztliNative.secureGet({ key })).value
 }
 
 export async function deleteSecureSecret(key: string): Promise<void> {
@@ -75,7 +75,7 @@ export async function deleteSecureSecret(key: string): Promise<void> {
     return
   }
 
-  await LunaraNative.secureDelete({ key })
+  await MeztliNative.secureDelete({ key })
 }
 
 export async function clearSecureSecrets(): Promise<void> {
@@ -84,7 +84,7 @@ export async function clearSecureSecrets(): Promise<void> {
     return
   }
 
-  await LunaraNative.secureClear()
+  await MeztliNative.secureClear()
 }
 
 export function currentVaultPlatform(): SecureVaultStatus['platform'] {

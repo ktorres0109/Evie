@@ -7,7 +7,7 @@ import WidgetKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private let widgetRefreshTaskIdentifier = "app.lunara.mobile.widget-refresh"
+    private let widgetRefreshTaskIdentifier = "io.github.ktorres0109.cycle.widget-refresh"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         BGTaskScheduler.shared.register(
@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         task.expirationHandler = {}
 
         // The native task can safely refresh the last redacted snapshot without
-        // launching the WebView or reading Lunara's private cycle database.
+        // launching the WebView or reading Meztli's private cycle database.
         WidgetCenter.shared.reloadAllTimelines()
         task.setTaskCompleted(success: true)
     }

@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'app.lunara.mobile',
-  appName: 'Lunara',
+  appId: 'io.github.ktorres0109.cycle',
+  appName: 'Meztli',
   webDir: 'dist',
   backgroundColor: '#fff8fa',
   ios: {
@@ -31,7 +31,7 @@ const config: CapacitorConfig = {
       overlaysWebView: true,
     },
     LocalNotifications: {
-      smallIcon: 'ic_stat_lunara',
+      smallIcon: 'ic_stat_meztli',
       iconColor: '#f35f7f',
     },
   },

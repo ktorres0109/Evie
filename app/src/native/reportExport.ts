@@ -1,4 +1,4 @@
-import { getLunaraNativeBridge } from './bridge'
+import { getMeztliNativeBridge } from './bridge'
 import { isNative } from './runtime'
 
 interface NativeReportBridge {
@@ -18,14 +18,14 @@ export interface ReportExportDependencies {
  * Android WebView do not reliably surface a print dialog for that call.
  */
 export async function exportCurrentReport(
-  jobName = 'Lunara cycle report',
+  jobName = 'Meztli cycle report',
   dependencies: ReportExportDependencies = {},
 ): Promise<void> {
   const native = dependencies.native ?? isNative
 
   if (native) {
     const bridge =
-      dependencies.bridge ?? getLunaraNativeBridge<NativeReportBridge>()
+      dependencies.bridge ?? getMeztliNativeBridge<NativeReportBridge>()
     await bridge.printReport({ jobName })
     return
   }

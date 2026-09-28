@@ -9,7 +9,7 @@
  *
  * Blocks marked EXTENSION go beyond the port: luteal fallback ovulation
  * estimate, fertile window, uncertainty band, and the 3-consecutive-cycle
- * baseline recalibration rule (docs/RESEARCH.md §5).
+ * baseline recalibration rule (docs/upstream-lunara/RESEARCH.md §5).
  */
 
 export type ISODate = string // 'YYYY-MM-DD'

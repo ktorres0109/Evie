@@ -90,7 +90,7 @@
   border-radius: 18px;
 }
 
-.startup-failure-mark .lunara-crescent {
+.startup-failure-mark .meztli-crescent {
   color: var(--rose-700);
 }
 
@@ -1190,9 +1190,9 @@ button.card:active {
 
 .cycle-ring-progress {
   fill: none;
-  stroke: url('#lunara-cycle-gradient');
+  stroke: url('#meztli-cycle-gradient');
   stroke-linecap: round;
-  filter: url('#lunara-ring-glow');
+  filter: url('#meztli-ring-glow');
   transition: stroke-dashoffset 900ms var(--ease-out);
 }
 

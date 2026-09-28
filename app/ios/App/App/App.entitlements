@@ -6,11 +6,11 @@
 	<true/>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:lunara.app</string>
+		<string>applinks:meztli.app</string>
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.app.lunara.mobile</string>
+		<string>group.io.github.ktorres0109.cycle</string>
 	</array>
 </dict>
 </plist>

@@ -52,7 +52,7 @@ Each phase is shippable on its own. Keep `pnpm test` green after each one.
 6. **Why this estimate** (new screen, reached from every estimate) and **Fertility status** (new).
 7. **Onboarding** (`Onboarding.tsx`, 62 KB). Cut it to 6 steps, each with one title, one choice and one button.
 8. **Privacy & data** (`Settings.tsx`) and the **Companion** plant with its return-after-absence state.
-9. **Partner pairing + partner shell.** This is the largest new piece. `docs/LOCAL_CAPABILITY_BOUNDARY.md` currently says partner sharing is out of scope. Update that doc first (see "Partner architecture").
+9. **Partner pairing + partner shell.** This is the largest new piece. `docs/upstream-lunara/LOCAL_CAPABILITY_BOUNDARY.md` currently says partner sharing is out of scope. Update that doc first (see "Partner architecture").
 
 ## Global rules (non-negotiable)
 - **Colour is never alone.** Every health state carries colour, a label, and a pattern or glyph. Logged = solid, predicted = dashed. This rule holds everywhere.
