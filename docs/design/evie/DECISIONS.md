@@ -211,14 +211,11 @@ a review date.
 
 ---
 
-## Still open (round 2)
+## Still open (round 3)
 
 | # | Question | Why it matters |
 |---|---|---|
-| O2 | AI: none, on-device only, or bring-your-own-key? | It's the only feature that could send health data off the phone |
-| O5 | Permanent app ID (e.g. `com.<you>.evie`) | Store IDs can never change after release. The display name can |
-| O6 | Final age rule | Tentatively matches Flo (below) |
-| O7 | Partner updates: encrypted relay (automatic) or share-sheet file (manual, no server)? | They don't live together, so same-Wi-Fi sync is out |
+| O8 | New product name ("Evie" is taken, see below) | Needed before the rename step and any public release. Candidates are in the round-3 notes |
 
 ## Decided
 
@@ -243,7 +240,24 @@ a review date.
 | 2026-09-28 | O1 living situation | Not living together. Local-network sync dropped. Choice narrowed to O7 |
 | 2026-09-28 | O3 Mac | Has a Mac, used to build the iPhone app. No Mac app in v1 |
 | 2026-09-28 | O4 Apple account | Free Personal Team only. Consequences: the iPhone build must be re-signed from Xcode every 7 days (or kept alive with a sideload refresher [LIKELY: SideStore/AltStore]); no push notifications, App Groups, associated domains or iOS widgets [per Apple/Expo docs], and HealthKit is likely unavailable too; no App Store or TestFlight. The iPhone app needs a free-team build config that strips those entitlements. That's fine for the partner role, which needs none of them. Public release for other women happens on Android first (GitHub releases / F-Droid for free, or Play for a one-time $25) |
+| 2026-09-28 | O7 partner transport | **End-to-end-encrypted relay.** A small Cloudflare Worker (modelled on `workers/backup`) stores only ciphertext. Keys are exchanged at in-person pairing (QR + 4-word phrase) and never leave the two phones. The partner app pulls on open (no push, due to O4). Off until the owner enables it; every upload is written to the transfer ledger. The spec promise becomes "no server that can read your data" |
+| 2026-09-28 | O2 AI | No AI in v1. Any future AI is on-device only. The existing cloud assistant code stays hidden/removed |
+| 2026-09-28 | O5 app ID | `io.github.ktorres0109.cycle`. Deliberately name-free, so the product can be renamed any time without breaking installs or store listings |
+| 2026-09-28 | O6 age | Flo's rule: 13+ generally, 16+ in the EU, UK and Canada |
+| 2026-09-28 | Name | Drop "Evie". Movano Health sells the **Evie Ring**, a women's-health smart ring that tracks menstrual cycles (same category, so real trademark risk). Working name stays "Evie" in design docs until O8 is picked; no user-facing string ships with it |
 | 2026-09-27 | Timeline | Take the time: a polished v1, even if it takes about a month |
+
+### Round-3 notes: name candidates
+A web search is not a trademark search. Run the final pick through USPTO (and EUIPO if releasing in Europe) before a public release.
+
+| Name | Meaning | Fit | Watch out |
+|---|---|---|---|
+| Nocta | "night" (Latin root) | Matches Night Bloom; same in both languages | Generic-sounding; check existing brands |
+| Lirio | "lily" in Spanish | Flower, bilingual, soft | Several "Lily/Lilly" period apps exist nearby |
+| Brote | "sprout" in Spanish | Ties to the companion plant | English speakers may read it as "brute" |
+| Mora | "blackberry" in Spanish | Berry is the period colour | "En mora" also means "overdue" in Spanish, an awkward joke for a period app |
+
+Evie conflict source: <https://eviering.com/>, <https://movanohealth.com/evie-the-smart-ring-for-women-from-movano-health-available-for-order-today/>
 
 ### Sources for the legal baseline
 - Flo minimum age: <https://help.flo.health/hc/en-us/articles/360042626231-Can-I-use-Flo-below-the-age-of-13>, <https://flo.health/terms-of-service>
