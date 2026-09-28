@@ -215,12 +215,10 @@ a review date.
 
 | # | Question | Why it matters |
 |---|---|---|
-| O1 | Partner transport: are the two phones usually on the same Wi-Fi? | Decides between local sync, QR snapshots, or an end-to-end-encrypted relay |
 | O2 | AI: none, on-device only, or bring-your-own-key? | It's the only feature that could send health data off the phone |
-| O3 | "iPhone and macOS": do you mean building on a Mac, or a Mac app too? | A Mac is required to build for iPhone. A Mac *app* is extra scope |
-| O4 | Apple Developer Program ($99/yr)? | Free signing expires every 7 days. TestFlight and the App Store need the paid account |
 | O5 | Permanent app ID (e.g. `com.<you>.evie`) | Store IDs can never change after release. The display name can |
 | O6 | Final age rule | Tentatively matches Flo (below) |
+| O7 | Partner updates: encrypted relay (automatic) or share-sheet file (manual, no server)? | They don't live together, so same-Wi-Fi sync is out |
 
 ## Decided
 
@@ -242,6 +240,9 @@ a review date.
 | 2026-09-27 | E3 languages | English + Spanish in v1. Health copy is reviewed in both languages |
 | 2026-09-27 | E4 name/logo | Can change later |
 | 2026-09-27 | E5 content review | A clinician friend reviews all health copy. Every claim cites a source |
+| 2026-09-28 | O1 living situation | Not living together. Local-network sync dropped. Choice narrowed to O7 |
+| 2026-09-28 | O3 Mac | Has a Mac, used to build the iPhone app. No Mac app in v1 |
+| 2026-09-28 | O4 Apple account | Free Personal Team only. Consequences: the iPhone build must be re-signed from Xcode every 7 days (or kept alive with a sideload refresher [LIKELY: SideStore/AltStore]); no push notifications, App Groups, associated domains or iOS widgets [per Apple/Expo docs], and HealthKit is likely unavailable too; no App Store or TestFlight. The iPhone app needs a free-team build config that strips those entitlements. That's fine for the partner role, which needs none of them. Public release for other women happens on Android first (GitHub releases / F-Droid for free, or Play for a one-time $25) |
 | 2026-09-27 | Timeline | Take the time: a polished v1, even if it takes about a month |
 
 ### Sources for the legal baseline
