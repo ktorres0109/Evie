@@ -1,4 +1,5 @@
 import { Children, isValidElement, type ReactNode, useMemo, useState } from 'react'
+import { FEATURES, isGoalOffered } from '../config/features'
 import { MeztliMark } from '../components/MeztliMark'
 import {
   createDefaultHealthProfile,
@@ -479,7 +480,7 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
       draft.goal === 'peri'
     ) next.push('sleep')
     next.push('summary')
-    if ((age ?? 0) >= 18) next.push('ai')
+    if (FEATURES.assistant && (age ?? 0) >= 18) next.push('ai')
     next.push('finish')
     return next
   }, [age, draft.goal, draft.sleepImpact, draft.trackingAreas, hormonalMethod])
@@ -902,7 +903,7 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
           body="This changes the rest of setup. You can switch modes later without losing your history."
         />
         <div className="ob-option-stack">
-          {GOALS.map((goal) => (
+          {GOALS.filter((goal) => isGoalOffered(goal.id)).map((goal) => (
             <OptionCard
               key={goal.id}
               option={goal}

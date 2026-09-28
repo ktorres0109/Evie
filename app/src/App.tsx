@@ -1,4 +1,5 @@
 import { App as NativeApp } from '@capacitor/app'
+import { FEATURES } from './config/features'
 import { t } from './i18n'
 import type { PluginListenerHandle } from '@capacitor/core'
 import { useLiveQuery } from 'dexie-react-hooks'
@@ -129,7 +130,7 @@ export default function App() {
         <LogSheet date={sheetDate} initialFocus={sheetFocus ?? undefined} onClose={closeSheet} />
       )}
       {calendarOpen && <CalendarScreen />}
-      {assistantOpen && <AssistantScreen />}
+      {FEATURES.assistant && assistantOpen && <AssistantScreen />}
       {reportOpen && <DoctorReport />}
       {cycleReportOpen && <CycleReportScreen onBack={() => setCycleReportOpen(false)} />}
       {pregnancyDetailOpen && flags?.pregnancyDating && (

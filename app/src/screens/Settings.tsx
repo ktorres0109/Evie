@@ -1,4 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks'
+import { FEATURES, isGoalOffered } from '../config/features'
 import { useLocale, useT, type LocalePreference } from '../i18n'
 import { useEffect, useRef, useState } from 'react'
 import {
@@ -664,7 +665,7 @@ export function Settings() {
       )}
 
       <Section title="Goal">
-        {(Object.keys(GOAL_LABELS) as Goal[]).map((g) => (
+        {(Object.keys(GOAL_LABELS) as Goal[]).filter((g) => isGoalOffered(g, s.goal)).map((g) => (
           <button key={g} className="setting-row" onClick={() => setGoal(g)}>
             <span>{GOAL_LABELS[g]}</span>
             <span style={{ color: 'var(--rose-500)' }}>{s.goal === g ? '●' : '○'}</span>
@@ -857,14 +858,18 @@ export function Settings() {
           <span>Import from file</span>
           <span className="muted">›</span>
         </button>
-        <button className="setting-row" onClick={enableBackup}>
-          <span>Encrypted cloud backup</span>
-          <span className="muted">zero-knowledge ›</span>
-        </button>
-        <button className="setting-row" onClick={restore}>
-          <span>Restore from backup</span>
-          <span className="muted">›</span>
-        </button>
+        {FEATURES.cloudBackup && (
+          <>
+            <button className="setting-row" onClick={enableBackup}>
+              <span>Encrypted cloud backup</span>
+              <span className="muted">zero-knowledge ›</span>
+            </button>
+            <button className="setting-row" onClick={restore}>
+              <span>Restore from backup</span>
+              <span className="muted">›</span>
+            </button>
+          </>
+        )}
         <input
           ref={fileInput}
           type="file"
@@ -1048,6 +1053,8 @@ export function Settings() {
         </div>
       </div>
 
+      {FEATURES.assistant && (
+        <>
       <Section title="AI assistant">
         <button className="setting-row" onClick={() => setAssistantOpen(true)}>
           <span>Open Meztli AI</span>
@@ -1068,6 +1075,9 @@ export function Settings() {
           </button>
         )}
       </Section>
+
+        </>
+      )}
 
       <Section title="Danger zone">
         <button className="setting-row" onClick={wipe} style={{ color: 'var(--red-500)' }}>

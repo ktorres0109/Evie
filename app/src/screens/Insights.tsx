@@ -1,4 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks'
+import { FEATURES } from '../config/features'
 import { useState } from 'react'
 import { ARTICLES } from '../content/articles'
 import { db, getSetting, SK, type Goal } from '../db/schema'
@@ -53,6 +54,7 @@ export function Insights() {
         <p>Calm explanations for the questions that rarely fit into a search bar.</p>
       </header>
 
+      {FEATURES.assistant && (
       <button className="assistant-feature" onClick={() => setAssistantOpen(true)}>
         <span className="assistant-constellation" aria-hidden="true">
           <i className="constellation-orbit orbit-a" />
@@ -72,6 +74,7 @@ export function Insights() {
           </svg>
         </span>
       </button>
+      )}
 
       <div className="insights-search">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -121,7 +124,7 @@ export function Insights() {
             </div>
           ) : (
             <div className="card empty-card">
-              Try a broader word, or ask Meztli AI without sharing tracker data.
+              Try a broader word.
             </div>
           )}
         </section>
