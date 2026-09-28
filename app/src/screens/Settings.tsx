@@ -1,4 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks'
+import { useLocale, useT, type LocalePreference } from '../i18n'
 import { useEffect, useRef, useState } from 'react'
 import {
   generateRecoveryCode,
@@ -671,6 +672,8 @@ export function Settings() {
         ))}
       </Section>
 
+      <LanguageSetting />
+
       <Section title="Personalize">
         <button className="setting-row" onClick={() => setTrackerCustomizeOpen(true)}>
           <span>Customize daily trackers</span>
@@ -1078,6 +1081,30 @@ export function Settings() {
         device. Removing the app deletes its local history — keep an encrypted backup.
       </p>
     </div>
+  )
+}
+
+function LanguageSetting() {
+  const t = useT()
+  const preference = useLocale((state) => state.preference)
+  const setPreference = useLocale((state) => state.setPreference)
+  return (
+    <Section title={t('settings.language')}>
+      <label className="setting-row">
+        <span>{t('settings.language')}</span>
+        <select
+          name="language"
+          value={preference}
+          onChange={(event) => setPreference(event.currentTarget.value as LocalePreference)}
+          aria-label={t('settings.language')}
+          style={{ border: 0, background: 'transparent', color: 'inherit', font: 'inherit', textAlign: 'right' }}
+        >
+          <option value="system">{t('settings.language.system')}</option>
+          <option value="en">English</option>
+          <option value="es">Español</option>
+        </select>
+      </label>
+    </Section>
   )
 }
 

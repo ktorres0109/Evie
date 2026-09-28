@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
+import { t } from '../i18n'
 import { MeztliMark } from './MeztliMark'
 
 interface Props {
@@ -32,13 +33,12 @@ export class StartupErrorBoundary extends Component<Props, State> {
               <MeztliMark decorative size={34} />
             </span>
             <p className="page-kicker">Startup interrupted</p>
-            <h1>Meztli couldn’t open.</h1>
+            <h1>{t('startup.title')}</h1>
             <p className="muted">
-              Your local health data has not been deleted. Reload the app and,
-              if this keeps happening, share the technical detail below.
+              {t('startup.body')}
             </p>
             <button className="cta" type="button" onClick={() => window.location.reload()}>
-              Reload Meztli
+              {t('startup.reload')}
             </button>
             <details className="startup-failure-details">
               <summary>Technical detail</summary>

@@ -1,4 +1,5 @@
 import { App as NativeApp } from '@capacitor/app'
+import { t } from './i18n'
 import type { PluginListenerHandle } from '@capacitor/core'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useEffect, useState } from 'react'
@@ -110,7 +111,7 @@ export default function App() {
   }, [setLocked])
 
 
-  if (!ready) return <div className="page page-loading" role="status" aria-label="Loading Meztli" />
+  if (!ready) return <div className="page page-loading" role="status" aria-label={t('app.loading')} />
   if (!onboarded) return <Onboarding onDone={() => setOnboarded(true)} />
   if (locked) return <PinLock />
 

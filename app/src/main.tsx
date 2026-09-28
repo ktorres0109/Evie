@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { StartupErrorBoundary } from './components/StartupErrorBoundary'
+import { useLocale } from './i18n'
 import { initializeNativeRuntime } from './native/runtime'
 import { Onboarding } from './screens/Onboarding'
 import './styles/base.css'
@@ -16,6 +17,8 @@ if ('serviceWorker' in navigator) {
     .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
     .catch(() => undefined)
 }
+
+document.documentElement.lang = useLocale.getState().locale
 
 void initializeNativeRuntime()
 
