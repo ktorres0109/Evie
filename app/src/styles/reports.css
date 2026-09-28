@@ -52,11 +52,11 @@
   gap: 4px;
   border: 1px solid rgba(206, 91, 119, 0.1);
   border-radius: 18px 18px 18px 6px;
-  background: linear-gradient(160deg, #fff8f7, #ffedef);
+  background: linear-gradient(160deg, var(--surface-1), var(--surface-1));
 }
 
 .flow-episode strong {
-  color: #49323c;
+  color: var(--text);
   font: 700 17px/1 'Iowan Old Style', Charter, Georgia, serif;
 }
 
@@ -109,7 +109,7 @@
 }
 
 .phase-summary-row strong {
-  color: #3d3036;
+  color: var(--text);
   font-size: 12px;
 }
 
@@ -124,7 +124,7 @@
   padding: 7px 9px;
   border-radius: 999px;
   color: #2c746a;
-  background: #e3f2ef;
+  background: var(--surface-1);
   font-size: 10px;
   font-weight: 800;
   text-align: center;
@@ -139,7 +139,7 @@
   align-items: center;
   border: 1px solid rgba(34, 123, 112, 0.1);
   border-radius: 14px;
-  background: #edf7f5;
+  background: var(--surface-1);
 }
 
 .opk-summary span {
@@ -165,12 +165,12 @@
   border: 1px solid rgba(52, 39, 46, 0.08);
   background:
     radial-gradient(circle at 100% 0, rgba(217, 154, 36, 0.12), transparent 34%),
-    #fffaf2;
+    var(--surface-1);
 }
 
 .report-quality-card h2 {
   margin-top: 4px;
-  color: #43343a;
+  color: var(--text);
   font: 600 28px/1 'Iowan Old Style', Charter, Georgia, serif;
 }
 
@@ -212,7 +212,7 @@
   padding: 14px;
   border: 1px solid rgba(52, 39, 46, 0.09);
   border-radius: 18px;
-  background: #fffaf7;
+  background: var(--surface-1);
 }
 
 .doctor-controls > strong {
@@ -228,7 +228,7 @@
   justify-content: space-between;
   gap: 12px;
   border-top: 1px solid rgba(52, 39, 46, 0.07);
-  color: #4e3e45;
+  color: var(--text);
   font-size: 11px;
 }
 
@@ -245,7 +245,7 @@
   padding: 14px;
   border-left: 3px solid #d59729;
   color: #75626c;
-  background: #fff8e9;
+  background: var(--surface-1);
   font-size: 10px;
   line-height: 1.5;
 }
@@ -255,8 +255,8 @@
   padding: 11px 13px;
   border: 1px solid rgba(177, 48, 77, 0.18);
   border-radius: 14px;
-  color: #8d2942;
-  background: #fff0f3;
+  color: var(--text);
+  background: var(--surface-1);
   font-size: 11px;
   font-weight: 700;
   line-height: 1.4;
@@ -289,7 +289,7 @@
   color: var(--ink-800);
   font-size: 13px;
   font-weight: 650;
-  background: rgba(255, 253, 249, 0.72);
+  background: var(--surface-1);
   border: 1px solid var(--line-soft);
   border-radius: 999px;
 }
@@ -326,7 +326,7 @@
   color: var(--ink-900);
   font: inherit;
   font-size: 14px;
-  background: rgba(255, 253, 249, 0.9);
+  background: var(--surface-1);
   border: 1px solid var(--line-soft);
   border-radius: 12px;
 }

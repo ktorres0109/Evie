@@ -18,40 +18,21 @@ body {
 }
 
 html {
-  background: var(--paper-150);
+  background: var(--bg);
   text-size-adjust: 100%;
 }
 
 body {
   position: relative;
   font-family: var(--font-sans);
-  color: var(--ink-900);
-  background:
-    radial-gradient(circle at 14% -5%, rgba(242, 139, 117, 0.15), transparent 31%),
-    radial-gradient(circle at 96% 18%, rgba(69, 162, 159, 0.11), transparent 30%),
-    var(--paper-100);
+  color: var(--text);
+  background: var(--bg);
+  font-variant-numeric: tabular-nums;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
   -webkit-font-smoothing: antialiased;
   font-synthesis: none;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.26;
-  background-image:
-    repeating-linear-gradient(
-      112deg,
-      rgba(74, 47, 54, 0.018) 0,
-      rgba(74, 47, 54, 0.018) 1px,
-      transparent 1px,
-      transparent 6px
-    );
-  mix-blend-mode: multiply;
 }
 
 #root {

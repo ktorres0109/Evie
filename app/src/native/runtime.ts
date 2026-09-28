@@ -18,7 +18,7 @@ export async function initializeNativeRuntime(): Promise<void> {
   if (!isNative) return
 
   await Promise.allSettled([
-    StatusBar.setStyle({ style: Style.Light }),
+    StatusBar.setStyle({ style: Style.Dark }),
     StatusBar.setOverlaysWebView({ overlay: true }),
     Keyboard.setAccessoryBarVisible({ isVisible: true }),
   ])

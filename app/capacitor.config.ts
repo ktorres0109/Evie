@@ -4,14 +4,14 @@ const config: CapacitorConfig = {
   appId: 'io.github.ktorres0109.cycle',
   appName: 'Meztli',
   webDir: 'dist',
-  backgroundColor: '#fff8fa',
+  backgroundColor: '#14111C',
   ios: {
     contentInset: 'never',
     preferredContentMode: 'mobile',
     scrollEnabled: true,
   },
   android: {
-    backgroundColor: '#fff8fa',
+    backgroundColor: '#14111C',
     allowMixedContent: false,
   },
   plugins: {
@@ -21,13 +21,13 @@ const config: CapacitorConfig = {
     },
     SplashScreen: {
       launchAutoHide: false,
-      backgroundColor: '#fff8fa',
+      backgroundColor: '#14111C',
       showSpinner: false,
       androidScaleType: 'CENTER_CROP',
     },
     StatusBar: {
       style: 'LIGHT',
-      backgroundColor: '#fff8fa',
+      backgroundColor: '#14111C',
       overlaysWebView: true,
     },
     LocalNotifications: {

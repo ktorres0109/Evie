@@ -12,7 +12,7 @@
   place-items: center;
   color: var(--rose-600);
   background:
-    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.88), transparent 42%),
+    radial-gradient(circle at 34% 24%, var(--surface-1), transparent 42%),
     var(--rose-100);
   border: 1px solid rgba(214, 75, 104, 0.14);
   border-radius: 15px;
