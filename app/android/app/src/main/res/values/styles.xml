@@ -13,10 +13,16 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- Night Bloom: one band from the tab bar into the system navigation area. -->
+        <item name="android:windowBackground">@color/meztliBackground</item>
+        <item name="android:navigationBarColor">@color/meztliSurface</item>
+        <item name="android:statusBarColor">@color/meztliBackground</item>
     </style>
 
 
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="android:background">@drawable/splash</item>
+        <item name="android:navigationBarColor">@color/meztliBackground</item>
+        <item name="android:statusBarColor">@color/meztliBackground</item>
     </style>
 </resources>

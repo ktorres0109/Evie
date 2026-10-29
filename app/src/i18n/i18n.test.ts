@@ -16,6 +16,16 @@ describe('string catalogues', () => {
     }
   })
 
+  it('plural keys come in one/other pairs', () => {
+    for (const key of Object.keys(en)) {
+      if (key.endsWith('.one')) expect(Object.keys(en), key).toContain(key.replace(/\.one$/, '.other'))
+      // ".other" also ends ordinary keys like "method.other"; only counted plurals need a pair.
+      if (key.endsWith('.other') && en[key as keyof typeof en].includes('{n}')) {
+        expect(Object.keys(en), key).toContain(key.replace(/\.other$/, '.one'))
+      }
+    }
+  })
+
   it('no string is empty', () => {
     for (const s of [...Object.values(en), ...Object.values(es)]) expect(s.trim()).not.toBe('')
   })

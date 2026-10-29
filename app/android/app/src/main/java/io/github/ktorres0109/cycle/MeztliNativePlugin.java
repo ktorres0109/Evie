@@ -83,6 +83,29 @@ import org.json.JSONObject;
 )
 public class MeztliNativePlugin extends Plugin {
 
+    static final String PRIVACY_PREFS = "meztli.privacy";
+    static final String PRIVACY_SCREEN_KEY = "hideInSwitcher";
+
+    /**
+     * Hide app content in the recents switcher (and block screenshots) with
+     * FLAG_SECURE. Persisted so MainActivity applies it before first draw.
+     */
+    @PluginMethod
+    public void setPrivacyScreen(PluginCall call) {
+        boolean enabled = Boolean.TRUE.equals(call.getBoolean("enabled", false));
+        getContext()
+            .getSharedPreferences(PRIVACY_PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(PRIVACY_SCREEN_KEY, enabled)
+            .apply();
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(() -> MainActivity.applyPrivacyScreen(activity, enabled));
+        }
+        call.resolve();
+    }
+
+
     private static final String VAULT_KEY_ALIAS = "meztli-vault-key-v1";
     private static final String VAULT_PREFERENCES = "meztli.secure.v1";
     private static final String HEALTH_PREFERENCES = "meztli.health.v1";

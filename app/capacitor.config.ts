@@ -25,14 +25,18 @@ const config: CapacitorConfig = {
       showSpinner: false,
       androidScaleType: 'CENTER_CROP',
     },
+    SystemBars: {
+      insetsHandling: 'css',
+      style: 'DARK',
+    },
     StatusBar: {
-      style: 'LIGHT',
+      style: 'DARK',
       backgroundColor: '#14111C',
       overlaysWebView: true,
     },
     LocalNotifications: {
       smallIcon: 'ic_stat_meztli',
-      iconColor: '#f35f7f',
+      iconColor: '#8B6BE8',
     },
   },
 }

@@ -93,8 +93,9 @@
   /* Shell */
   --tabbar-height: 70px;          /* icons row, excluding the 32px fade */
   --log-button: 62px;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-top: env(safe-area-inset-top, 0px);
+  /* Capacitor's SystemBars injects --safe-area-inset-* on Android WebViews whose env() values are wrong. */
+  --safe-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
 
   /* ── Compatibility aliases for existing Lunara views (audit before relying on) ── */
   --card: var(--surface-1);
@@ -133,7 +134,11 @@
   --text: #1E1828; --text-2: #5C5370; --text-3: #6A617E;
   --primary: #5B3FBF; --primary-hi: #5B3FBF; --primary-tint: #EEE8FB; --nav-selected: #5B3FBF; --on-primary: #FFFFFF;
   --berry: #A32A50; --berry-deep: #A32A50; --berry-tint: #FBE8EE;
-  --highlight-top: none;
+  --highlight-top: inset 0 0 0 1px var(--line-soft);
+  --berry-hi: #B8456A;
+  --primary-lo: #4A30A8;
+  --hero-glow: radial-gradient(120% 100% at 15% 0%, rgba(91, 63, 191, 0.12), rgba(250, 247, 246, 0) 70%);
+  --shadow-log: 0 8px 20px rgba(91, 63, 191, 0.3);
   --nav-fade: linear-gradient(to bottom, rgba(255, 255, 255, 0), #FFFFFF);
 }
 

@@ -24,8 +24,17 @@ public final class MeztliNativePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "widgetStatus", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "publishWidgetSnapshot", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "clearWidgetSnapshot", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "printReport", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "printReport", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setPrivacyScreen", returnType: CAPPluginReturnPromise)
     ]
+
+    /// Read by AppDelegate, which covers the window when the app resigns active.
+    public static let privacyScreenKey = "meztli.hideInSwitcher"
+
+    @objc public func setPrivacyScreen(_ call: CAPPluginCall) {
+        UserDefaults.standard.set(call.getBool("enabled") ?? false, forKey: MeztliNativePlugin.privacyScreenKey)
+        call.resolve()
+    }
 
     private let keychainService = "io.github.ktorres0109.cycle.vault"
     private let widgetSuite = "group.io.github.ktorres0109.cycle"

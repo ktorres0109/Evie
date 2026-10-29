@@ -1,46 +1,88 @@
 import { decryptJSON, encryptJSON, type Envelope } from '../crypto/vault'
-import { db, SK, type ContentBookmark, type DailyLog, type Setting } from './schema'
+import type { MissedDoseEvent, RegimenRecord } from './regimen'
+import { db, SK, type ContentBookmark, type DailyLog, type HealthProfile, type LifeEvent, type Setting } from './schema'
 
-/** Settings that must never leave the device. */
+/** Settings that must never leave the device: lock secrets and pairing keys. */
 const SECRET_KEYS: string[] = [SK.pinSalt, SK.pinHash, SK.aiKey]
+const SECRET_PREFIXES = ['dev-secret.', 'partner.']
+
+function exportable(setting: Setting): boolean {
+  return !SECRET_KEYS.includes(setting.key) && !SECRET_PREFIXES.some((p) => setting.key.startsWith(p))
+}
+
+export interface ExportOptions {
+  /** Pregnancy and pregnancy-ending records are left out unless chosen (decision C3). */
+  includePregnancyHistory?: boolean
+}
 
 export interface ExportPayload {
   app: 'meztli'
-  v: 1
+  v: 1 | 2
   exportedAt: string
   dailyLogs: DailyLog[]
   settings: Setting[]
   contentBookmarks: ContentBookmark[]
+  regimenRecords?: RegimenRecord[]
+  missedDoseEvents?: MissedDoseEvent[]
+  lifeEvents?: LifeEvent[]
+  healthProfiles?: HealthProfile[]
+  pregnancyHistoryIncluded?: boolean
 }
 
-export async function collectExport(): Promise<ExportPayload> {
-  const [dailyLogs, settings, contentBookmarks] = await Promise.all([
+const PREGNANCY_KINDS = new Set(['pregnancy', 'pregnancy-ended', 'postpartum', 'breastfeeding'])
+
+export async function collectExport(options: ExportOptions = {}): Promise<ExportPayload> {
+  const [dailyLogs, settings, contentBookmarks, regimenRecords, missedDoseEvents, lifeEvents, healthProfiles] = await Promise.all([
     db.dailyLogs.toArray(),
     db.settings.toArray(),
     db.contentBookmarks.toArray(),
+    db.regimenRecords.toArray(),
+    db.missedDoseEvents.toArray(),
+    db.lifeEvents.toArray(),
+    db.healthProfiles.toArray(),
   ])
+  const includePregnancy = options.includePregnancyHistory === true
   return {
     app: 'meztli',
-    v: 1,
+    v: 2,
     exportedAt: new Date().toISOString(),
     dailyLogs,
-    settings: settings.filter((s) => !SECRET_KEYS.includes(s.key)),
+    settings: settings.filter(exportable),
     contentBookmarks,
+    regimenRecords,
+    missedDoseEvents,
+    lifeEvents: includePregnancy ? lifeEvents : lifeEvents.filter((e) => !PREGNANCY_KINDS.has(e.kind)),
+    healthProfiles: includePregnancy
+      ? healthProfiles
+      : healthProfiles.map((p) => ({
+          ...p,
+          primaryGoal: p.primaryGoal === 'pregnancy' ? 'cycle' : p.primaryGoal,
+          reproductive: { ...p.reproductive, pregnancyDating: undefined, pregnancyLmp: undefined },
+        })),
+    pregnancyHistoryIncluded: includePregnancy,
   }
 }
 
 export async function applyImport(payload: ExportPayload): Promise<number> {
-  if (payload.app !== 'meztli' || payload.v !== 1) throw new Error('Not a Meztli export file')
-  await db.transaction('rw', db.dailyLogs, db.settings, db.contentBookmarks, async () => {
-    await db.dailyLogs.bulkPut(payload.dailyLogs)
-    await db.settings.bulkPut(payload.settings.filter((s) => !SECRET_KEYS.includes(s.key)))
-    await db.contentBookmarks.bulkPut(payload.contentBookmarks)
-  })
+  if (payload.app !== 'meztli' || (payload.v !== 1 && payload.v !== 2)) throw new Error('Not a Meztli export file')
+  await db.transaction(
+    'rw',
+    [db.dailyLogs, db.settings, db.contentBookmarks, db.regimenRecords, db.missedDoseEvents, db.lifeEvents, db.healthProfiles],
+    async () => {
+      await db.dailyLogs.bulkPut(payload.dailyLogs)
+      await db.settings.bulkPut(payload.settings.filter(exportable))
+      await db.contentBookmarks.bulkPut(payload.contentBookmarks)
+      if (payload.regimenRecords) await db.regimenRecords.bulkPut(payload.regimenRecords)
+      if (payload.missedDoseEvents) await db.missedDoseEvents.bulkPut(payload.missedDoseEvents)
+      if (payload.lifeEvents) await db.lifeEvents.bulkPut(payload.lifeEvents)
+      if (payload.healthProfiles) await db.healthProfiles.bulkPut(payload.healthProfiles)
+    },
+  )
   return payload.dailyLogs.length
 }
 
-export async function encryptedExport(passphrase: string): Promise<Envelope> {
-  return encryptJSON(await collectExport(), passphrase)
+export async function encryptedExport(passphrase: string, options: ExportOptions = {}): Promise<Envelope> {
+  return encryptJSON(await collectExport(options), passphrase)
 }
 
 export async function decryptImport(env: Envelope, passphrase: string): Promise<number> {

@@ -4,6 +4,7 @@ import { Haptics, ImpactStyle } from '@capacitor/haptics'
 import { Keyboard } from '@capacitor/keyboard'
 import { SplashScreen } from '@capacitor/splash-screen'
 import { StatusBar, Style } from '@capacitor/status-bar'
+import { handleBack, setBaseBackFallback } from '../lib/back'
 
 export const isNative = Capacitor.isNativePlatform()
 export const nativePlatform = Capacitor.getPlatform()
@@ -23,10 +24,8 @@ export async function initializeNativeRuntime(): Promise<void> {
     Keyboard.setAccessoryBarVisible({ isVisible: true }),
   ])
 
-  await NativeApp.addListener('backButton', ({ canGoBack }) => {
-    if (canGoBack) history.back()
-    else void NativeApp.minimizeApp()
-  })
+  setBaseBackFallback(() => void NativeApp.minimizeApp())
+  await NativeApp.addListener('backButton', () => handleBack())
 
   await SplashScreen.hide({ fadeOutDuration: 260 })
 }
@@ -34,4 +33,15 @@ export async function initializeNativeRuntime(): Promise<void> {
 export async function nativeTap(style: ImpactStyle = ImpactStyle.Light): Promise<void> {
   if (!isNative) return
   await Haptics.impact({ style }).catch(() => undefined)
+}
+
+/** Light or dark system-bar icons to match Night/Day Bloom. */
+export async function setSystemBarColors(theme: 'night' | 'day'): Promise<void> {
+  if (!isNative) return
+  await StatusBar.setStyle({ style: theme === 'day' ? Style.Light : Style.Dark }).catch(() => undefined)
+}
+
+/** Medium impact, used only on destructive confirmation (spec §06). */
+export async function destructiveTap(): Promise<void> {
+  await nativeTap(ImpactStyle.Medium)
 }

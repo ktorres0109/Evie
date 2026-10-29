@@ -1,0 +1,22 @@
+# Meztli partner relay. Stores only end-to-end-encrypted blobs; it cannot read
+# them. Deploy with `pnpm --filter @meztli/relay-worker deploy` after
+# `npx wrangler login`. Then put the printed URL in app/.env as VITE_RELAY_URL.
+name = "meztli-relay"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+# No request logs: the relay should remember as little as possible.
+[observability]
+enabled = false
+
+[[durable_objects.bindings]]
+name = "BOXES"
+class_name = "Box"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Box"]
+
+[vars]
+ALLOWED_ORIGINS = "https://localhost,capacitor://localhost,http://localhost:5173,http://localhost:4173"
