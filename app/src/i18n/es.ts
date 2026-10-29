@@ -56,11 +56,12 @@ export const es: Record<MessageKey, string> = {
   'estimate.daysPast.one': '{n} día después de la ventana estimada',
   'estimate.daysPast.other': '{n} días después de la ventana estimada',
 
-  'confidence.1': 'Muy baja',
-  'confidence.2': 'Baja',
-  'confidence.3': 'Moderada',
-  'confidence.4': 'Buena',
-  'confidence.5': 'Alta',
+  // Always used mid-sentence in Spanish ("Confianza moderada"), so lowercase.
+  'confidence.1': 'muy baja',
+  'confidence.2': 'baja',
+  'confidence.3': 'moderada',
+  'confidence.4': 'buena',
+  'confidence.5': 'alta',
   'confidence.aria': 'Confianza de la estimación {word}, {n} de 5',
   'confidence.line.one': 'Confianza {word} · {n} ciclo',
   'confidence.line.other': 'Confianza {word} · {n} ciclos',

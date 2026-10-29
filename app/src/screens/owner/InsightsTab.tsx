@@ -67,7 +67,7 @@ function LengthChart({ points, label }: { points: { label: string; value: number
                   {p.value}
                 </text>
                 <text x={x + bw / 2} y={h - 4} textAnchor="middle">
-                  {p.label.split(' ')[0]}
+                  {p.label}
                 </text>
               </g>
             )
@@ -107,14 +107,15 @@ export function InsightsTab({ data }: { data: CycleData }) {
     const starts = [...new Set([...s.used.map((c) => c.start), ...(s.lastPeriodStart ? [s.lastPeriodStart] : [])])].sort()
     if (starts.length < 2) return []
     // One row per signal, showing the phase where it was logged most often.
-    const bySignal = new Map<string, { signal: string; phase: string; rate: number; occurrences: number }>()
-    for (const row of symptomPhaseSummaries(data.logs, starts, 6)) {
-      const prev = bySignal.get(row.signal)
-      const occurrences = (prev?.occurrences ?? 0) + row.occurrences
-      if (!prev || row.rate > prev.rate) bySignal.set(row.signal, { signal: row.signal, phase: row.phase, rate: row.rate, occurrences })
-      else prev.occurrences = occurrences
-    }
-    return [...bySignal.values()]
+    // The day count covers the same cycles Today's insight uses, so the two agree.
+    const daysWith = (signal: string) =>
+      data.logs.filter((l) => l.date >= starts[0] && l.symptoms?.includes(signal)).length
+    return symptomPhaseSummaries(data.logs, starts, 6).map((row) => ({
+      signal: row.signal,
+      phase: row.phase,
+      rate: row.rate,
+      occurrences: daysWith(row.signal),
+    }))
   }, [data.logs, s.used, s.lastPeriodStart])
 
   return (
