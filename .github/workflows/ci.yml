@@ -51,6 +51,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Build web bundle for native
         run: pnpm --filter ./app build:native
+        env:
+          # Set under repo Settings → Secrets and variables → Actions → Variables
+          # after deploying workers/relay. Empty is fine: the app asks for it.
+          VITE_RELAY_URL: ${{ vars.VITE_RELAY_URL }}
       - name: Copy bundle into the Android project
         working-directory: app
         run: npx cap sync android
