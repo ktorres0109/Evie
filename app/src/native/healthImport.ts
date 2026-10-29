@@ -51,6 +51,7 @@ const FLOW_WEIGHT: NonNullable<Record<NonNullable<DailyLog['flow']>, number>> = 
   light: 1,
   medium: 2,
   heavy: 3,
+  'very-heavy': 4,
   clots: 4,
 }
 

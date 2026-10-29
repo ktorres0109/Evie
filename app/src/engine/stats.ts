@@ -115,6 +115,7 @@ const FLOW_WEIGHT: Record<Flow, number> = {
   light: 1,
   medium: 2,
   heavy: 3,
+  'very-heavy': 4,
   clots: 4,
 }
 
@@ -162,7 +163,7 @@ export function periodEpisodeDetails(logs: Pick<DailyLog, 'date' | 'flow'>[]): P
       days: 1,
       knownFlowDays: 1,
       heaviestFlow: log.flow,
-      heavyOrClotDays: log.flow === 'heavy' || log.flow === 'clots' ? 1 : 0,
+      heavyOrClotDays: log.flow === 'heavy' || log.flow === 'very-heavy' || log.flow === 'clots' ? 1 : 0,
     })
   }
   return episodes

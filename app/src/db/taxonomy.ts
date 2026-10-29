@@ -19,6 +19,7 @@ export const FLOWS: { id: Flow; label: string; icon: string }[] = [
   { id: 'light', label: 'Light', icon: '💧' },
   { id: 'medium', label: 'Medium', icon: '💧' },
   { id: 'heavy', label: 'Heavy', icon: '💧' },
+  { id: 'very-heavy', label: 'Very heavy', icon: '💧' },
   { id: 'clots', label: 'Clots', icon: '🩸' },
 ]
 

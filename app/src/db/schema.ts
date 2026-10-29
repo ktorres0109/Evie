@@ -3,7 +3,12 @@ import { detectBbtShiftEstimates } from '../engine/cycle'
 import type { PregnancyDatingMethod } from '../engine/pregnancyDating'
 import type { MissedDoseEvent, RegimenRecord } from './regimen'
 
-export type Flow = 'light' | 'medium' | 'heavy' | 'clots'
+/** Period bleeding. Spotting is recorded separately and never starts a period. */
+export type Flow = 'light' | 'medium' | 'heavy' | 'very-heavy' | 'clots'
+
+/** The six mood words offered by the log (multi-select). Older values stay readable. */
+export const MOOD_WORDS = ['calm', 'happy', 'low', 'irritable', 'anxious', 'sensitive'] as const
+export type MoodWord = (typeof MOOD_WORDS)[number]
 export type Discharge =
   | 'none'
   | 'sticky'
@@ -250,6 +255,10 @@ export interface DailyLog {
   /** Explicit coverage marker; a missing marker never means “nothing happened.” */
   checkInComplete?: boolean
   flow?: Flow
+  /** Light bleeding outside a period. Logged, shown, but never starts a period. */
+  spotting?: boolean
+  /** The user explicitly chose "None" for bleeding today. */
+  noBleeding?: boolean
   /** Explicit start marker supplied by an imported health record. */
   periodStart?: boolean
   symptoms?: string[]
@@ -322,6 +331,8 @@ export function dailyLogHasEntry(log: DailyLog): boolean {
   return Boolean(
     log.checkInComplete ||
       log.flow ||
+      log.spotting ||
+      log.noBleeding ||
       log.symptoms?.length ||
       Object.keys(log.symptomRatings ?? {}).length ||
       log.moods?.length ||
@@ -341,6 +352,70 @@ export function dailyLogHasEntry(log: DailyLog): boolean {
       log.steps !== undefined ||
       log.notes?.trim(),
   )
+}
+
+/**
+ * Dated "life context": anything that can change a cycle. The estimate engine
+ * turns each kind into one effect (withhold, widen, or leave a cycle out) and
+ * names it in "Why this estimate". Self-reported only; never inferred.
+ */
+export type LifeEventKind =
+  | 'pregnancy'
+  | 'pregnancy-ended'
+  | 'postpartum'
+  | 'breastfeeding'
+  | 'emergency-contraception'
+  | 'stopped-hormonal'
+  | 'pcos'
+  | 'endometriosis'
+  | 'thyroid'
+  | 'perimenopause'
+  | 'menopause'
+  | 'illness'
+  | 'stress'
+  | 'travel'
+  | 'weight-change'
+  | 'intense-training'
+  | 'testosterone'
+  | 'hysterectomy'
+  | 'ablation'
+  | 'medication'
+
+/** Optional, private, and only stored if the user chooses to keep it. */
+export type PregnancyOutcome =
+  | 'birth'
+  | 'miscarriage'
+  | 'abortion'
+  | 'ectopic'
+  | 'other'
+  | 'prefer-not-to-say'
+
+export interface LifeEvent {
+  id: string
+  kind: LifeEventKind
+  startDate: string
+  /** Absent means ongoing (or a one-day event for point-in-time kinds). */
+  endDate?: string
+  /** pregnancy-ended only, and only when the user opted to keep the detail. */
+  outcome?: PregnancyOutcome
+  /** Illness/stress/travel etc.: leave the cycle containing this out of estimates. */
+  excludeCycle?: boolean
+  /** Free text for 'medication' and 'other' style entries. Never shared. */
+  note?: string
+  createdAt: string
+}
+
+/**
+ * Every time data leaves the device, one row is written here. The Privacy &
+ * data card reads this table, so "nothing has left this phone" is a fact
+ * checked against a record, not a slogan.
+ */
+export interface TransferRecord {
+  id: string
+  at: string
+  kind: 'partner-update' | 'partner-revoke' | 'export-file' | 'backup'
+  destination: string
+  bytes: number
 }
 
 /** Materialized period ranges derived from consecutive flow days. */
@@ -376,6 +451,8 @@ export class MeztliDB extends Dexie {
    * queries stay cheap and survive log edits.
    */
   missedDoseEvents!: Table<MissedDoseEvent, string>
+  lifeEvents!: Table<LifeEvent, string>
+  transfers!: Table<TransferRecord, string>
 
   constructor() {
     super('meztli')
@@ -410,6 +487,19 @@ export class MeztliDB extends Dexie {
       healthProfiles: 'id',
       regimenRecords: 'id, method, startDate, [method+startDate]',
       missedDoseEvents: 'id, regimenId, date, [regimenId+date]',
+    })
+    // v4: life context and the transfer ledger. New tables start empty; old
+    // logs keep their fields (energy/sleep are hidden in the UI, not deleted).
+    this.version(4).stores({
+      dailyLogs: 'date',
+      cycles: 'startDate',
+      settings: 'key',
+      contentBookmarks: 'slug',
+      healthProfiles: 'id',
+      regimenRecords: 'id, method, startDate, [method+startDate]',
+      missedDoseEvents: 'id, regimenId, date, [regimenId+date]',
+      lifeEvents: 'id, kind, startDate',
+      transfers: 'id, at, kind',
     })
   }
 }
