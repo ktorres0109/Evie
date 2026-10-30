@@ -203,9 +203,9 @@ function covers(event: { startDate: string; endDate?: string }, date: ISODate): 
   return date >= event.startDate && (!event.endDate || date <= event.endDate)
 }
 
+/** A missing endDate means ongoing (regimens, pregnancy, illness…), as in covers(). */
 function overlaps(event: { startDate: string; endDate?: string }, start: ISODate, end: ISODate): boolean {
-  const eventEnd = event.endDate ?? event.startDate
-  return event.startDate <= end && eventEnd >= start
+  return event.startDate <= end && (!event.endDate || event.endDate >= start)
 }
 
 // ---------------------------------------------------------------------------
@@ -324,6 +324,22 @@ function withholdReason(inputs: Required<Pick<CycleInputs, 'regimens' | 'lifeEve
 
 // ---------------------------------------------------------------------------
 // Cycles: used vs left out
+/**
+ * Inputs for symptom-by-phase analysis. Every period start is a boundary, so a
+ * log in an excluded cycle is never counted as a late day of the cycle before
+ * it; logs inside excluded cycles are left out, matching the estimate.
+ */
+export function phaseAnalysisInput(
+  state: CycleState,
+  logs: DailyLog[],
+): { starts: ISODate[]; logs: DailyLog[] } {
+  const all = [...state.used, ...state.excluded].map((c) => c.start)
+  if (state.lastPeriodStart) all.push(state.lastPeriodStart)
+  const starts = [...new Set(all)].sort()
+  const inExcluded = (d: ISODate) => state.excluded.some((c) => d >= c.start && d <= c.end)
+  return { starts, logs: logs.filter((l) => !inExcluded(l.date)) }
+}
+
 // ---------------------------------------------------------------------------
 
 function classifyCycles(
@@ -449,7 +465,7 @@ const WIDEN_DAYS: Record<WidenReason, number> = {
 }
 
 function confidenceFor(used: number, spread: number, widened: WidenReason[]): Confidence {
-  let score = used >= 6 ? 4 : used >= 4 ? 3 : used >= 3 ? 3 : used >= 2 ? 2 : 1
+  let score = used >= 6 ? 4 : used >= 3 ? 3 : used >= 2 ? 2 : 1
   if (used >= 6 && spread <= 3) score = 5
   if (spread >= 5) score -= 1
   if (spread >= ESTIMATE_RULES.weeksThreshold) score = 1

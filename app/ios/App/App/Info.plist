@@ -21,8 +21,6 @@
 	<string>Use Face ID to unlock your private Meztli data.</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Meztli imports only the health categories you choose so your cycle history can stay current on this device.</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Meztli connects to a local AI service, such as Ollama, only when you configure one.</string>
 	<key>CAPACITOR_DEBUG</key>
 	<string>$(CAPACITOR_DEBUG)</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>

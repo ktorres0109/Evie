@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { DailyLog, LifeEvent } from '../db/schema'
 import type { RegimenRecord } from '../db/regimen'
 import { addDays } from './cycle'
-import { companionState, computeCycleState, periodStartsFromLogs, withdrawalBleedFor } from './estimate'
+import { companionState, computeCycleState, periodStartsFromLogs, phaseAnalysisInput, withdrawalBleedFor } from './estimate'
 
 /** Logs `days` of medium flow starting on each date. */
 function periods(starts: string[], days = 5): DailyLog[] {
@@ -91,7 +91,7 @@ describe('computeCycleState', () => {
     const s = computeCycleState({
       today: addDays(starts.at(-1)!, 2),
       logs: periods(starts),
-      lifeEvents: [event({ kind: 'illness', startDate: addDays(starts[1], 10), excludeCycle: true })],
+      lifeEvents: [event({ kind: 'illness', startDate: addDays(starts[1], 10), endDate: addDays(starts[1], 15), excludeCycle: true })],
     })
     expect(s.excluded.find((e) => e.reason.code === 'life-event')).toMatchObject({ length: 35 })
     expect(s.used.map((c) => c.length)).not.toContain(35)
@@ -238,5 +238,20 @@ describe('companionState', () => {
     const later = companionState(dates, '2026-02-20', null)
     expect(later.stage).toBe(2)
     expect(later.resting).toBe(true)
+  })
+})
+
+describe('phaseAnalysisInput', () => {
+  it('keeps excluded cycles as boundaries and drops their logs', () => {
+    // 28, 28, 70 (outlier), 28, 28: the 70-day cycle is left out.
+    const starts = startsFrom('2026-01-01', [28, 28, 70, 28, 28])
+    const sick = addDays(starts[2], 40)
+    const logs = [...periods(starts), { date: sick, symptoms: ['Headache'] }]
+    const state = computeCycleState({ today: addDays(starts[5], 3), logs })
+    expect(state.excluded.map((c) => c.start)).toEqual([starts[2]])
+    const input = phaseAnalysisInput(state, logs)
+    expect(input.starts).toContain(starts[2])
+    expect(input.starts).toContain(starts[3])
+    expect(input.logs.some((l) => l.date === sick)).toBe(false)
   })
 })

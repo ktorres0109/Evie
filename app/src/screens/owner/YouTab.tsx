@@ -118,14 +118,12 @@ export function YouTab({ data, prefs }: { data: CycleData; prefs: Prefs }) {
       <SectionTitle>{t('you.section.reports')}</SectionTitle>
       <div className="mz-section mz-list">
         <ListRow icon="file-text" title={t('you.doctorReport')} sub={t('you.doctorReport.sub')} onClick={() => push({ name: 'doctor-report' })} />
-        <ListRow icon="chart-line" title={t('you.cycleReport')} onClick={() => push({ name: 'cycle-report' })} />
-        <ListRow icon="book-open" title={t('you.articles')} onClick={() => push({ name: 'articles' })} />
+        <ListRow icon="book-open" title={t('you.articles')} sub={t('you.articles.sub')} onClick={() => push({ name: 'articles' })} />
       </div>
 
       <SectionTitle>{t('you.section.about')}</SectionTitle>
       <div className="mz-section mz-list">
         <ListRow icon="info" title={t('you.about')} sub={t('you.about.sub')} onClick={() => push({ name: 'about' })} />
-        <ListRow icon="gear-six" title={t('you.advanced')} sub={t('you.advanced.sub')} onClick={() => push({ name: 'legacy-settings' })} />
       </div>
     </div>
   )

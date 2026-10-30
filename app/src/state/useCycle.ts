@@ -3,7 +3,7 @@
  * Every owner screen reads from here, so they all agree on one estimate.
  */
 import { useLiveQuery } from 'dexie-react-hooks'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { db, getHealthProfile, dailyLogHasEntry, type DailyLog, type HealthProfile, type LifeEvent } from '../db/schema'
 import type { RegimenRecord } from '../db/regimen'
 import { companionState, computeCycleState, type CompanionState, type CycleState } from '../engine/estimate'
@@ -30,7 +30,7 @@ export function useCycleData(): CycleData | undefined {
     ])
     return { logs, regimens, lifeEvents, profile }
   }, [])
-  const today = localToday()
+  const today = useLocalToday()
   return useMemo(() => {
     if (!raw) return undefined
     const logs = [...raw.logs].sort((a, b) => a.date.localeCompare(b.date))
@@ -53,4 +53,19 @@ export function useCycleData(): CycleData | undefined {
       companion: companionState(entryDates, today, state.lastPeriodStart),
     }
   }, [raw, today])
+}
+
+/** Today's local date, refreshed across midnight and when the app comes back. */
+function useLocalToday(): string {
+  const [today, setToday] = useState(localToday)
+  useEffect(() => {
+    const check = () => setToday(localToday())
+    const id = window.setInterval(check, 60_000)
+    document.addEventListener('visibilitychange', check)
+    return () => {
+      window.clearInterval(id)
+      document.removeEventListener('visibilitychange', check)
+    }
+  }, [])
+  return today
 }

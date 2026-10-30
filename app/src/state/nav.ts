@@ -28,9 +28,6 @@ export type Route =
   | { name: 'articles' }
   | { name: 'article'; slug: string }
   | { name: 'doctor-report' }
-  | { name: 'cycle-report' }
-  | { name: 'legacy-settings' }
-  | { name: 'trackers' }
 
 export type QuickKind = 'flow' | 'mood' | 'pain' | 'discharge'
 

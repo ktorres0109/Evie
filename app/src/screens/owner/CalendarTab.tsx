@@ -48,13 +48,15 @@ export function CalendarTab({ data, prefs }: { data: CycleData; prefs: Prefs }) 
   const s = data.state
   const showFertility = prefs.fertilityMode && prefs.calendarFertilityOverlay && s.fertility.state !== 'suppressed'
   const potential = s.fertility.potentialWindow
+  // Fewer than two usable cycles never produces dates (only "about N weeks").
+  const predicted = s.status === 'ok' ? s.window : null
 
   function cellLabel(date: string, log: DailyLog | undefined): string {
     const parts = [weekdayLong(date, t.locale)]
     if (date === data.today) parts.push(t('cal.today'))
     if (log?.flow) parts.push(t('cal.loggedPeriod'))
     else if (log?.spotting) parts.push(t('flow.spotting'))
-    else if (date > data.today && inRange(date, s.window)) parts.push(t('cal.estimatedPeriod'))
+    else if (date > data.today && inRange(date, predicted)) parts.push(t('cal.estimatedPeriod'))
     if (s.withdrawalBleed && inRange(date, s.withdrawalBleed.expected) && date >= data.today) parts.push(t('cal.expectedWithdrawal'))
     if (log && dailyLogHasEntry(log) && !log.flow) parts.push(t('cal.hasEntry'))
     if (showFertility && date >= data.today && inRange(date, potential)) parts.push(t('fertility.state.potential'))
@@ -100,7 +102,7 @@ export function CalendarTab({ data, prefs }: { data: CycleData; prefs: Prefs }) 
             const classes = ['mz-day']
             if (outside) classes.push('mz-day--outside')
             if (log?.flow) classes.push('mz-day--logged')
-            else if (future && inRange(date, s.window)) classes.push('mz-day--predicted')
+            else if (future && inRange(date, predicted)) classes.push('mz-day--predicted')
             else if (future && s.withdrawalBleed && inRange(date, s.withdrawalBleed.expected)) classes.push('mz-day--withdrawal')
             if (log?.spotting && !log.flow) classes.push('mz-day--spotting')
             else if (log && dailyLogHasEntry(log) && !log.noBleeding) classes.push('mz-day--entry')
@@ -249,7 +251,7 @@ function DaySheet({ date, data, onClose }: { date: string; data: CycleData; onCl
     >
       {future ? (
         <div className="mz-stack">
-          {s.window && date >= s.window.start && date <= s.window.end ? (
+          {s.status === 'ok' && s.window && date >= s.window.start && date <= s.window.end ? (
             <p className="mz-body">{t('cal.day.futureInWindow', { range: dateRange(s.window.start, s.window.end, t.locale) })}</p>
           ) : (
             <p className="mz-body mz-muted">{t('cal.day.futureNothing')}</p>

@@ -4,7 +4,7 @@
  * the data-confidence meter, and the methodology.
  */
 import { useMemo, useState } from 'react'
-import { bleedingEpisodes } from '../../engine/estimate'
+import { bleedingEpisodes, phaseAnalysisInput } from '../../engine/estimate'
 import { symptomPhaseSummaries } from '../../engine/patterns'
 import { daysBetween } from '../../engine/cycle'
 import { useT, type MessageKey } from '../../i18n'
@@ -104,19 +104,20 @@ export function InsightsTab({ data }: { data: CycleData }) {
   )
 
   const phases = useMemo(() => {
-    const starts = [...new Set([...s.used.map((c) => c.start), ...(s.lastPeriodStart ? [s.lastPeriodStart] : [])])].sort()
+    if (s.used.length < 1) return []
+    const { starts, logs } = phaseAnalysisInput(s, data.logs)
     if (starts.length < 2) return []
     // One row per signal, showing the phase where it was logged most often.
     // The day count covers the same cycles Today's insight uses, so the two agree.
     const daysWith = (signal: string) =>
-      data.logs.filter((l) => l.date >= starts[0] && l.symptoms?.includes(signal)).length
-    return symptomPhaseSummaries(data.logs, starts, 6).map((row) => ({
+      logs.filter((l) => l.date >= starts[0] && l.symptoms?.includes(signal)).length
+    return symptomPhaseSummaries(logs, starts, 6).map((row) => ({
       signal: row.signal,
       phase: row.phase,
       rate: row.rate,
       occurrences: daysWith(row.signal),
     }))
-  }, [data.logs, s.used, s.lastPeriodStart])
+  }, [data.logs, s])
 
   return (
     <div className="mz-page">
@@ -177,7 +178,6 @@ export function InsightsTab({ data }: { data: CycleData }) {
       <SectionTitle>{t('insights.more')}</SectionTitle>
       <div className="mz-section mz-list">
         <ListRow icon="clock-counter-clockwise" title={t('you.history')} onClick={() => push({ name: 'history' })} />
-        <ListRow icon="chart-line" title={t('you.cycleReport')} onClick={() => push({ name: 'cycle-report' })} />
         <ListRow icon="file-text" title={t('you.doctorReport')} onClick={() => push({ name: 'doctor-report' })} />
         <ListRow icon="book-open" title={t('insights.methodology')} onClick={() => push({ name: 'why' })} />
       </div>

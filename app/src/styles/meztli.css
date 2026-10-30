@@ -748,3 +748,25 @@ button, a { font: inherit; color: inherit; }
 .mz-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .mz-table th, .mz-table td { text-align: left; padding: 8px 4px; border-bottom: 1px solid var(--line-soft); }
 .mz-table th { color: var(--text-3); font-weight: 500; font-size: 12px; }
+
+/* Doctor summary: dates and lengths never wrap. */
+.mz-doctor .mz-table td:nth-child(-n+2) { white-space: nowrap; }
+
+/* Printing (the doctor summary): always light, ink-friendly, no app chrome. */
+@media print {
+  :root, :root[data-theme] {
+    color-scheme: light;
+    --bg: #FFFFFF; --surface-1: #FFFFFF; --surface-2: #FFFFFF; --surface-3: #FFFFFF;
+    --line: #CCC6D2; --line-soft: #E3DBE6;
+    --text: #000000; --text-2: #333333; --text-3: #555555;
+    --primary: #3D2A8C; --highlight-top: none; --hero-glow: none;
+  }
+  html, body, #root, .mz-app { height: auto !important; overflow: visible !important; background: #fff !important; }
+  .mz-tabbar, .mz-appbar button, .no-print { display: none !important; }
+  /* Print only the report: hide everything that neither contains it nor sits inside it. */
+  #root *:not(:has(.mz-doctor)):not(.mz-doctor):not(.mz-doctor *) { display: none !important; }
+  .mz-overlay { position: static !important; animation: none !important; }
+  .mz-card { box-shadow: none !important; border: 1px solid var(--line); break-inside: avoid; }
+  .mz-page { padding-bottom: 0 !important; overflow: visible !important; }
+  .mz-doctor .mz-section-title, .mz-doctor h2 { break-after: avoid; }
+}

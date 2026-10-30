@@ -25,6 +25,8 @@ Then on GitHub: repo **Settings → Secrets and variables → Actions → Variab
 3. On her phone, open the file. Samsung asks to allow installs from that app (My Files / Drive): allow it.
 4. Play Protect may warn "unknown app". Tap **More details → Install anyway**. This is because it's a debug build you made, not a Play Store app.
 5. Updating later: install the newer APK over the old one. Her data stays. **Don't uninstall first**, because uninstalling deletes all her data.
+   Every CI build is signed with the same test key (`app/android/app/meztli-test.keystore`) and has a higher version number, so Android accepts it as an update. APKs built before this fix used a random key, so if one of those is installed, uninstall it once **before** she logs real data.
+6. Safety net: before each update, have her go to **You → Privacy & data → Export** (passphrase-locked). **Restore from a file** on the same screen brings it back.
 
 ## 3. iPhone: your partner app (free Apple ID)
 

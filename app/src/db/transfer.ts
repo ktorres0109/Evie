@@ -31,6 +31,11 @@ export interface ExportPayload {
 
 const PREGNANCY_KINDS = new Set(['pregnancy', 'pregnancy-ended', 'postpartum', 'breastfeeding'])
 
+function withoutPregnancyGoal(goals: HealthProfile['goals']): HealthProfile['goals'] {
+  const rest = (goals ?? []).filter((g) => g !== 'pregnancy')
+  return rest.length ? rest : ['cycle']
+}
+
 export async function collectExport(options: ExportOptions = {}): Promise<ExportPayload> {
   const [dailyLogs, settings, contentBookmarks, regimenRecords, missedDoseEvents, lifeEvents, healthProfiles] = await Promise.all([
     db.dailyLogs.toArray(),
@@ -57,6 +62,7 @@ export async function collectExport(options: ExportOptions = {}): Promise<Export
       : healthProfiles.map((p) => ({
           ...p,
           primaryGoal: p.primaryGoal === 'pregnancy' ? 'cycle' : p.primaryGoal,
+          goals: withoutPregnancyGoal(p.goals),
           reproductive: { ...p.reproductive, pregnancyDating: undefined, pregnancyLmp: undefined },
         })),
     pregnancyHistoryIncluded: includePregnancy,
@@ -64,7 +70,10 @@ export async function collectExport(options: ExportOptions = {}): Promise<Export
 }
 
 export async function applyImport(payload: ExportPayload): Promise<number> {
-  if (payload.app !== 'meztli' || (payload.v !== 1 && payload.v !== 2)) throw new Error('Not a Meztli export file')
+  // v1 files were written before the rename and say app: 'lunara'.
+  const app = payload.app as string
+  const known = (app === 'meztli' && (payload.v === 1 || payload.v === 2)) || (app === 'lunara' && payload.v === 1)
+  if (!known) throw new Error('Not a Meztli export file')
   await db.transaction(
     'rw',
     [db.dailyLogs, db.settings, db.contentBookmarks, db.regimenRecords, db.missedDoseEvents, db.lifeEvents, db.healthProfiles],

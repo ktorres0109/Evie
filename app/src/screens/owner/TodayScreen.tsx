@@ -6,6 +6,7 @@
  */
 import { useMemo } from 'react'
 import { analyzePatterns, type PatternInsight } from '../../engine/patterns'
+import { phaseAnalysisInput } from '../../engine/estimate'
 import { resolvePregnancyDating, pregnancyTimeline } from '../../engine/pregnancyDating'
 import { useT, type MessageKey, type Translator } from '../../i18n'
 import { betweenDates, dateRange } from '../../i18n/dates'
@@ -43,9 +44,10 @@ function quickDone(kind: QuickKind, data: CycleData): boolean {
 }
 
 function pickInsight(data: CycleData, t: Translator): PatternInsight | null {
-  const starts = [...data.state.used.map((c) => c.start), data.state.lastPeriodStart].filter(Boolean) as string[]
+  if (data.state.used.length < 1) return null
+  const { starts, logs } = phaseAnalysisInput(data.state, data.logs)
   if (starts.length < 2) return null
-  const insights = analyzePatterns(data.logs, [...new Set(starts)].sort(), { maxInsights: 6 })
+  const insights = analyzePatterns(logs, starts, { maxInsights: 6 })
   const eligible = insights.filter(
     (i) => i.kind !== 'co-occurrence' && i.evidence.loggedDaysCompared >= 8 && i.confidence !== 'early',
   )

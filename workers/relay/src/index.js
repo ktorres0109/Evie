@@ -54,7 +54,7 @@ export class Box {
     let body = null
     if (request.method === 'POST' || request.method === 'PUT') {
       const text = await request.text()
-      if (text.length > 12 * 1024) return new Response('{"error":"too-large"}', { status: 413 })
+      if (text.length > MAX_BODY) return new Response('{"error":"too-large"}', { status: 413 })
       try {
         body = text ? JSON.parse(text) : null
       } catch {

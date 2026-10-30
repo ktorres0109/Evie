@@ -5,7 +5,7 @@
  */
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useState } from 'react'
-import { collectExport, encryptedExport, shareOrDownload } from '../../db/transfer'
+import { applyImport, collectExport, decryptImport, encryptedExport, shareOrDownload } from '../../db/transfer'
 import { db, getSetting, SK } from '../../db/schema'
 import { recordTransfer } from '../../db/ledger'
 import { useT, type MessageKey } from '../../i18n'
@@ -28,6 +28,7 @@ export function PrivacyScreen() {
   const transfers = useLiveQuery(() => db.transfers.orderBy('at').reverse().toArray(), [])
   const [exporting, setExporting] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [restoring, setRestoring] = useState(false)
 
   const nothingLeft = (transfers?.length ?? 0) === 0
   const byKind = new Map<string, { count: number; last: string; destination: string }>()
@@ -102,6 +103,7 @@ export function PrivacyScreen() {
       <SectionTitle>{t('privacy.yourData')}</SectionTitle>
       <div className="mz-section mz-list">
         <ListRow icon="export" title={t('privacy.export')} sub={t('privacy.export.sub')} onClick={() => setExporting(true)} />
+        <ListRow icon="download-simple" title={t('privacy.restore')} sub={t('privacy.restore.sub')} onClick={() => setRestoring(true)} />
         <div className="mz-list-row" style={{ cursor: 'default' }}>
           <Icon name="cloud-slash" size={22} className="mz-list-row__icon" />
           <span className="mz-list-row__text">
@@ -118,6 +120,7 @@ export function PrivacyScreen() {
 
       {exporting && <ExportSheet onClose={() => setExporting(false)} />}
       {deleting && <DeleteSheet onClose={() => setDeleting(false)} />}
+      {restoring && <RestoreSheet onClose={() => setRestoring(false)} />}
     </Screen>
   )
 }
@@ -184,6 +187,83 @@ function ExportSheet({ onClose }: { onClose: () => void }) {
         </div>
         {error && <p className="mz-field__error">{error}</p>}
       </div>
+    </Sheet>
+  )
+}
+
+function RestoreSheet({ onClose }: { onClose: () => void }) {
+  const t = useT()
+  const [file, setFile] = useState<unknown>(null)
+  const [pass, setPass] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [done, setDone] = useState<number | null>(null)
+  const locked = Boolean(file && typeof file === 'object' && 'kdf' in file && 'data' in file)
+
+  async function pick(f: File | undefined) {
+    setError(null)
+    if (!f) return
+    try {
+      setFile(JSON.parse(await f.text()))
+    } catch {
+      setFile(null)
+      setError(t('privacy.restore.notFile'))
+    }
+  }
+  async function go() {
+    setBusy(true)
+    setError(null)
+    try {
+      const n = locked
+        ? await decryptImport(file as Parameters<typeof decryptImport>[0], pass)
+        : await applyImport(file as Parameters<typeof applyImport>[0])
+      setDone(n)
+    } catch (e) {
+      // A wrong passphrase fails decryption; anything else is not our file.
+      setError(locked ? t('privacy.restore.wrongPass') : e instanceof Error ? e.message : String(e))
+    } finally {
+      setBusy(false)
+    }
+  }
+  return (
+    <Sheet
+      title={t('privacy.restore')}
+      onClose={onClose}
+      footer={
+        done !== null ? (
+          <button type="button" className="mz-btn mz-btn--primary mz-btn--block" onClick={onClose}>
+            {t('common.done')}
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="mz-btn mz-btn--primary mz-btn--block"
+            disabled={busy || !file || (locked && pass.length === 0)}
+            onClick={() => void go()}
+          >
+            {t('privacy.restore.go')}
+          </button>
+        )
+      }
+    >
+      {done !== null ? (
+        <p className="mz-body">{t.n('privacy.restore.done', done)}</p>
+      ) : (
+        <div className="mz-stack" style={{ gap: 16 }}>
+          <p className="mz-body-sm mz-muted">{t('privacy.restore.body')}</p>
+          <label className="mz-field">
+            <span className="mz-field__label">{t('privacy.restore.file')}</span>
+            <input className="mz-input" type="file" accept="application/json,.json" onChange={(e) => void pick(e.currentTarget.files?.[0])} />
+          </label>
+          {locked && (
+            <label className="mz-field">
+              <span className="mz-field__label">{t('privacy.export.passphrase')}</span>
+              <input className="mz-input" type="password" value={pass} onChange={(e) => setPass(e.currentTarget.value)} autoComplete="current-password" />
+            </label>
+          )}
+          {error && <p className="mz-field__error">{error}</p>}
+        </div>
+      )}
     </Sheet>
   )
 }

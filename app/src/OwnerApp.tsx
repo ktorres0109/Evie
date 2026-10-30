@@ -3,17 +3,14 @@
  * screens, the full log sheet and the quick one-category sheets.
  */
 import { useEffect, type ReactNode } from 'react'
-import { DoctorReport } from './components/DoctorReport'
 import { ArticleScreen } from './screens/ArticleScreen'
-import { CycleReportScreen } from './screens/CycleReportScreen'
 import { Insights as ArticleLibrary } from './screens/Insights'
-import { Settings as LegacySettings } from './screens/Settings'
-import { TrackerCustomizeScreen } from './screens/TrackerCustomizeScreen'
 import { CalendarTab } from './screens/owner/CalendarTab'
 import { FertilityScreen, FertilitySetupScreen } from './screens/owner/FertilityScreens'
 import { InsightsTab } from './screens/owner/InsightsTab'
 import { LogSheet, QuickSheet } from './screens/owner/LogSheet'
 import { TodayScreen } from './screens/owner/TodayScreen'
+import { DoctorReportScreen } from './screens/owner/DoctorReportScreen'
 import { WhyScreen } from './screens/owner/WhyScreen'
 import { YouTab } from './screens/owner/YouTab'
 import { MethodScreen } from './screens/owner/MethodScreen'
@@ -33,20 +30,6 @@ import { useCycleData, type CycleData } from './state/useCycle'
 import { NavBar } from './ui/NavBar'
 import { Screen, useBackButton } from './ui/kit'
 import { usePartnerAutoUpload } from './partner/sync'
-
-/** Hosts an upstream screen that closes itself through the old app store. */
-function LegacyFlag({ flag, onClosed, children }: { flag: 'reportOpen'; onClosed: () => void; children: ReactNode }) {
-  const open = useApp((s) => s[flag])
-  useEffect(() => {
-    useApp.setState({ [flag]: true })
-    return () => useApp.setState({ [flag]: false })
-  }, [flag])
-  useEffect(() => {
-    if (!open) onClosed()
-  }, [open, onClosed])
-  useBackButton(onClosed)
-  return open ? <>{children}</> : null
-}
 
 function LegacyOverlay({ children, onBack }: { children: ReactNode; onBack: () => void }) {
   useBackButton(onBack)
@@ -88,23 +71,7 @@ function RouteView({ route, data, prefs, locked }: { route: Route; data: CycleDa
     case 'about':
       return <AboutScreen />
     case 'doctor-report':
-      return (
-        <LegacyFlag flag="reportOpen" onClosed={pop}>
-          <DoctorReport />
-        </LegacyFlag>
-      )
-    case 'cycle-report':
-      return (
-        <LegacyOverlay onBack={pop}>
-          <CycleReportScreen onBack={pop} />
-        </LegacyOverlay>
-      )
-    case 'trackers':
-      return (
-        <LegacyOverlay onBack={pop}>
-          <TrackerCustomizeScreen onBack={pop} />
-        </LegacyOverlay>
-      )
+      return <DoctorReportScreen data={data} />
     case 'articles':
       return (
         <Screen title={t('you.articles')} onBack={pop}>
@@ -116,12 +83,6 @@ function RouteView({ route, data, prefs, locked }: { route: Route; data: CycleDa
         <LegacyOverlay onBack={pop}>
           <ArticleScreen slug={route.slug} onClose={pop} />
         </LegacyOverlay>
-      )
-    case 'legacy-settings':
-      return (
-        <Screen title={t('you.advanced')} onBack={pop}>
-          <LegacySettings />
-        </Screen>
       )
   }
 }

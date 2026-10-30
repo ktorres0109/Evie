@@ -13,8 +13,25 @@ import { relay, RelayError } from './relay'
 import { buildSnapshot, snapshotKey } from './snapshot'
 import { getSecret, readPartner, writePartner, type OwnerPartnerState } from './store'
 
-const DAY_MS = 20 * 60 * 60 * 1000
+/** Unchanged snapshots are re-sent after this long, so the partner sees the
+ * update is recent. 20 h rather than 24 so a once-a-day open always resends. */
+const RESEND_MS = 20 * 60 * 60 * 1000
 let inFlight: Promise<unknown> | null = null
+/** The newest data that arrived while an upload was running; sent right after. */
+let queued: CycleData | null = null
+
+function scheduleUpload(data: CycleData): void {
+  if (inFlight) {
+    queued = data
+    return
+  }
+  inFlight = uploadNow(data).finally(() => {
+    inFlight = null
+    const next = queued
+    queued = null
+    if (next) scheduleUpload(next)
+  })
+}
 
 export async function uploadNow(data: CycleData, force = false): Promise<'sent' | 'skipped' | 'error'> {
   const partner = await readPartner()
@@ -23,7 +40,7 @@ export async function uploadNow(data: CycleData, force = false): Promise<'sent' 
   if (!secrets?.writeToken) return 'error'
   const snapshot = buildSnapshot({ partner, state: data.state, todayLog: data.logsByDate.get(data.today), now: new Date().toISOString() })
   const key = snapshotKey(snapshot)
-  const recent = partner.lastUploadAt && Date.now() - new Date(partner.lastUploadAt).getTime() < DAY_MS
+  const recent = partner.lastUploadAt && Date.now() - new Date(partner.lastUploadAt).getTime() < RESEND_MS
   if (!force && key === partner.lastKey && recent) return 'skipped'
 
   const send = async (version: number): Promise<number> => {
@@ -36,9 +53,12 @@ export async function uploadNow(data: CycleData, force = false): Promise<'sent' 
     try {
       version = await send(version)
     } catch (e) {
-      // Another device or a restore may have moved the version on; catch up once.
-      if (e instanceof RelayError && e.status === 409) version = await send(version + 1000)
-      else throw e
+      // Another device or a restore may have moved the version on; catch up once
+      // to just past the version the relay reports.
+      if (e instanceof RelayError && e.status === 409) {
+        const server = (e.details as { version?: unknown } | null)?.version
+        version = await send((typeof server === 'number' && server >= version ? server : version + 999) + 1)
+      } else throw e
     }
     await writePartner({ version, lastKey: key, lastUploadAt: new Date().toISOString(), lastUploadError: null })
     await recordTransfer('partner-update', hostOf(partner.relayUrl), PADDED_SIZE)
@@ -54,12 +74,7 @@ export function usePartnerAutoUpload(data: CycleData | undefined): void {
   const dep = partner ? `${partner.status}|${partner.paused}|${JSON.stringify(partner.scopes)}|${partner.supportLines.join('\n')}` : ''
   useEffect(() => {
     if (!data || partner?.status !== 'paired') return
-    const timer = window.setTimeout(() => {
-      if (inFlight) return
-      inFlight = uploadNow(data).finally(() => {
-        inFlight = null
-      })
-    }, 2500)
+    const timer = window.setTimeout(() => scheduleUpload(data), 2500)
     return () => window.clearTimeout(timer)
   }, [data, dep, partner?.status])
 }

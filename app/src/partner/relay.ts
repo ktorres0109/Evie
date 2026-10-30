@@ -7,6 +7,8 @@ export class RelayError extends Error {
   constructor(
     public status: number,
     public code: string,
+    /** The relay's JSON error body, e.g. `{ version }` on a stale-version 409. */
+    public details: unknown = null,
   ) {
     super(code)
   }
@@ -24,7 +26,7 @@ async function call<T>(base: string, path: string, init: RequestInit & { token?:
   }
   const text = await res.text()
   const body = text ? (JSON.parse(text) as T) : null
-  if (res.status >= 400) throw new RelayError(res.status, (body as { error?: string } | null)?.error ?? `http-${res.status}`)
+  if (res.status >= 400) throw new RelayError(res.status, (body as { error?: string } | null)?.error ?? `http-${res.status}`, body)
   return { status: res.status, body }
 }
 

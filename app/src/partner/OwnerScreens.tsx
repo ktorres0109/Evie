@@ -281,6 +281,8 @@ export function PartnerPairScreen() {
 
   async function begin() {
     setError(null)
+    // A fresh code replaces the expired one; drop its mailbox instead of leaving it on the relay.
+    if (pairing) void cancelOwnerPairing(pairing)
     try {
       const p = await startOwnerPairing(relayUrl.trim(), ownerName.trim())
       setPairing(p)
