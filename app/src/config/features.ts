@@ -2,12 +2,10 @@ import type { Goal } from '../db/schema'
 
 /**
  * v1 product scope (docs/design/evie/DECISIONS.md, A4 and O2).
- * The code behind a disabled flag stays in the repo, so turning it back on is
- * a one-line change, but no entry point is shown.
+ * v1 ships no AI (the old cloud assistant was removed); any future AI would be
+ * on-device only.
  */
 export const FEATURES = {
-  /** Cloud AI assistant. Off: v1 ships no AI; any future AI is on-device only. */
-  assistant: false,
   /** Trying-to-conceive mode. */
   ttcMode: false,
   /** Perimenopause mode. */

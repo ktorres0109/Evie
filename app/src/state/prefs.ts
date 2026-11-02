@@ -26,6 +26,8 @@ export interface Prefs {
   checkInReminderTime: string | null
   /** A heads-up when the estimated window starts. */
   windowReminder: boolean
+  /** The home-screen widget shows cycle day and next range; off = app name only. */
+  widgetShowsCycle: boolean
 }
 
 export const DEFAULT_PREFS: Prefs = {
@@ -40,6 +42,7 @@ export const DEFAULT_PREFS: Prefs = {
   methodReminderTime: null,
   checkInReminderTime: null,
   windowReminder: false,
+  widgetShowsCycle: false,
 }
 
 const KEY = 'prefs.v1'

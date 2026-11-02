@@ -10,6 +10,10 @@ export interface CycleWidgetSnapshot {
   nextPeriodDate?: string
   fertileToday?: boolean
   accent?: string
+  /** "Day {n}": the native widget advances n from anchorDate on its own. */
+  headlineTemplate?: string
+  /** Local yyyy-mm-dd that cycleDay refers to. */
+  anchorDate?: string
 }
 
 export interface WidgetStatus {
@@ -51,6 +55,8 @@ function normalizedSnapshot(snapshot: CycleWidgetSnapshot): CycleWidgetSnapshot 
     nextPeriodDate: snapshot.nextPeriodDate,
     fertileToday: snapshot.fertileToday,
     accent: snapshot.accent?.slice(0, 20),
+    headlineTemplate: snapshot.headlineTemplate?.slice(0, 80),
+    anchorDate: snapshot.anchorDate,
   }
 }
 
@@ -82,4 +88,32 @@ export function currentWidgetPlatform(): WidgetStatus['platform'] {
   return isNative && (nativePlatform === 'ios' || nativePlatform === 'android')
     ? nativePlatform
     : 'web'
+}
+
+/**
+ * What the home-screen widget may show. Private by default: the app name and a
+ * nudge. With her opt-in (and no app lock) it adds the day and the next range,
+ * never fertility. Pure, so it can be tested.
+ */
+export function widgetSnapshotFor(args: {
+  showCycle: boolean
+  locked: boolean
+  appName: string
+  privateDetail: string
+  headline: string | null
+  detail: string | null
+  now: Date
+  /** When set, the widget keeps counting the cycle day between app opens. */
+  counting?: { template: string; cycleDay: number; today: string }
+}): CycleWidgetSnapshot {
+  const base = { generatedAt: args.now.toISOString(), headline: args.appName, detail: args.privateDetail }
+  if (!args.showCycle || args.locked || !args.headline) return base
+  return {
+    ...base,
+    headline: args.headline,
+    detail: args.detail ?? args.privateDetail,
+    ...(args.counting
+      ? { headlineTemplate: args.counting.template, cycleDay: args.counting.cycleDay, anchorDate: args.counting.today }
+      : {}),
+  }
 }

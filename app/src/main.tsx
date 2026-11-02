@@ -4,7 +4,6 @@ import App from './App'
 import { StartupErrorBoundary } from './components/StartupErrorBoundary'
 import { useLocale } from './i18n'
 import { initializeNativeRuntime } from './native/runtime'
-import { Onboarding } from './screens/Onboarding'
 import './styles/base.css'
 import './styles/app.css'
 import './styles/health-import.css'
@@ -26,22 +25,10 @@ void navigator.storage?.persist?.().catch(() => undefined)
 
 void initializeNativeRuntime()
 
-const onboardingPreview =
-  import.meta.env.DEV &&
-  new URLSearchParams(window.location.search).get('preview') === 'onboarding'
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <StartupErrorBoundary>
-      {onboardingPreview ? (
-        <Onboarding
-          onDone={() => {
-            window.location.assign('/')
-          }}
-        />
-      ) : (
-        <App />
-      )}
+      <App />
     </StartupErrorBoundary>
   </React.StrictMode>,
 )

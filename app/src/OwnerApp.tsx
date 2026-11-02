@@ -4,6 +4,10 @@
  */
 import { useEffect, type ReactNode } from 'react'
 import { onReminderTap, scheduleAllReminders } from './native/schedule'
+import { publishWidgetSnapshot, widgetSnapshotFor } from './native/widgets'
+import { getSetting, SK } from './db/schema'
+import { APP_NAME } from './i18n'
+import { rangeText } from './screens/owner/estimateText'
 import { localToday } from './lib/dates'
 import { ArticleScreen } from './screens/ArticleScreen'
 import { Insights as ArticleLibrary } from './screens/Insights'
@@ -106,6 +110,38 @@ export function OwnerApp({ prefs, locked }: { prefs: Prefs; locked: boolean }) {
   }, [fingerprint])
 
   useEffect(() => onReminderTap(() => openLog(localToday())), [openLog])
+
+  // Keep the home-screen widget current (private unless she opted in).
+  const t = useT()
+  const widgetHeadline = data
+    ? data.state.periodDay
+      ? t('today.hero.periodDay', { n: data.state.periodDay })
+      : data.state.cycleDay && data.state.status === 'ok'
+        ? t('today.hero.day', { n: data.state.cycleDay })
+        : null
+    : null
+  const widgetDetail = data && data.state.status === 'ok' ? rangeText(data.state, t, true) : null
+  useEffect(() => {
+    if (!data) return
+    void getSetting(SK.pinHash).then((pin) =>
+      publishWidgetSnapshot(
+        widgetSnapshotFor({
+          showCycle: prefs.widgetShowsCycle,
+          locked: Boolean(pin),
+          appName: APP_NAME,
+          privateDetail: t('widget.private'),
+          headline: widgetHeadline,
+          detail: widgetDetail ? t('widget.next', { range: widgetDetail }) : null,
+          now: new Date(),
+          // Only a plain cycle day can be counted forward; period/pack days can't.
+          counting:
+            data.state.cycleDay && data.state.status === 'ok' && !data.state.periodDay
+              ? { template: t('today.hero.day', { n: '{n}' }), cycleDay: data.state.cycleDay, today: data.today }
+              : undefined,
+        }),
+      ).catch(() => undefined),
+    )
+  }, [Boolean(data), prefs.widgetShowsCycle, widgetHeadline, widgetDetail, t])
 
   // Back from a non-Today tab returns to Today before leaving the app.
   useEffect(() => {

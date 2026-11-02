@@ -54,7 +54,7 @@ export const ARTICLES: Article[] = [
     body: [
       'Pregnancy is possible on roughly six days per cycle: the five days before ovulation and the day of ovulation itself. Sperm survive several days; the egg does not.',
       'The hard part is knowing when ovulation happens. Calendar math gives an estimate; ovulation tests (which detect the LH surge about a day or two before release) and basal body temperature (which rises about half a degree after) sharpen it.',
-      'Meztli combines what you log: with test results and temperatures, the estimate anchors to your body instead of the calendar.',
+      'With fertility awareness turned on, Meztli uses the ovulation tests and temperatures you log alongside the calendar, and says so when it has too little to go on.',
       'Estimates are estimates. Do not use any app — this one included — as contraception. If avoiding pregnancy matters to you, use a method designed for it.',
     ],
   },
@@ -67,7 +67,7 @@ export const ARTICLES: Article[] = [
       'Basal body temperature is your temperature at complete rest. After ovulation it rises roughly 0.3–0.5 °C and stays up until the next period.',
       'The catch: the rise confirms ovulation after the fact. It cannot predict it. Its value is in mapping your pattern across cycles.',
       'For readable data, measure at the same time every morning, before getting up, after at least a few hours of sleep, with a two-decimal thermometer.',
-      'Log it in Meztli and the chart draws itself — look for the sustained shift, not any single reading. Alcohol, illness, and short sleep all nudge the numbers.',
+      'Log it in Meztli each morning; with fertility awareness on, it looks for a rise that holds over several days, not any single reading. Alcohol, illness, and short sleep all nudge the numbers.',
     ],
   },
   {
@@ -79,7 +79,7 @@ export const ARTICLES: Article[] = [
       'Perimenopause is the years-long runway to menopause, often starting in the mid-40s, sometimes earlier. Hormones do not decline smoothly — they oscillate, and symptoms follow.',
       'The classic early sign is cycle irregularity: a persistent difference of seven days or more between consecutive cycles is a common marker of the transition.',
       'Hot flashes, night sweats, sleep trouble, mood swings, and brain fog are frequent companions. They are real, physiological, and worth tracking — patterns you can show a clinician get taken more seriously than vibes.',
-      'Meztli’s perimenopause mode scores how often transition-associated symptoms appear in your logs and watches cycle variability for you.',
+      'Log the symptoms in Meztli: the doctor summary shows how often each one appeared and how much your cycle length varied, which is the picture a clinician needs.',
       'Effective treatments exist, from lifestyle changes to hormone therapy. A clinician who dismisses persistent symptoms is a clinician worth replacing.',
     ],
   },
@@ -104,8 +104,9 @@ export const ARTICLES: Article[] = [
     body: [
       'Period-app data has been shared with advertisers, handed to analytics firms, and subpoenaed in court. This is not hypothetical; it is documented history.',
       'Meztli’s default is architectural: your logs live in your phone’s app storage. Core tracking needs no account and no Meztli-hosted user database.',
-      'Optional backup sends an encrypted snapshot to a relay only after you enable it. The recovery code stays with you, so the relay stores an unreadable blob rather than plain health history.',
-      'AI is separately opt-in. A cloud provider receives only the prompt and tracker categories you explicitly select for that request; nothing is sent unless you select it for that message.',
+      'Backups are files you make yourself, from Privacy & data, optionally locked with a passphrase only you know. Nothing is copied to a server for you.',
+      'Partner sharing is off until you pair in person. Even then, only what you choose is sent, encrypted on your phone so the relay that carries it cannot read it, and you can pause or stop at any time.',
+      'There is no AI in Meztli, and nothing you log is sent to one.',
       'The code is open source under AGPL-3.0, so none of this requires trust. Read it, build it, verify it.',
     ],
   },

@@ -75,6 +75,13 @@ export function PrivacyScreen() {
             await setPrivacyScreen(next)
           }}
         />
+        <SwitchRow
+          title={t('privacy.widget')}
+          sub={hasPin ? t('privacy.widget.locked') : t('privacy.widget.sub')}
+          checked={Boolean(prefs?.widgetShowsCycle) && !hasPin}
+          disabled={Boolean(hasPin)}
+          onChange={(next) => void updatePrefs({ widgetShowsCycle: next })}
+        />
         <div className="mz-list-row" style={{ cursor: 'default' }}>
           <span className="mz-list-row__text">
             <span className="mz-list-row__title">{t('privacy.neutralNotify')}</span>

@@ -51,7 +51,7 @@ function Frame({
   const t = useT()
   return (
     <div className="mz-app">
-      <div className="mz-main">
+      <main className="mz-main">
         <div className="mz-page mz-page--flush-bottom" style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
           <header className="mz-appbar mz-appbar--back">
             {onBack ? (
@@ -62,7 +62,15 @@ function Frame({
               <span style={{ width: 48 }} />
             )}
             {step > 0 && (
-              <div className="mz-meter" style={{ width: 120 }} aria-label={t('ob.progress', { n: step, total: 6 })}>
+              <div
+                className="mz-meter"
+                style={{ width: 120 }}
+                role="progressbar"
+                aria-valuemin={1}
+                aria-valuemax={6}
+                aria-valuenow={step}
+                aria-label={t('ob.progress', { n: step, total: 6 })}
+              >
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <span key={i} className={`mz-meter__seg${i <= step ? ' is-on' : ''}`} style={{ animation: 'none' }} />
                 ))}
@@ -77,7 +85,7 @@ function Frame({
           <div className="mz-section mz-grow">{children}</div>
           <div className="mz-section">{action}</div>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

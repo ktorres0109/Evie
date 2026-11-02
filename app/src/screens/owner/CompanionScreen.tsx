@@ -33,7 +33,7 @@ export function CompanionScreen({ data }: { data: CycleData }) {
   const cycles = data.state.used.length + data.state.excluded.length
 
   return (
-    <Screen title={c.resting ? undefined : t('companion.title')} onBack={pop}>
+    <Screen title={c.resting ? undefined : t('companion.title')} label={t('companion.title')} onBack={pop}>
       <section className="mz-section mz-stack" style={{ alignItems: 'center', textAlign: 'center', gap: 14, padding: '8px 0 12px' }}>
         <Plant stage={c.stage} resting={c.resting} large />
         {c.resting ? (

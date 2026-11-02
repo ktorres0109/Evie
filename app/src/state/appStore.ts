@@ -14,8 +14,6 @@ interface AppState {
   closeSheet: () => void
   calendarOpen: boolean
   setCalendarOpen: (open: boolean) => void
-  assistantOpen: boolean
-  setAssistantOpen: (open: boolean) => void
   reportOpen: boolean
   setReportOpen: (open: boolean) => void
   cycleReportOpen: boolean
@@ -43,8 +41,6 @@ export const useApp = create<AppState>((set) => ({
   closeSheet: () => set({ sheetDate: null, sheetFocus: null }),
   calendarOpen: false,
   setCalendarOpen: (calendarOpen) => set({ calendarOpen }),
-  assistantOpen: false,
-  setAssistantOpen: (assistantOpen) => set({ assistantOpen }),
   reportOpen: false,
   setReportOpen: (reportOpen) => set({ reportOpen }),
   cycleReportOpen: false,

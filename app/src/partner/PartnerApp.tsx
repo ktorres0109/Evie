@@ -132,7 +132,7 @@ function PartnerJoin({ viewer, initialCode, initialRelay }: { viewer: ViewerStat
       <div className="mz-page mz-page--flush-bottom">
         <BrandBar />
         <section className="mz-section mz-stack" style={{ gap: 14 }}>
-          <div className="mz-title-lg">{t('pjoin.check.title')}</div>
+          <h1 className="mz-title-lg">{t('pjoin.check.title')}</h1>
           <p className="mz-body mz-muted">{t('pjoin.check.body', { name: viewer.ownerName })}</p>
           <div className="mz-card" style={{ textAlign: 'center' }}>
             <div className="mz-title-lg" style={{ letterSpacing: '0.02em' }}>{viewer.words.join(' · ')}</div>
@@ -174,7 +174,7 @@ function PartnerJoin({ viewer, initialCode, initialRelay }: { viewer: ViewerStat
             {t('pjoin.revoked.body')}
           </Banner>
         )}
-        <div className="mz-title-lg">{t('pjoin.title')}</div>
+        <h1 className="mz-title-lg">{t('pjoin.title')}</h1>
         <p className="mz-body mz-muted">{t('pjoin.body')}</p>
         <label className="mz-field">
           <span className="mz-field__label">{t('pjoin.yourName')}</span>

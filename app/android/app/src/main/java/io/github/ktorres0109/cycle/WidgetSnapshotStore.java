@@ -2,6 +2,11 @@ package io.github.ktorres0109.cycle;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 import org.json.JSONObject;
 
 final class WidgetSnapshotStore {
@@ -27,10 +32,47 @@ final class WidgetSnapshotStore {
             String headline = object.optString("headline", "").trim();
             String detail = object.optString("detail", "").trim();
             if (headline.isEmpty()) return Snapshot.empty();
-            return new Snapshot(headline, detail);
+            // The day count moves on even when the app isn't opened.
+            String counted = countedHeadline(
+                object.optString("headlineTemplate", ""),
+                object.optInt("cycleDay", 0),
+                object.optString("anchorDate", ""),
+                today()
+            );
+            return new Snapshot(counted != null ? counted : headline, detail);
         } catch (Exception ignored) {
             return Snapshot.empty();
         }
+    }
+
+    /** Days the template may be carried forward before the app must refresh it. */
+    static final int MAX_CARRY_DAYS = 45;
+
+    /**
+     * "Day {n}" advanced from the day it was written to `today` (both
+     * yyyy-MM-dd, local). Null when there is nothing to count or it's too old.
+     */
+    static String countedHeadline(String template, int cycleDay, String anchorDate, String today) {
+        if (template == null || !template.contains("{n}") || cycleDay < 1) return null;
+        long days = daysBetween(anchorDate, today);
+        if (days < 0 || days > MAX_CARRY_DAYS) return null;
+        return template.replace("{n}", String.valueOf(cycleDay + days));
+    }
+
+    static long daysBetween(String from, String to) {
+        try {
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            f.setTimeZone(TimeZone.getTimeZone("UTC"));
+            f.setLenient(false);
+            return Math.round((f.parse(to).getTime() - f.parse(from).getTime()) / 86400000.0);
+        } catch (ParseException | NullPointerException e) {
+            return -1;
+        }
+    }
+
+    private static String today() {
+        Calendar c = Calendar.getInstance();
+        return String.format(Locale.US, "%04d-%02d-%02d", c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
     }
 
     private static SharedPreferences preferences(Context context) {

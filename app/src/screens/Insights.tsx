@@ -1,5 +1,4 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { FEATURES } from '../config/features'
 import { useState } from 'react'
 import { ARTICLES } from '../content/articles'
 import { db, getSetting, SK, type Goal } from '../db/schema'
@@ -22,7 +21,7 @@ const CATEGORY_TONE: Record<string, string> = {
 }
 
 export function Insights() {
-  const { setArticleSlug, setAssistantOpen } = useApp()
+  const { setArticleSlug } = useApp()
   const [query, setQuery] = useState('')
   const data = useLiveQuery(async () => {
     const [goal, bookmarks] = await Promise.all([
@@ -54,27 +53,6 @@ export function Insights() {
         <p>Calm explanations for the questions that rarely fit into a search bar.</p>
       </header>
 
-      {FEATURES.assistant && (
-      <button className="assistant-feature" onClick={() => setAssistantOpen(true)}>
-        <span className="assistant-constellation" aria-hidden="true">
-          <i className="constellation-orbit orbit-a" />
-          <i className="constellation-orbit orbit-b" />
-          <i className="constellation-seed seed-a" />
-          <i className="constellation-seed seed-b" />
-          <i className="constellation-seed seed-c" />
-        </span>
-        <span className="assistant-feature-copy">
-          <span className="assistant-feature-kicker">Meztli AI</span>
-          <strong>Bring the question you keep circling</strong>
-          <small>Your key, your conversation, your choice</small>
-        </span>
-        <span className="assistant-feature-arrow" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M5 12h13M13 7l5 5-5 5" />
-          </svg>
-        </span>
-      </button>
-      )}
 
       <div className="insights-search">
         <svg viewBox="0 0 24 24" aria-hidden="true">
