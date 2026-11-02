@@ -6,7 +6,7 @@
  */
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useState } from 'react'
-import { db, putHealthProfile, type ContraceptionMethod } from '../../db/schema'
+import { db, putHealthProfile, removeSetting, type ContraceptionMethod } from '../../db/schema'
 import { activeRegimenOn, regimenId, type MethodConfig, type RegimenRecord, type TrackableMethod } from '../../db/regimen'
 import { addDays, daysBetween } from '../../engine/cycle'
 import { isHormonalMethod, withdrawalBleedFor } from '../../engine/estimate'
@@ -64,6 +64,9 @@ const CHOICE_METHOD: Record<MethodChoice, TrackableMethod> = {
   'partner-vasectomy': 'partner-vasectomy',
   other: 'other',
 }
+
+/** Set during onboarding when the method still needs its details. */
+export const SK_METHOD_PENDING = 'method.setupPending'
 
 export function choiceOf(record: RegimenRecord): MethodChoice {
   const c = record.config
@@ -153,6 +156,14 @@ export function MethodScreen({ data }: { data: CycleData }) {
           <div className="mz-title-lg">{regimenLabel(active, t)}</div>
           <p className="mz-body-sm mz-muted">{t('method.since', { date: dayMonth(active.startDate, t.locale) })}</p>
           {nextAction(active, data.today, t) && <p className="mz-body">{nextAction(active, data.today, t)}</p>}
+          {!active.config && (
+            <div className="mz-card mz-card--sm mz-card--raised mz-stack" style={{ gap: 8 }}>
+              <p className="mz-body-sm">{t('method.finish.body')}</p>
+              <button type="button" className="mz-btn mz-btn--primary mz-btn--block" onClick={() => setEditing('pick')}>
+                {t('method.finish.go')}
+              </button>
+            </div>
+          )}
           <p className="mz-body-sm mz-muted">
             {isHormonalMethod(effectiveMethod(active)) ? t('method.effect.hormonal') : t('method.effect.none')}
           </p>
@@ -352,8 +363,10 @@ function MethodSetup({
         return
       }
       // Switching: close whatever was active the day before the new one starts.
-      const current = activeRegimenOn(await db.regimenRecords.toArray(), start)
-      if (current) await db.regimenRecords.put({ ...current, endDate: addDays(start, -1), updatedAt: now })
+      // A placeholder from onboarding (no details yet) is replaced, not kept.
+      const current = activeRegimenOn(await db.regimenRecords.toArray(), start) ?? activeRegimenOn(await db.regimenRecords.toArray(), today)
+      if (current && !current.config) await db.regimenRecords.delete(current.id)
+      else if (current) await db.regimenRecords.put({ ...current, endDate: addDays(start, -1), updatedAt: now })
       await db.regimenRecords.put({
         id: regimenId(method, start) + (choice === 'patch' || choice === 'ring' ? `:${choice}` : ''),
         method,
@@ -365,6 +378,7 @@ function MethodSetup({
       })
     })
     await putHealthProfile({ reproductive: { contraception: method } })
+    await removeSetting(SK_METHOD_PENDING)
     void scheduleAllReminders()
     onDone()
   }

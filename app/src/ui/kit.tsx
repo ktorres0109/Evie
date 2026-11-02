@@ -277,21 +277,43 @@ export function Segment<T extends string>({
   onChange: (next: T) => void
   label: string
 }) {
+  const focusIndex = Math.max(0, options.findIndex((o) => o.id === value))
+  // Radio-group keyboard pattern: one tab stop, arrows move and select.
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const step = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0
+    if (!step) return
+    e.preventDefault()
+    const buttons = [...e.currentTarget.querySelectorAll<HTMLButtonElement>('[role=radio]')]
+    const from = buttons.indexOf(document.activeElement as HTMLButtonElement)
+    const next = (Math.max(from, 0) + step + options.length) % options.length
+    buttons[next]?.focus()
+    onChange(options[next].id)
+  }
   return (
-    <div className="mz-segment" role="radiogroup" aria-label={label}>
-      {options.map((option) => (
-        <button
-          key={option.id}
-          type="button"
-          role="radio"
-          aria-checked={value === option.id}
-          aria-label={option.long ?? option.label}
-          className="mz-segment__opt"
-          onClick={() => onChange(option.id)}
-        >
-          {option.label}
-        </button>
-      ))}
+    <div className="mz-segment-wrap">
+      <div
+        className="mz-segment"
+        role="radiogroup"
+        aria-label={label}
+        data-many={options.length >= 5 ? '' : undefined}
+        style={{ ['--n' as string]: options.length }}
+        onKeyDown={onKeyDown}
+      >
+        {options.map((option, i) => (
+          <button
+            key={option.id}
+            type="button"
+            role="radio"
+            aria-checked={value === option.id}
+            aria-label={option.long ?? option.label}
+            tabIndex={i === focusIndex ? 0 : -1}
+            className="mz-segment__opt"
+            onClick={() => onChange(option.id)}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }

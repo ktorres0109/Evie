@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { applyImport, collectExport, decryptImport, encryptedExport, shareOrDownload } from '../../db/transfer'
 import { db, getSetting, SK } from '../../db/schema'
 import { recordTransfer } from '../../db/ledger'
+import { relativeAgo } from '../../i18n/dates'
 import { useT, type MessageKey } from '../../i18n'
 import { dayMonth } from '../../i18n/dates'
 import { localToday } from '../../lib/dates'
@@ -29,6 +30,7 @@ export function PrivacyScreen() {
   const [exporting, setExporting] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [restoring, setRestoring] = useState(false)
+  const lastExport = transfers?.find((x) => x.kind === 'export-file')?.at
 
   const nothingLeft = (transfers?.length ?? 0) === 0
   const byKind = new Map<string, { count: number; last: string; destination: string }>()
@@ -102,7 +104,12 @@ export function PrivacyScreen() {
 
       <SectionTitle>{t('privacy.yourData')}</SectionTitle>
       <div className="mz-section mz-list">
-        <ListRow icon="export" title={t('privacy.export')} sub={t('privacy.export.sub')} onClick={() => setExporting(true)} />
+        <ListRow
+          icon="export"
+          title={t('privacy.export')}
+          sub={lastExport ? t('privacy.export.last', { when: relativeAgo(lastExport, Date.now(), t.locale) }) : t('privacy.export.sub')}
+          onClick={() => setExporting(true)}
+        />
         <ListRow icon="download-simple" title={t('privacy.restore')} sub={t('privacy.restore.sub')} onClick={() => setRestoring(true)} />
         <div className="mz-list-row" style={{ cursor: 'default' }}>
           <Icon name="cloud-slash" size={22} className="mz-list-row__icon" />
@@ -268,7 +275,7 @@ function RestoreSheet({ onClose }: { onClose: () => void }) {
   )
 }
 
-function DeleteSheet({ onClose }: { onClose: () => void }) {
+export function DeleteSheet({ onClose, intro }: { onClose: () => void; intro?: string }) {
   const t = useT()
   const [text, setText] = useState('')
   const word = t('privacy.delete.word')
@@ -304,6 +311,7 @@ function DeleteSheet({ onClose }: { onClose: () => void }) {
       }
     >
       <div className="mz-stack" style={{ gap: 14 }}>
+        {intro && <p className="mz-body">{intro}</p>}
         <p className="mz-body">{t('privacy.delete.body')}</p>
         <label className="mz-field">
           <span className="mz-field__label">{t('privacy.delete.type', { word })}</span>

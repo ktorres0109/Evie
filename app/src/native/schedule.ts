@@ -8,7 +8,7 @@
  * whole, capped below iOS's 64 pending-notification limit.
  */
 import { LocalNotifications, type LocalNotificationSchema } from '@capacitor/local-notifications'
-import { db, getHealthProfile } from '../db/schema'
+import { dailyLogHasEntry, db, getHealthProfile } from '../db/schema'
 import { activeRegimenOn, type RegimenRecord } from '../db/regimen'
 import { addDays, daysBetween } from '../engine/cycle'
 import { computeCycleState } from '../engine/estimate'
@@ -79,6 +79,8 @@ export function planReminders(args: {
   today: string
   regimen: RegimenRecord | undefined
   windowStart: string | null
+  /** Today already has an entry, so today's check-in nudge would only nag. */
+  loggedToday?: boolean
 }): PlannedReminder[] {
   const { prefs, today } = args
   if (prefs.notificationTone === 'off') return []
@@ -87,7 +89,7 @@ export function planReminders(args: {
     for (const date of methodReminderDates(args.regimen, today)) out.push({ date, time: prefs.methodReminderTime, kind: 'method' })
   }
   if (prefs.checkInReminderTime && prefs.notificationTone !== 'minimal') {
-    for (let i = 0; i < 14; i++) out.push({ date: addDays(today, i), time: prefs.checkInReminderTime, kind: 'check-in' })
+    for (let i = args.loggedToday ? 1 : 0; i < 14; i++) out.push({ date: addDays(today, i), time: prefs.checkInReminderTime, kind: 'check-in' })
   }
   if (prefs.windowReminder && args.windowStart && args.windowStart >= today) {
     out.push({ date: args.windowStart, time: '09:00', kind: 'window' })
@@ -117,6 +119,7 @@ export async function scheduleAllReminders(): Promise<number> {
     today,
     regimen: activeRegimenOn(regimens, today),
     windowStart: state.status === 'ok' ? (state.window?.start ?? null) : null,
+    loggedToday: logs.some((l) => l.date === today && dailyLogHasEntry(l)),
   })
 
   const pending = await LocalNotifications.getPending().catch(() => ({ notifications: [] }))
@@ -151,6 +154,18 @@ export async function scheduleAllReminders(): Promise<number> {
     }))
   if (notifications.length) await LocalNotifications.schedule({ notifications })
   return notifications.length
+}
+
+/**
+ * Tapping a check-in reminder opens the log for today; anything else opens the
+ * app as usual. Returns a cleanup function.
+ */
+export function onReminderTap(openLog: () => void): () => void {
+  if (!isNative) return () => undefined
+  const handle = LocalNotifications.addListener('localNotificationActionPerformed', (event) => {
+    if (event.notification.extra?.route === 'log') openLog()
+  })
+  return () => void handle.then((h) => h.remove())
 }
 
 export async function requestReminderPermission(): Promise<boolean> {

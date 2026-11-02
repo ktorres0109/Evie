@@ -10,11 +10,17 @@ import { useNav } from '../../state/nav'
 import type { CycleData } from '../../state/useCycle'
 import { Plant, Screen } from '../../ui/kit'
 import { dailyLogHasEntry } from '../../db/schema'
+import { useEffect } from 'react'
+import { readPrefs, updatePrefs } from '../../state/prefs'
 
 export function CompanionScreen({ data }: { data: CycleData }) {
   const t = useT()
   const { pop, openLog, setTab } = useNav()
   const c = data.companion
+  // Seeing the plant here is what "notices" a new stage on Today.
+  useEffect(() => {
+    void readPrefs().then((p) => (c.stage > p.plantStageSeen ? updatePrefs({ plantStageSeen: c.stage }) : undefined))
+  }, [c.stage])
   const weeks = 10
   // Ten weeks of activity as blocks: full (4+ check-ins), part (1–3), empty.
   const blocks = Array.from({ length: weeks }, (_, i) => {

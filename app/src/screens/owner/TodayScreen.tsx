@@ -4,13 +4,14 @@
  * (or a calm empty state), companion. State variants: bleeding, late,
  * withheld (method / pregnancy / postpartum …), no history, stale.
  */
+import { useLiveQuery } from 'dexie-react-hooks'
 import { useMemo } from 'react'
 import { analyzePatterns, type PatternInsight } from '../../engine/patterns'
 import { phaseAnalysisInput } from '../../engine/estimate'
 import { resolvePregnancyDating, pregnancyTimeline } from '../../engine/pregnancyDating'
 import { useT, type MessageKey, type Translator } from '../../i18n'
 import { betweenDates, dateRange } from '../../i18n/dates'
-import { dailyLogHasEntry } from '../../db/schema'
+import { dailyLogHasEntry, getSetting, removeSetting } from '../../db/schema'
 import { activeRegimenOn } from '../../db/regimen'
 import { daysBetween } from '../../engine/cycle'
 import { useNav, type QuickKind } from '../../state/nav'
@@ -20,6 +21,7 @@ import { Icon, type IconName } from '../../ui/icons'
 import { BrandBar, ConfidenceMeter, FertilityChip, Plant } from '../../ui/kit'
 import { confidenceLine, countdownText, phaseText, rangeText, withheldBody, withheldTitle } from './estimateText'
 import { isSymptom, signalLabel } from './labels'
+import { SK_METHOD_PENDING } from './MethodScreen'
 
 const QUICK: { kind: QuickKind; icon: IconName; label: MessageKey }[] = [
   { kind: 'flow', icon: 'drop', label: 'log.flow' },
@@ -91,6 +93,7 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
   const { push, openQuick, openLog } = useNav()
   const s = data.state
   const insight = useMemo(() => pickInsight(data, t), [data, t.locale])
+  const methodPending = useLiveQuery(async () => (await getSetting(SK_METHOD_PENDING)) === '1', [])
 
   const pregnancy =
     s.withheld?.code === 'pregnancy'
@@ -127,7 +130,7 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
     // Cycle days mean nothing on a hormonal method, pregnancy or postpartum.
     const pack = s.withdrawalBleed ? packDay(data) : null
     heroMain = pack ? t('today.hero.packDay', { n: pack.day }) : t('today.hero.today')
-    heroAside = pack ? t('today.hero.ofAbout', { n: pack.total }) : null
+    heroAside = pack ? t('today.hero.ofPack', { n: pack.total }) : null
   } else if (s.cycleDay !== null) {
     heroMain = t('today.hero.day', { n: s.cycleDay })
     heroAside = s.typicalLength && s.status !== 'withheld' ? t('today.hero.ofAbout', { n: s.typicalLength }) : null
@@ -153,7 +156,8 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
         }
       />
 
-      <section className="mz-hero" aria-label={heroAria}>
+      <section className="mz-hero">
+        <h1 className="mz-sr-only">{heroAria}</h1>
         <div className="mz-row" style={{ alignItems: 'flex-end', gap: 14, marginBottom: 6, flexWrap: 'wrap' }} aria-hidden="true">
           <div className={s.status === 'no-history' || s.status === 'stale' ? 'mz-display-md' : 'mz-display'} style={heroBerry ? { color: 'var(--berry-hi)' } : undefined}>
             {heroMain}
@@ -198,6 +202,22 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
         </div>
       </section>
 
+      {/* ---------- Birth control details still missing (from onboarding) ---------- */}
+      {methodPending && !activeRegimenOn(data.regimens, data.today)?.config && (
+        <section className="mz-section mz-card mz-stack" style={{ gap: 10 }}>
+          <div className="mz-title">{t('today.methodSetup.title')}</div>
+          <p className="mz-body-sm mz-muted">{t('today.methodSetup.body')}</p>
+          <div className="mz-row">
+            <button type="button" className="mz-btn mz-btn--ghost mz-grow" onClick={() => void removeSetting(SK_METHOD_PENDING)}>
+              {t('common.notNow')}
+            </button>
+            <button type="button" className="mz-btn mz-btn--primary mz-grow" onClick={() => push({ name: 'method' })}>
+              {t('today.methodSetup.go')}
+            </button>
+          </div>
+        </section>
+      )}
+
       {/* ---------- Fertility (only in fertility-awareness mode) ---------- */}
       {prefs.fertilityMode && (
         <section className="mz-section">
@@ -237,6 +257,9 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
                 : t.n('companion.thisCycle', data.companion.checkInsThisCycle)}
             </span>
             <span className="mz-body-sm mz-muted" style={{ display: 'block' }}>
+              {data.companion.stage > prefs.plantStageSeen && !data.companion.resting ? (
+                <span style={{ color: 'var(--care)' }}>{t('companion.grew')} </span>
+              ) : null}
               {t(`companion.stageLine.${data.companion.stage}` as MessageKey)}
             </span>
           </span>

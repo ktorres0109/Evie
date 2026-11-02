@@ -20,6 +20,10 @@ if ('serviceWorker' in navigator) {
 
 document.documentElement.lang = useLocale.getState().locale
 
+// Her history lives only on this phone. Ask the system not to evict it under
+// storage pressure; a refusal changes nothing, so the result is ignored.
+void navigator.storage?.persist?.().catch(() => undefined)
+
 void initializeNativeRuntime()
 
 const onboardingPreview =

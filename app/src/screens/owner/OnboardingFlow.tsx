@@ -14,6 +14,7 @@
 import { useState } from 'react'
 import { hashPin, newSalt } from '../../crypto/vault'
 import { db, normalizeHealthProfile, putHealthProfile, setSetting, SK } from '../../db/schema'
+import { SK_METHOD_PENDING } from './MethodScreen'
 import { regimenId } from '../../db/regimen'
 import { addDays } from '../../engine/cycle'
 import { useLocale, useT, type LocalePreference, type MessageKey } from '../../i18n'
@@ -162,6 +163,9 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
       await setSetting(SK.pinSalt, salt)
       await setSetting(SK.pinHash, await hashPin(pin, salt))
     }
+    // Pack type, dates and device details are asked later, from Today, so
+    // onboarding stays short; until then reminders and pack day can't work.
+    if (method === 'pill' || method === 'patch-ring' || method === 'iud-implant-shot') await setSetting(SK_METHOD_PENDING, '1')
     await setSetting('onboarding.purposes', JSON.stringify(purposes))
     await setSetting(SK.onboarded, '1')
     onDone()

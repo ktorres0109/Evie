@@ -3,6 +3,8 @@
  * screens, the full log sheet and the quick one-category sheets.
  */
 import { useEffect, type ReactNode } from 'react'
+import { onReminderTap, scheduleAllReminders } from './native/schedule'
+import { localToday } from './lib/dates'
 import { ArticleScreen } from './screens/ArticleScreen'
 import { Insights as ArticleLibrary } from './screens/Insights'
 import { CalendarTab } from './screens/owner/CalendarTab'
@@ -93,6 +95,17 @@ export function OwnerApp({ prefs, locked }: { prefs: Prefs; locked: boolean }) {
   const articleSlug = useApp((s) => s.articleSlug)
   const setArticleSlug = useApp((s) => s.setArticleSlug)
   usePartnerAutoUpload(data)
+
+  // Reminders depend on her data (estimated window, today's check-in, method),
+  // so re-plan them a moment after anything changes.
+  const fingerprint = data ? `${data.today}|${data.logs.length}|${data.state.window?.start}|${data.regimens.map((r) => r.updatedAt).join()}` : ''
+  useEffect(() => {
+    if (!fingerprint) return
+    const id = window.setTimeout(() => void scheduleAllReminders().catch(() => undefined), 3000)
+    return () => window.clearTimeout(id)
+  }, [fingerprint])
+
+  useEffect(() => onReminderTap(() => openLog(localToday())), [openLog])
 
   // Back from a non-Today tab returns to Today before leaving the app.
   useEffect(() => {
