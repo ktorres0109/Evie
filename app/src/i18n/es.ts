@@ -803,7 +803,7 @@ export const es: Record<MessageKey, string> = {
   'preg.due': 'Fecha probable de parto: {date}',
   'preg.provisional': 'provisional',
   'preg.paused': 'Las estimaciones de ciclo y fertilidad están en pausa.',
-  'preg.weekByWeek': 'Semana a semana',
+  'preg.weekByWeek': 'Semana a semana (en inglés)',
   'preg.updateDating': 'Actualizar la fecha',
   'preg.ended': 'El embarazo terminó',
   'preg.notTitle': 'Modo embarazo desactivado',

@@ -88,7 +88,7 @@ export function PregnancyDetailScreen({ dating, lmp, onBack }: PregnancyDetailSc
 
   if (!current) {
     return (
-      <div className="health-overlay">
+      <div lang="en" className="health-overlay">
         <header className="health-topbar">
           <button className="health-icon-button" onClick={onBack} aria-label="Close">
             ‹
@@ -112,7 +112,7 @@ export function PregnancyDetailScreen({ dating, lmp, onBack }: PregnancyDetailSc
   }
 
   return (
-    <div className="health-overlay">
+    <div lang="en" className="health-overlay">
       <header className="health-topbar">
         <button className="health-icon-button" onClick={onBack} aria-label="Close pregnancy guide">
           ‹
