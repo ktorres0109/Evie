@@ -807,3 +807,7 @@ button, a { font: inherit; color: inherit; }
 .mz-lock__key:disabled { opacity: 0.4; }
 @keyframes mz-shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
 @media (prefers-reduced-motion: reduce) { .mz-lock__dots.is-wrong { animation: none; } }
+
+.mz-spin { animation: mz-spin 900ms linear infinite; color: var(--primary-hi); }
+@keyframes mz-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .mz-spin { animation: none; } }

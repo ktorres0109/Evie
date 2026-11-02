@@ -2,15 +2,14 @@
  * The owner app: four tabs and the raised Log button, a stack of pushed
  * screens, the full log sheet and the quick one-category sheets.
  */
-import { useEffect, type ReactNode } from 'react'
+import { useEffect } from 'react'
 import { onReminderTap, scheduleAllReminders } from './native/schedule'
 import { publishWidgetSnapshot, widgetSnapshotFor } from './native/widgets'
 import { getSetting, SK } from './db/schema'
 import { APP_NAME } from './i18n'
 import { rangeText } from './screens/owner/estimateText'
 import { localToday } from './lib/dates'
-import { ArticleScreen } from './screens/ArticleScreen'
-import { Insights as ArticleLibrary } from './screens/Insights'
+import { ArticleReader, ArticlesScreen } from './screens/owner/ArticlesScreens'
 import { CalendarTab } from './screens/owner/CalendarTab'
 import { FertilityScreen, FertilitySetupScreen } from './screens/owner/FertilityScreens'
 import { InsightsTab } from './screens/owner/InsightsTab'
@@ -29,22 +28,13 @@ import { AboutScreen, AppearanceScreen, LockScreen, NotificationsScreen } from '
 import { PartnerOwnerScreen, PartnerPairScreen } from './partner/OwnerScreens'
 import { useT } from './i18n'
 import { setBackFallback } from './lib/back'
-import { useApp } from './state/appStore'
 import { useNav, type Route } from './state/nav'
 import type { Prefs } from './state/prefs'
 import { useCycleData, type CycleData } from './state/useCycle'
 import { NavBar } from './ui/NavBar'
-import { Screen, useBackButton } from './ui/kit'
 import { usePartnerAutoUpload } from './partner/sync'
 
-function LegacyOverlay({ children, onBack }: { children: ReactNode; onBack: () => void }) {
-  useBackButton(onBack)
-  return <>{children}</>
-}
-
 function RouteView({ route, data, prefs, locked }: { route: Route; data: CycleData; prefs: Prefs; locked: boolean }) {
-  const t = useT()
-  const { pop } = useNav()
   switch (route.name) {
     case 'why':
       return <WhyScreen data={data} />
@@ -79,25 +69,15 @@ function RouteView({ route, data, prefs, locked }: { route: Route; data: CycleDa
     case 'doctor-report':
       return <DoctorReportScreen data={data} />
     case 'articles':
-      return (
-        <Screen title={t('you.articles')} onBack={pop}>
-          <ArticleLibrary />
-        </Screen>
-      )
+      return <ArticlesScreen />
     case 'article':
-      return (
-        <LegacyOverlay onBack={pop}>
-          <ArticleScreen slug={route.slug} onClose={pop} />
-        </LegacyOverlay>
-      )
+      return <ArticleReader slug={route.slug} />
   }
 }
 
 export function OwnerApp({ prefs, locked }: { prefs: Prefs; locked: boolean }) {
   const data = useCycleData()
   const { tab, stack, setTab, logDate, closeLog, openLog, quick, closeQuick } = useNav()
-  const articleSlug = useApp((s) => s.articleSlug)
-  const setArticleSlug = useApp((s) => s.setArticleSlug)
   usePartnerAutoUpload(data)
 
   // Reminders depend on her data (estimated window, today's check-in, method),
@@ -148,13 +128,6 @@ export function OwnerApp({ prefs, locked }: { prefs: Prefs; locked: boolean }) {
     if (tab === 'today') return
     return useBackButtonFallback(() => setTab('today'))
   }, [tab, setTab])
-
-  // The upstream article library opens articles through the old store.
-  useEffect(() => {
-    if (!articleSlug) return
-    useNav.getState().push({ name: 'article', slug: articleSlug })
-    setArticleSlug(null)
-  }, [articleSlug, setArticleSlug])
 
   if (!data) return <div className="mz-app" role="status" aria-busy="true" />
 

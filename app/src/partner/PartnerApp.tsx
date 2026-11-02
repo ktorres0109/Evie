@@ -227,6 +227,7 @@ export function PartnerApp() {
   const preference = useLocale((s) => s.preference)
   const setPreference = useLocale((s) => s.setPreference)
   const [confirmLeave, setConfirmLeave] = useState(false)
+  const [refresh, setRefresh] = useState<'idle' | 'busy' | 'updated' | 'unchanged' | 'revoked' | 'error'>('idle')
 
   useEffect(() => {
     if (!String(tab).startsWith('p-')) setTab('p-today')
@@ -348,11 +349,23 @@ export function PartnerApp() {
                   <option value="es">Español</option>
                 </select>
               </label>
-              <button type="button" className="mz-list-row" onClick={() => void fetchSnapshot()}>
+              <button
+                type="button"
+                className="mz-list-row"
+                aria-busy={refresh === 'busy'}
+                disabled={refresh === 'busy'}
+                onClick={async () => {
+                  setRefresh('busy')
+                  setRefresh(await fetchSnapshot())
+                }}
+              >
                 <span className="mz-list-row__text">
                   <span className="mz-list-row__title">{t('pyou.refresh')}</span>
+                  <span className="mz-list-row__sub" role="status" aria-live="polite">
+                    {refresh === 'idle' ? '' : t(`pyou.refresh.${refresh}` as MessageKey)}
+                  </span>
                 </span>
-                <Icon name="arrows-clockwise" size={20} className="mz-faint" />
+                <Icon name="arrows-clockwise" size={20} className={refresh === 'busy' ? 'mz-spin' : 'mz-faint'} />
               </button>
             </div>
             <div className="mz-section">
