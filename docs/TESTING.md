@@ -65,6 +65,11 @@ She can **pause** or **stop sharing** at any time from the same screen. Stopping
 | Privacy | Set a PIN; check the app is hidden in the recent-apps screen |
 | Partner | Do you see only what she chose? Pause, then resume |
 | Look | Night Bloom vs Day Bloom; anything cut off, overlapping, too small |
+| Big text | Phone Settings → Display → Font size at max: anything overlapping or cut off? |
+| Widget | Add the Meztli widget; it should say only "Meztli" until Privacy → "Show your cycle on the widget" is on |
+| Lock | Wrong PIN 5 times: a wait appears and survives closing the app. "Forgot your PIN?" offers erase only |
+| Birth control | If she picked pill/patch/IUD in setup, Today asks to finish it; after that, pack day shows |
+| Reminders | A check-in reminder shouldn't come on a day she already logged; tapping it opens the log |
 
 For each problem: **what she tapped, what she expected, what happened**, plus a screenshot.
 
