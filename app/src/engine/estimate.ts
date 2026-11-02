@@ -172,6 +172,8 @@ export const ESTIMATE_RULES = {
   outlierMinDays: 8,
   outlierMadMultiplier: 3,
   minSpread: 2,
+  /** Width of the window in standard deviations (see calibration.test.ts). */
+  intervalZ: 1.5,
   maxSpread: 14,
   /** At or above this spread, ranges are spoken in weeks. */
   weeksThreshold: 7,
@@ -618,7 +620,17 @@ export function computeCycleState(inputs: CycleInputs): CycleState {
 
   let spreadDays: number | null = null
   if (medianLength !== null && mad !== null) {
-    const base = Math.ceil(1.4826 * mad + 1)
+    // A prediction interval for the next cycle, not a description of past ones.
+    // MAD alone collapses with few cycles (28, 28, 30 → 0), so use the larger of
+    // the robust and the plain spread; outliers were already left out above.
+    // √(1 + 1/n) adds the uncertainty of the median itself. Z is set by the
+    // calibration test (engine/calibration.test.ts) to hold the next start in
+    // the window about 85% of the time.
+    const lengths = used.map((c) => c.length)
+    const mean = lengths.reduce((a, b) => a + b, 0) / lengths.length
+    const sd = Math.sqrt(lengths.reduce((a, b) => a + (b - mean) ** 2, 0) / Math.max(lengths.length - 1, 1))
+    const sigma = Math.max(1.4826 * mad, sd)
+    const base = Math.ceil(ESTIMATE_RULES.intervalZ * sigma * Math.sqrt(1 + 1 / lengths.length))
     const fewBonus = used.length === 2 ? 2 : used.length === 3 ? 1 : 0
     spreadDays = Math.min(
       ESTIMATE_RULES.maxSpread,

@@ -645,6 +645,7 @@ button, a { font: inherit; color: inherit; }
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 4px;
 }
+.mz-cal__row { display: contents; }
 .mz-cal__dow { margin-bottom: var(--space-2); }
 .mz-cal__dow span { text-align: center; font-size: 12px; color: var(--text-3); }
 .mz-cal__month { animation: mz-fade-in 180ms var(--ease) both; }

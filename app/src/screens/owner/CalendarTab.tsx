@@ -45,6 +45,9 @@ export function CalendarTab({ data, prefs }: { data: CycleData; prefs: Prefs }) 
   const [month, setMonth] = useState(monthKey(data.today))
   const [selected, setSelected] = useState<string | null>(null)
   const cells = useMemo(() => monthGrid(month), [month])
+  const weeks = useMemo(() => Array.from({ length: cells.length / 7 }, (_, w) => cells.slice(w * 7, w * 7 + 7)), [cells])
+  // One tab stop for the month: today when it's shown, else the 1st.
+  const focusDate = cells.includes(data.today) && monthKey(data.today) === month ? data.today : `${month}-01`
   const s = data.state
   const showFertility = prefs.fertilityMode && prefs.calendarFertilityOverlay && s.fertility.state !== 'suppressed'
   const potential = s.fertility.potentialWindow
@@ -94,8 +97,25 @@ export function CalendarTab({ data, prefs }: { data: CycleData; prefs: Prefs }) 
             <span key={i}>{d}</span>
           ))}
         </div>
-        <div className="mz-cal__grid mz-cal__month" key={month} role="grid" aria-label={monthYear(`${month}-01`, t.locale)}>
-          {cells.map((date) => {
+        <div
+          className="mz-cal__grid mz-cal__month"
+          key={month}
+          role="grid"
+          aria-label={monthYear(`${month}-01`, t.locale)}
+          onKeyDown={(e) => {
+            // Grid keyboard pattern: arrows move a day or a week, Home/End the row.
+            const i = cells.indexOf((document.activeElement as HTMLElement | null)?.dataset.date ?? '')
+            if (i < 0) return
+            const move: Record<string, number> = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7, Home: -(i % 7), End: 6 - (i % 7) }
+            if (!(e.key in move)) return
+            e.preventDefault()
+            const next = cells[i + move[e.key]]
+            if (next) e.currentTarget.querySelector<HTMLElement>(`[data-date="${next}"]`)?.focus()
+          }}
+        >
+          {weeks.map((week) => (
+            <div role="row" className="mz-cal__row" key={week[0]}>
+          {week.map((date) => {
             const log = data.logsByDate.get(date)
             const outside = monthKey(date) !== month
             const future = date > data.today
@@ -117,6 +137,8 @@ export function CalendarTab({ data, prefs }: { data: CycleData; prefs: Prefs }) 
                 className={classes.join(' ')}
                 aria-label={cellLabel(date, log)}
                 aria-current={date === data.today ? 'date' : undefined}
+                data-date={date}
+                tabIndex={date === focusDate ? 0 : -1}
                 onClick={() => setSelected(date)}
               >
                 {Number(date.slice(8))}
@@ -124,6 +146,8 @@ export function CalendarTab({ data, prefs }: { data: CycleData; prefs: Prefs }) 
               </button>
             )
           })}
+            </div>
+          ))}
         </div>
       </div>
 
