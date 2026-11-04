@@ -595,11 +595,15 @@ button, a { font: inherit; color: inherit; }
 
 /* ---------- Quick log row ---------- */
 
+.mz-section:has(> .mz-quick) { container-type: inline-size; }
 .mz-quick {
   display: grid;
-  /* Five across normally; fewer, taller tiles when the system text is large. */
-  grid-template-columns: repeat(auto-fit, minmax(4.4em, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: var(--space-2);
+}
+/* Large system text: three wider tiles per row instead of five cramped ones. */
+@container (max-width: 19em) {
+  .mz-quick { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 .mz-quick__btn {
   appearance: none;

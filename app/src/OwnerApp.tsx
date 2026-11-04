@@ -11,6 +11,8 @@ import { APP_NAME } from './i18n'
 import { rangeText } from './screens/owner/estimateText'
 import { localToday } from './lib/dates'
 import { ArticleReader, ArticlesScreen } from './screens/owner/ArticlesScreens'
+import { LegalReader } from './screens/LegalScreens'
+import { GuideScreen } from './screens/owner/GuideScreen'
 import { CalendarTab } from './screens/owner/CalendarTab'
 import { FertilityScreen, FertilitySetupScreen } from './screens/owner/FertilityScreens'
 import { InsightsTab } from './screens/owner/InsightsTab'
@@ -69,6 +71,10 @@ function RouteView({ route, data, prefs, locked }: { route: Route; data: CycleDa
       return <AboutScreen />
     case 'doctor-report':
       return <DoctorReportScreen data={data} />
+    case 'guide':
+      return <GuideScreen data={data} />
+    case 'legal':
+      return <LegalReader doc={route.doc} onBack={() => useNav.getState().pop()} />
     case 'articles':
       return <ArticlesScreen />
     case 'article':

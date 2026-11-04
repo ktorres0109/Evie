@@ -248,7 +248,7 @@ export const SOURCE_URL = 'https://github.com/ktorres0109/Evie'
 
 export function AboutScreen() {
   const t = useT()
-  const { pop } = useNav()
+  const { pop, push } = useNav()
   return (
     <Screen title={t('you.about')} onBack={pop}>
       <section className="mz-section mz-card mz-stack" style={{ gap: 10 }}>
@@ -268,6 +268,11 @@ export function AboutScreen() {
             <span className="mz-list-row__sub">{t('about.license')}</span>
           </span>
         </a>
+      </div>
+      <SectionTitle>{t('about.legal')}</SectionTitle>
+      <div className="mz-section mz-list">
+        <ListRow icon="file-text" title={t('legal.terms')} onClick={() => push({ name: 'legal', doc: 'terms' })} />
+        <ListRow icon="lock-simple" title={t('legal.privacy')} onClick={() => push({ name: 'legal', doc: 'privacy' })} />
       </div>
       <SectionTitle>{t('about.credits')}</SectionTitle>
       <div className="mz-section mz-card mz-stack" style={{ gap: 6 }}>

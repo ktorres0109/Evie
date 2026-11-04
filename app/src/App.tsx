@@ -11,6 +11,8 @@ import { scheduleAllReminders } from './native/schedule'
 import { OwnerApp } from './OwnerApp'
 import { PartnerApp } from './partner/PartnerApp'
 import { OnboardingFlow } from './screens/owner/OnboardingFlow'
+import { acceptedVersion, LegalUpdateGate } from './screens/LegalScreens'
+import { LEGAL_SETTING, LEGAL_VERSION } from './content/legal'
 import { useApp } from './state/appStore'
 import { applyTheme, usePrefs } from './state/prefs'
 import './styles/meztli.css'
@@ -31,8 +33,8 @@ export default function App() {
   }, [])
 
   const flags = useLiveQuery(async () => {
-    const [ob, pin] = await Promise.all([getSetting(SK.onboarded), getSetting(SK.pinHash)])
-    return { ob: ob === '1', hasPin: Boolean(pin) }
+    const [ob, pin, legal] = await Promise.all([getSetting(SK.onboarded), getSetting(SK.pinHash), getSetting(LEGAL_SETTING)])
+    return { ob: ob === '1', hasPin: Boolean(pin), legalCurrent: acceptedVersion(legal) === LEGAL_VERSION }
   }, [])
 
   useEffect(() => {
@@ -80,6 +82,8 @@ export default function App() {
   if (!ready || !prefs) return <div className="mz-app" role="status" aria-label={t('app.loading')} />
   if (!onboarded || prefs.role === null) return <OnboardingFlow onDone={() => setOnboarded(true)} />
   if (locked) return <PinLock />
+  // Installs from before the terms, or after they change, agree once more.
+  if (flags && !flags.legalCurrent) return <LegalUpdateGate onAccepted={() => undefined} />
   if (prefs.role === 'partner') return <PartnerApp />
   return <OwnerApp prefs={prefs} locked={locked} />
 }

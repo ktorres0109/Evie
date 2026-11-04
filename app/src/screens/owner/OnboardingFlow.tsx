@@ -22,6 +22,8 @@ import { localToday } from '../../lib/dates'
 import { requestReminderPermission } from '../../native/schedule'
 import { updatePrefs, type NotificationTone } from '../../state/prefs'
 import { Icon, type IconName } from '../../ui/icons'
+import { LegalCheckbox, recordLegalAcceptance } from '../LegalScreens'
+import { saveOwnerName } from '../../state/profileName'
 
 type Purpose = 'cycle' | 'symptoms' | 'pregnant' | 'fertility'
 type MethodPick = 'none' | 'pill' | 'patch-ring' | 'iud-implant-shot' | 'condoms' | 'other' | 'skip'
@@ -97,6 +99,9 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
   const setPreference = useLocale((s) => s.setPreference)
   const [step, setStep] = useState(0)
   const [age, setAge] = useState(false)
+  const [legal, setLegal] = useState(false)
+  const [name, setName] = useState('')
+  const [partnerPath, setPartnerPath] = useState(false)
   const [purposes, setPurposes] = useState<Purpose[]>([])
   const [lastPeriod, setLastPeriod] = useState<string>('')
   const [notSure, setNotSure] = useState(false)
@@ -175,8 +180,51 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
     // onboarding stays short; until then reminders and pack day can't work.
     if (method === 'pill' || method === 'patch-ring' || method === 'iud-implant-shot') await setSetting(SK_METHOD_PENDING, '1')
     await setSetting('onboarding.purposes', JSON.stringify(purposes))
+    await recordLegalAcceptance()
+    await saveOwnerName(name)
     await setSetting(SK.onboarded, '1')
     onDone()
+  }
+
+  // ---------- Partner: age and terms, then the partner app ----------
+  if (partnerPath) {
+    return (
+      <Frame
+        step={0}
+        title={t('ob.partner.title')}
+        helper={t('ob.partner.helper')}
+        onBack={() => setPartnerPath(false)}
+        action={
+          <button
+            type="button"
+            className="mz-btn mz-btn--primary mz-btn--block"
+            disabled={!age || !legal}
+            onClick={async () => {
+              await recordLegalAcceptance()
+              await updatePrefs({ role: 'partner' })
+              await setSetting(SK.onboarded, '1')
+              onDone()
+            }}
+          >
+            {t('common.continue')}
+          </button>
+        }
+      >
+        <div className="mz-stack" style={{ gap: 12 }}>
+          {(['readOnly', 'herChoice', 'encrypted'] as const).map((k) => (
+            <div key={k} className="mz-row" style={{ alignItems: 'flex-start' }}>
+              <Icon name={k === 'readOnly' ? 'eye' : k === 'herChoice' ? 'hand-heart' : 'lock-simple'} size={22} style={{ color: 'var(--care)', flex: 'none' }} />
+              <p className="mz-body-sm mz-muted">{t(`ob.partner.${k}`)}</p>
+            </div>
+          ))}
+          <label className="mz-card mz-card--sm mz-row" style={{ cursor: 'pointer', marginTop: 8 }}>
+            <input type="checkbox" checked={age} onChange={(e) => setAge(e.currentTarget.checked)} style={{ width: 22, height: 22, accentColor: 'var(--primary)' }} />
+            <span className="mz-body-sm">{t('ob.privacy.age')}</span>
+          </label>
+          <LegalCheckbox checked={legal} onChange={setLegal} />
+        </div>
+      </Frame>
+    )
   }
 
   // ---------- 0 · Who is this phone for? ----------
@@ -209,11 +257,7 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
             type="button"
             className="mz-card mz-card--button mz-row"
             style={{ minHeight: 96 }}
-            onClick={async () => {
-              await updatePrefs({ role: 'partner' })
-              await setSetting(SK.onboarded, '1')
-              onDone()
-            }}
+            onClick={() => setPartnerPath(true)}
           >
             <Icon name="hand-heart" size={28} style={{ color: 'var(--care)' }} />
             <span className="mz-grow">
@@ -235,7 +279,7 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
         helper={t('ob.privacy.helper')}
         onBack={back}
         action={
-          <button type="button" className="mz-btn mz-btn--primary mz-btn--block" disabled={!age} onClick={next}>
+          <button type="button" className="mz-btn mz-btn--primary mz-btn--block" disabled={!age || !legal} onClick={next}>
             {t('common.continue')}
           </button>
         }
@@ -251,6 +295,7 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
             <input type="checkbox" checked={age} onChange={(e) => setAge(e.currentTarget.checked)} style={{ width: 22, height: 22, accentColor: 'var(--primary)' }} />
             <span className="mz-body-sm">{t('ob.privacy.age')}</span>
           </label>
+          <LegalCheckbox checked={legal} onChange={setLegal} />
           <p className="mz-caption">{t('ob.privacy.notMedical')}</p>
         </div>
       </Frame>
@@ -271,6 +316,11 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
           </button>
         }
       >
+        <label className="mz-field" style={{ marginBottom: 16 }}>
+          <span className="mz-field__label">{t('ob.name.label')}</span>
+          <input className="mz-input" value={name} maxLength={30} autoComplete="given-name" onChange={(e) => setName(e.currentTarget.value)} />
+          <span className="mz-field__help">{t('ob.name.help')}</span>
+        </label>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           {PURPOSES.map((p) => {
             const on = purposes.includes(p.id)

@@ -25,6 +25,8 @@ export type Route =
   | { name: 'notifications' }
   | { name: 'lock' }
   | { name: 'about' }
+  | { name: 'guide' }
+  | { name: 'legal'; doc: 'terms' | 'privacy' }
   | { name: 'articles' }
   | { name: 'article'; slug: string }
   | { name: 'doctor-report' }

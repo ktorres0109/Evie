@@ -11,7 +11,9 @@ import { phaseAnalysisInput } from '../../engine/estimate'
 import { resolvePregnancyDating, pregnancyTimeline } from '../../engine/pregnancyDating'
 import { useT, type MessageKey, type Translator } from '../../i18n'
 import { betweenDates, dateRange } from '../../i18n/dates'
-import { dailyLogHasEntry, getSetting, removeSetting } from '../../db/schema'
+import { dailyLogHasEntry, getSetting, removeSetting, setSetting } from '../../db/schema'
+import { greetingKey, useOwnerName } from '../../state/profileName'
+import { GUIDE_SEEN } from './GuideScreen'
 import { activeRegimenOn } from '../../db/regimen'
 import { daysBetween } from '../../engine/cycle'
 import { useNav, type QuickKind } from '../../state/nav'
@@ -94,6 +96,8 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
   const s = data.state
   const insight = useMemo(() => pickInsight(data, t), [data, t.locale])
   const methodPending = useLiveQuery(async () => (await getSetting(SK_METHOD_PENDING)) === '1', [])
+  const guideSeen = useLiveQuery(async () => (await getSetting(GUIDE_SEEN)) === '1', [])
+  const ownerName = useOwnerName()
 
   const pregnancy =
     s.withheld?.code === 'pregnancy'
@@ -157,6 +161,9 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
       />
 
       <section className="mz-hero">
+        <p className="mz-body mz-muted" style={{ marginBottom: 4 }}>
+          {ownerName ? t(`${greetingKey(new Date().getHours())}.name` as MessageKey, { name: ownerName }) : t(greetingKey(new Date().getHours()))}
+        </p>
         <h1 className="mz-sr-only">{heroAria}</h1>
         <div className="mz-row" style={{ alignItems: 'flex-end', gap: 14, marginBottom: 6, flexWrap: 'wrap' }} aria-hidden="true">
           <div className={s.status === 'no-history' || s.status === 'stale' ? 'mz-display-md' : 'mz-display'} style={heroBerry ? { color: 'var(--berry-hi)' } : undefined}>
@@ -201,6 +208,22 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
           </button>
         </div>
       </section>
+
+      {/* ---------- First days: a short guide ---------- */}
+      {guideSeen === false && (
+        <section className="mz-section">
+          <div className="mz-card mz-row" style={{ gap: 14 }}>
+            <Icon name="question" size={26} style={{ color: 'var(--primary-hi)', flex: 'none' }} />
+            <button type="button" className="mz-grow mz-link" style={{ textAlign: 'left' }} onClick={() => push({ name: 'guide' })}>
+              <span className="mz-title" style={{ display: 'block' }}>{t('guide.card.title')}</span>
+              <span className="mz-body-sm mz-muted">{t('guide.card.body')}</span>
+            </button>
+            <button type="button" className="mz-icon-btn" aria-label={t('common.notNow')} onClick={() => void setSetting(GUIDE_SEEN, '1')}>
+              <Icon name="x" size={20} />
+            </button>
+          </div>
+        </section>
+      )}
 
       {/* ---------- Birth control details still missing (from onboarding) ---------- */}
       {methodPending && !activeRegimenOn(data.regimens, data.today)?.config && (

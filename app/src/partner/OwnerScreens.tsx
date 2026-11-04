@@ -9,6 +9,7 @@ import qrcode from 'qrcode-generator'
 import { SYMPTOMS } from '../db/taxonomy'
 import { useT, type MessageKey } from '../i18n'
 import { relativeAgo } from '../i18n/dates'
+import { useOwnerName } from '../state/profileName'
 import { useNav } from '../state/nav'
 import type { CycleData } from '../state/useCycle'
 import { Icon } from '../ui/icons'
@@ -254,10 +255,11 @@ export function PartnerPairScreen() {
   useEffect(() => {
     void supportsX25519().then(setSupported)
   }, [])
+  const savedName = useOwnerName()
   useEffect(() => {
-    if (existing?.ownerName && !ownerName) setOwnerName(existing.ownerName)
+    if (!ownerName && (existing?.ownerName || savedName)) setOwnerName(existing?.ownerName || savedName || '')
     if (existing?.relayUrl && !relayUrl) setRelayUrl(existing.relayUrl)
-  }, [existing, ownerName, relayUrl])
+  }, [existing, ownerName, relayUrl, savedName])
 
   // Countdown and polling while the code is live.
   useEffect(() => {

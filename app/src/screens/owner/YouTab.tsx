@@ -3,6 +3,7 @@
  * modes, your body's context, how the app looks and speaks, who can get in
  * and who can see, and your data.
  */
+import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db, getSetting, SK } from '../../db/schema'
 import { activeRegimenOn } from '../../db/regimen'
@@ -10,7 +11,8 @@ import { useLocale, useT, type LocalePreference } from '../../i18n'
 import { useNav } from '../../state/nav'
 import { updatePrefs, type Prefs } from '../../state/prefs'
 import type { CycleData } from '../../state/useCycle'
-import { ListRow, SectionTitle, SwitchRow } from '../../ui/kit'
+import { ListRow, SectionTitle, Sheet, SwitchRow } from '../../ui/kit'
+import { saveOwnerName, useOwnerName } from '../../state/profileName'
 import { methodName } from './estimateText'
 import { readPartner } from '../../partner/store'
 
@@ -29,11 +31,18 @@ export function YouTab({ data, prefs }: { data: CycleData; prefs: Prefs }) {
     ? methodName(active.config?.kind === 'iud' ? (active.config.hormonal ? 'hormonal-iud' : 'copper-iud') : active.method, t)
     : t('you.method.none')
 
+  const name = useOwnerName()
+  const [editingName, setEditingName] = useState(false)
+
   return (
     <div className="mz-page">
       <header className="mz-appbar">
-        <h1 className="mz-h1">{t('nav.you')}</h1>
+        <h1 className="mz-h1">{name ? t('you.titleNamed', { name }) : t('nav.you')}</h1>
       </header>
+      <div className="mz-section mz-list">
+        <ListRow icon="user" title={t('you.name')} sub={name || t('you.name.none')} onClick={() => setEditingName(true)} />
+      </div>
+      {editingName && <NameSheet initial={name ?? ''} onClose={() => setEditingName(false)} />}
 
       <SectionTitle>{t('you.section.modes')}</SectionTitle>
       <div className="mz-section mz-list">
@@ -123,8 +132,38 @@ export function YouTab({ data, prefs }: { data: CycleData; prefs: Prefs }) {
 
       <SectionTitle>{t('you.section.about')}</SectionTitle>
       <div className="mz-section mz-list">
+        <ListRow icon="question" title={t('guide.title')} sub={t('guide.row.sub')} onClick={() => push({ name: 'guide' })} />
         <ListRow icon="info" title={t('you.about')} sub={t('you.about.sub')} onClick={() => push({ name: 'about' })} />
       </div>
     </div>
+  )
+}
+
+function NameSheet({ initial, onClose }: { initial: string; onClose: () => void }) {
+  const t = useT()
+  const [value, setValue] = useState(initial)
+  return (
+    <Sheet
+      title={t('you.name')}
+      onClose={onClose}
+      footer={
+        <button
+          type="button"
+          className="mz-btn mz-btn--primary mz-btn--block"
+          onClick={async () => {
+            await saveOwnerName(value)
+            onClose()
+          }}
+        >
+          {t('common.save')}
+        </button>
+      }
+    >
+      <label className="mz-field">
+        <span className="mz-field__label">{t('ob.name.label')}</span>
+        <input className="mz-input" value={value} maxLength={30} autoComplete="given-name" onChange={(e) => setValue(e.currentTarget.value)} />
+        <span className="mz-field__help">{t('ob.name.help')}</span>
+      </label>
+    </Sheet>
   )
 }
