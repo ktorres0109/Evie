@@ -24,6 +24,11 @@ confident date.
 | Design spec (working name "Evie") | [`docs/design/evie/`](docs/design/evie/) |
 | v1 plan | [`docs/design/evie/V1_PLAN.md`](docs/design/evie/V1_PLAN.md) |
 | Research | [`docs/design/evie/RESEARCH_2026-09-28.md`](docs/design/evie/RESEARCH_2026-09-28.md) |
+| Install and test on a phone | [`docs/TESTING.md`](docs/TESTING.md) |
+| First user test (what to say, what to ask) | [`docs/FOR_JASMINE.md`](docs/FOR_JASMINE.md) · [`docs/FEEDBACK_TEMPLATE.md`](docs/FEEDBACK_TEMPLATE.md) |
+| Where things stand / next steps | [`docs/NEXT_SESSION.md`](docs/NEXT_SESSION.md) |
+| Terms of Use · Privacy Policy | [`docs/legal/`](docs/legal/) (generated from the in-app text) |
+| Browser checks | [`app/e2e/`](app/e2e/) |
 
 ## Build it
 
