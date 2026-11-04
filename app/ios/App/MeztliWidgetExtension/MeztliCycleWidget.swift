@@ -9,7 +9,7 @@ private struct CycleSnapshot: Decodable {
     let detail: String?
 
     static let empty = CycleSnapshot(
-        headline: "Open Meztli",
+        headline: "Open Evie",
         detail: "Log today to see your cycle at a glance."
     )
 
@@ -114,7 +114,7 @@ private struct MeztliCycleWidget: Widget {
             MeztliCycleWidgetView(entry: entry)
         }
         .configurationDisplayName("Cycle at a glance")
-        .description("See the latest private summary published by Meztli.")
+        .description("See the latest private summary published by Evie.")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

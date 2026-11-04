@@ -1,18 +1,18 @@
-# Meztli
+# Evie
 
-> **Work in progress.** Meztli is not on any app store yet. You build it from
+> **Work in progress.** Evie is not on any app store yet. You build it from
 > this repository and install it on your own phone. Don't rely on it as your
 > only record of your health data.
 
 **A private cycle companion for one person, and the one they choose.**
 
-*Meztli* (Nahuatl: moon, month) is a local-first cycle, birth-control and
+*Evie* is a local-first cycle, birth-control and
 pregnancy tracker with an optional read-only partner app. Everything
 meaningful works offline. There is no account and no analytics. The only thing
 that ever leaves the phone is the partner update, if you turn it on, and that
 is end-to-end encrypted: the relay stores data it cannot read.
 
-Meztli is not a medical device and is not contraception. Estimates are shown as
+Evie is not a medical device and is not contraception. Estimates are shown as
 ranges with their method visible ("Why this estimate?"), never as a single
 confident date.
 
@@ -26,7 +26,7 @@ confident date.
 | Research | [`docs/design/evie/RESEARCH_2026-09-28.md`](docs/design/evie/RESEARCH_2026-09-28.md) |
 | Install and test on a phone | [`docs/TESTING.md`](docs/TESTING.md) |
 | First user test (what to say, what to ask) | [`docs/FOR_JASMINE.md`](docs/FOR_JASMINE.md) · [`docs/FEEDBACK_TEMPLATE.md`](docs/FEEDBACK_TEMPLATE.md) |
-| One-page guide (for Kelvin and Jasmine) | [`docs/MEZTLI_QUICK_GUIDE.txt`](docs/MEZTLI_QUICK_GUIDE.txt) |
+| One-page guide (for Kelvin and Jasmine) | [`docs/EVIE_QUICK_GUIDE.txt`](docs/EVIE_QUICK_GUIDE.txt) |
 | Where things stand / next steps | [`docs/NEXT_SESSION.md`](docs/NEXT_SESSION.md) |
 | Terms of Use · Privacy Policy | [`docs/legal/`](docs/legal/) (generated from the in-app text) |
 | Browser checks | [`app/e2e/`](app/e2e/) |
@@ -86,7 +86,7 @@ pnpm test   # unit tests (keep the estimate audit at zero violations)
 
 ## Credits
 
-Meztli is a fork of [Lunara](https://github.com/Blueturboguy07/lunara) by
+Evie is a fork of [Lunara](https://github.com/Blueturboguy07/lunara) by
 Blueturboguy07 and contributors, used under the AGPL-3.0.
 
 ## License

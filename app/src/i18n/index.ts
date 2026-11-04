@@ -3,7 +3,7 @@ import { en, type MessageKey } from './en'
 import { es } from './es'
 
 /** Product name. Change it here and every `{app}` placeholder follows. */
-export const APP_NAME = 'Meztli'
+export const APP_NAME = 'Evie'
 
 export type Locale = 'en' | 'es'
 export type LocalePreference = Locale | 'system'

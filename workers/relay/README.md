@@ -1,4 +1,4 @@
-# Meztli partner relay
+# Evie partner relay
 
 A Cloudflare Worker that passes **end-to-end-encrypted** partner updates from
 the owner's phone to the partner's phone. It stores one opaque blob per couple

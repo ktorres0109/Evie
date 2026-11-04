@@ -33,7 +33,7 @@ describe('string catalogues', () => {
 
 describe('format', () => {
   it('fills the product name and caller values', () => {
-    expect(format('{app}: {n} days', { n: 3 })).toBe('Meztli: 3 days')
+    expect(format('{app}: {n} days', { n: 3 })).toBe('Evie: 3 days')
   })
 
   it('leaves unknown placeholders visible instead of blank', () => {

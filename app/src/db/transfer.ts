@@ -74,7 +74,7 @@ export async function applyImport(payload: ExportPayload): Promise<number> {
   // v1 files were written before the rename and say app: 'lunara'.
   const app = payload.app as string
   const known = (app === 'meztli' && (payload.v === 1 || payload.v === 2)) || (app === 'lunara' && payload.v === 1)
-  if (!known) throw new Error('Not a Meztli export file')
+  if (!known) throw new Error('Not a Evie export file')
   await db.transaction(
     'rw',
     [db.dailyLogs, db.settings, db.contentBookmarks, db.regimenRecords, db.missedDoseEvents, db.lifeEvents, db.healthProfiles],

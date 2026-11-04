@@ -254,7 +254,7 @@ export function AboutScreen() {
       <section className="mz-section mz-card mz-stack" style={{ gap: 10 }}>
         <div className="mz-brand">
           <span className="mz-brand__dot" aria-hidden="true" />
-          <span className="mz-brand__name">Meztli</span>
+          <span className="mz-brand__name">Evie</span>
         </div>
         <p className="mz-body-sm mz-muted">{t('about.meaning')}</p>
         <p className="mz-body-sm mz-muted">{t('disclaimer.short')}</p>

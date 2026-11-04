@@ -1,4 +1,4 @@
-# Giving Meztli to Jasmine
+# Giving Evie to Jasmine
 
 A guide for you (Kelvin): how to install it, what to tell her, when to check in, and what to ask.
 
@@ -11,11 +11,11 @@ A guide for you (Kelvin): how to install it, what to tell her, when to check in,
 3. Send `app-debug.apk` to her phone: Google Drive, Quick Share, or a USB cable.
 4. On her phone, tap the file → allow installs from that app when Samsung asks → **Install**.
    - If Play Protect warns "unknown app": **More details → Install anyway**. It's warning because the app isn't from the Play Store, not because something is wrong.
-5. Open **Meztli**, choose **Mine**, and let her go through setup herself. Don't do it for her: her first impression is part of the test.
+5. Open **Evie**, choose **Mine**, and let her go through setup herself. Don't do it for her: her first impression is part of the test.
 
 **Updating later:** send her the newer APK and install it over the old one. Her data stays.
 **Never uninstall it.** Uninstalling deletes everything she logged. Before each update, have her do **You → Privacy & data → Export everything** (with a passphrase) as a safety net.
-Phone backups (Google, Samsung Cloud) deliberately do **not** include Meztli, for privacy. If she ever switches phones, her own export is the only way to bring her history: export on the old phone, then **Restore from a file** on the new one.
+Phone backups (Google, Samsung Cloud) deliberately do **not** include Evie, for privacy. If she ever switches phones, her own export is the only way to bring her history: export on the old phone, then **Restore from a file** on the new one.
 
 Partner sharing with your iPhone needs the relay deployed and the iPhone app built on your Mac (see `docs/TESTING.md`). It's optional: she can use the app fully without it. Pair later if she wants to.
 
@@ -25,14 +25,14 @@ Partner sharing with your iPhone needs the relay deployed and the iPhone app bui
 
 Keep it short and honest. Something like:
 
-> "I built you a period tracker. It's called Meztli, which is Nahuatl for moon. It's in Spanish and English.
+> "I built you a period tracker. It's called Evie. It's in Spanish and English.
 > Everything you log stays on your phone. I can't see any of it. If you ever want, you can share a little with me, and you choose exactly what. You can stop anytime.
 > It's a test version, so it'll have rough edges. I want your honest opinion, especially what's confusing or annoying. Screenshots help a lot.
 > Two rules: don't uninstall it (that deletes your data), and don't use it as birth control. It gives estimates, not guarantees."
 
 In Spanish, if she prefers:
 
-> "Te hice una app para tu periodo. Se llama Meztli, que en náhuatl significa luna. Está en español e inglés.
+> "Te hice una app para tu periodo. Se llama Evie. Está en español e inglés.
 > Todo lo que registres se queda en tu teléfono; yo no puedo ver nada. Si algún día quieres, puedes compartir un poco conmigo, y tú eliges exactamente qué. Lo puedes quitar cuando quieras.
 > Es una versión de prueba, así que va a tener detalles. Quiero tu opinión honesta, sobre todo lo que sea confuso o molesto. Las capturas de pantalla ayudan mucho.
 > Dos reglas: no la desinstales (se borran tus datos) y no la uses como anticonceptivo. Da estimaciones, no garantías."
@@ -40,7 +40,7 @@ In Spanish, if she prefers:
 Things worth pointing out **after** she's done the setup, not before:
 - **It starts fresh**, so the period estimate needs about **two full cycles** before it shows dates. If she remembers when her last few periods started, she can tap those days in the **Calendar** and log them. That gets her a range sooner.
 - If anything unusual has affected her cycle, she can add it privately under **You → Things that affect your cycle**. The estimate then leaves that cycle out instead of being thrown off. Only she sees it, and it is never shared. (Don't ask what it is. It's hers.)
-- **You → How Meztli works** is a two-minute guide with a "Show me" button for every part.
+- **You → How Evie works** is a two-minute guide with a "Show me" button for every part.
 - As a future PA, she's a better judge of the medical wording than either of us. Ask her to flag anything that sounds wrong, preachy, or alarming.
 
 ---

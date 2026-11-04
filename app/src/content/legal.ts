@@ -29,7 +29,7 @@ const en: Record<LegalDoc, LegalText> = {
     title: 'Terms of Use',
     updated: 'Last updated November 4, 2026',
     summary: [
-      'Meztli helps you understand your own cycle. It gives estimates, not diagnoses, and it is not birth control.',
+      'Evie helps you understand your own cycle. It gives estimates, not diagnoses, and it is not birth control.',
       'What you log stays on your phone. You decide if anything is shared, and you can stop at any time.',
       'It is free, open-source software, offered as is.',
     ],
@@ -37,8 +37,8 @@ const en: Record<LegalDoc, LegalText> = {
       {
         heading: 'Who we are',
         body: [
-          'Meztli is an independent, open-source project, not a company. "We" means the people who build and maintain it. The source code is public at ' + SOURCE_URL + '.',
-          'By using Meztli you agree to these terms. If you don’t agree, please don’t use it.',
+          'Evie is an independent, open-source project, not a company. "We" means the people who build and maintain it. The source code is public at ' + SOURCE_URL + '.',
+          'By using Evie you agree to these terms. If you don’t agree, please don’t use it.',
         ],
       },
       {
@@ -50,8 +50,8 @@ const en: Record<LegalDoc, LegalText> = {
       {
         heading: 'Not medical advice, not birth control',
         body: [
-          'Meztli is not a medical device. Its estimates (your next period, fertile days, patterns) come from what you log and can be wrong, especially with few cycles, irregular cycles, recent pregnancy, hormonal birth control or health conditions.',
-          'Do not use Meztli to prevent pregnancy. If avoiding pregnancy matters to you, use a method designed for it and talk to a clinician.',
+          'Evie is not a medical device. Its estimates (your next period, fertile days, patterns) come from what you log and can be wrong, especially with few cycles, irregular cycles, recent pregnancy, hormonal birth control or health conditions.',
+          'Do not use Evie to prevent pregnancy. If avoiding pregnancy matters to you, use a method designed for it and talk to a clinician.',
           'Nothing in the app replaces a doctor, nurse, physician assistant, midwife or pharmacist. If something feels wrong, get care. In an emergency call 911 (or your local emergency number).',
         ],
       },
@@ -67,7 +67,7 @@ const en: Record<LegalDoc, LegalText> = {
         heading: 'Partner sharing',
         body: [
           'You can choose to share a small, read-only view with one person. You pick what is shared, you confirm the pairing in person, and you can pause or stop it at any time. Some things are never shared, whatever you choose.',
-          'Only use partner sharing with someone you trust and only by your own choice. Never use Meztli to watch or track another person without their knowledge and consent.',
+          'Only use partner sharing with someone you trust and only by your own choice. Never use Evie to watch or track another person without their knowledge and consent.',
           'If you are the partner: what you see belongs to the person who shares it. Respect their choice to change or end it.',
         ],
       },
@@ -75,13 +75,13 @@ const en: Record<LegalDoc, LegalText> = {
         heading: 'Fair use',
         body: [
           'Don’t misuse the sharing service: no attempts to break, overload, or access mailboxes that aren’t yours.',
-          'The code is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). You may study, change and share it under that license. Meztli builds on Lunara by Blueturboguy07 and contributors.',
+          'The code is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). You may study, change and share it under that license. Evie builds on Lunara by Blueturboguy07 and contributors.',
         ],
       },
       {
         heading: 'No warranty',
         body: [
-          'Meztli is provided "as is", without warranties of any kind, to the fullest extent the law allows. We do our best to make it accurate, private and reliable, but we can’t promise it will always work or be error-free.',
+          'Evie is provided "as is", without warranties of any kind, to the fullest extent the law allows. We do our best to make it accurate, private and reliable, but we can’t promise it will always work or be error-free.',
           'To the fullest extent the law allows, we are not liable for any indirect or consequential loss arising from using the app, including decisions based on its estimates or data lost from your phone. Nothing here limits rights you have that can’t be waived under the law where you live.',
         ],
       },
@@ -89,7 +89,7 @@ const en: Record<LegalDoc, LegalText> = {
         heading: 'Changes and ending',
         body: [
           'If we change these terms in a way that matters, the app will show the new version and ask you to agree before you continue.',
-          'You can stop using Meztli at any time. You → Privacy & data → Delete everything erases all of it from this phone.',
+          'You can stop using Evie at any time. You → Privacy & data → Delete everything erases all of it from this phone.',
           'These terms are governed by the laws of California, USA, except where the law where you live says otherwise.',
           'Questions: open an issue at ' + SOURCE_URL + '/issues.',
         ],
@@ -110,7 +110,7 @@ const en: Record<LegalDoc, LegalText> = {
         body: [
           'Your period and flow, symptoms, moods, notes, tests and temperatures you log; birth control and life events you add (such as pregnancy, illness or stress); and your settings.',
           'This lives inside the app’s private storage on your phone, which is protected by your phone’s own encryption. You can add a PIN or fingerprint lock in the app.',
-          'We never see it. There is no Meztli server holding a copy.',
+          'We never see it. There is no Evie server holding a copy.',
         ],
       },
       {
@@ -146,7 +146,7 @@ const en: Record<LegalDoc, LegalText> = {
       {
         heading: 'Children',
         body: [
-          'Meztli is for people aged 13 and older (16 and older in the EU, UK and Canada). We don’t knowingly receive anyone’s data, including children’s.',
+          'Evie is for people aged 13 and older (16 and older in the EU, UK and Canada). We don’t knowingly receive anyone’s data, including children’s.',
         ],
       },
       {
@@ -165,7 +165,7 @@ const es: Record<LegalDoc, LegalText> = {
     title: 'Términos de uso',
     updated: 'Última actualización: 4 de noviembre de 2026',
     summary: [
-      'Meztli te ayuda a entender tu propio ciclo. Da estimaciones, no diagnósticos, y no es un método anticonceptivo.',
+      'Evie te ayuda a entender tu propio ciclo. Da estimaciones, no diagnósticos, y no es un método anticonceptivo.',
       'Lo que registras se queda en tu teléfono. Tú decides si compartes algo y puedes dejar de hacerlo cuando quieras.',
       'Es software gratuito y de código abierto, ofrecido tal cual.',
     ],
@@ -173,8 +173,8 @@ const es: Record<LegalDoc, LegalText> = {
       {
         heading: 'Quiénes somos',
         body: [
-          'Meztli es un proyecto independiente y de código abierto, no una empresa. "Nosotros" se refiere a quienes lo crean y mantienen. El código es público en ' + SOURCE_URL + '.',
-          'Al usar Meztli aceptas estos términos. Si no estás de acuerdo, por favor no lo uses.',
+          'Evie es un proyecto independiente y de código abierto, no una empresa. "Nosotros" se refiere a quienes lo crean y mantienen. El código es público en ' + SOURCE_URL + '.',
+          'Al usar Evie aceptas estos términos. Si no estás de acuerdo, por favor no lo uses.',
         ],
       },
       {
@@ -186,8 +186,8 @@ const es: Record<LegalDoc, LegalText> = {
       {
         heading: 'No es consejo médico ni anticonceptivo',
         body: [
-          'Meztli no es un dispositivo médico. Sus estimaciones (tu próximo periodo, días fértiles, patrones) salen de lo que registras y pueden fallar, sobre todo con pocos ciclos, ciclos irregulares, un embarazo reciente, anticonceptivos hormonales o condiciones de salud.',
-          'No uses Meztli para evitar un embarazo. Si eso te importa, usa un método diseñado para ello y habla con un profesional de salud.',
+          'Evie no es un dispositivo médico. Sus estimaciones (tu próximo periodo, días fértiles, patrones) salen de lo que registras y pueden fallar, sobre todo con pocos ciclos, ciclos irregulares, un embarazo reciente, anticonceptivos hormonales o condiciones de salud.',
+          'No uses Evie para evitar un embarazo. Si eso te importa, usa un método diseñado para ello y habla con un profesional de salud.',
           'Nada en la app sustituye a un médico, enfermera, asistente médico, partera o farmacéutico. Si algo no se siente bien, busca atención. En una emergencia llama al 911 (o al número de emergencias de tu país).',
         ],
       },
@@ -203,7 +203,7 @@ const es: Record<LegalDoc, LegalText> = {
         heading: 'Compartir con tu pareja',
         body: [
           'Puedes compartir una vista pequeña, de solo lectura, con una persona. Tú eliges qué se comparte, confirmas el enlace en persona y puedes pausarlo o terminarlo cuando quieras. Hay cosas que nunca se comparten, elijas lo que elijas.',
-          'Úsalo solo con alguien de confianza y por decisión propia. Nunca uses Meztli para vigilar o rastrear a otra persona sin que lo sepa y lo acepte.',
+          'Úsalo solo con alguien de confianza y por decisión propia. Nunca uses Evie para vigilar o rastrear a otra persona sin que lo sepa y lo acepte.',
           'Si eres la pareja: lo que ves pertenece a quien lo comparte. Respeta su decisión de cambiarlo o terminarlo.',
         ],
       },
@@ -211,13 +211,13 @@ const es: Record<LegalDoc, LegalText> = {
         heading: 'Uso justo',
         body: [
           'No abuses del servicio para compartir: nada de intentar romperlo, saturarlo o entrar a buzones que no son tuyos.',
-          'El código tiene licencia GNU Affero General Public License v3.0 (AGPL-3.0). Puedes estudiarlo, modificarlo y compartirlo bajo esa licencia. Meztli se basa en Lunara de Blueturboguy07 y colaboradores.',
+          'El código tiene licencia GNU Affero General Public License v3.0 (AGPL-3.0). Puedes estudiarlo, modificarlo y compartirlo bajo esa licencia. Evie se basa en Lunara de Blueturboguy07 y colaboradores.',
         ],
       },
       {
         heading: 'Sin garantía',
         body: [
-          'Meztli se ofrece "tal cual", sin garantías de ningún tipo, en la medida máxima que permita la ley. Hacemos lo posible para que sea preciso, privado y confiable, pero no podemos prometer que siempre funcione o que no tenga errores.',
+          'Evie se ofrece "tal cual", sin garantías de ningún tipo, en la medida máxima que permita la ley. Hacemos lo posible para que sea preciso, privado y confiable, pero no podemos prometer que siempre funcione o que no tenga errores.',
           'En la medida máxima que permita la ley, no somos responsables de pérdidas indirectas por usar la app, incluidas decisiones basadas en sus estimaciones o datos perdidos de tu teléfono. Nada de esto limita derechos que la ley de donde vives no permite renunciar.',
         ],
       },
@@ -225,7 +225,7 @@ const es: Record<LegalDoc, LegalText> = {
         heading: 'Cambios y terminación',
         body: [
           'Si cambiamos estos términos de forma importante, la app te mostrará la nueva versión y te pedirá aceptarla antes de seguir.',
-          'Puedes dejar de usar Meztli cuando quieras. Tú → Privacidad y datos → Borrar todo lo elimina de este teléfono.',
+          'Puedes dejar de usar Evie cuando quieras. Tú → Privacidad y datos → Borrar todo lo elimina de este teléfono.',
           'Estos términos se rigen por las leyes de California, EE. UU., salvo donde la ley de tu lugar de residencia diga otra cosa.',
           'Preguntas: abre un reporte en ' + SOURCE_URL + '/issues.',
         ],
@@ -246,7 +246,7 @@ const es: Record<LegalDoc, LegalText> = {
         body: [
           'Tu periodo y flujo, síntomas, ánimo, notas, pruebas y temperaturas que registres; el anticonceptivo y los eventos de vida que agregues (como embarazo, enfermedad o estrés); y tus ajustes.',
           'Todo vive dentro del almacenamiento privado de la app en tu teléfono, protegido por el cifrado de tu propio teléfono. Puedes agregar un PIN o huella en la app.',
-          'Nunca lo vemos. No hay un servidor de Meztli con una copia.',
+          'Nunca lo vemos. No hay un servidor de Evie con una copia.',
         ],
       },
       {
@@ -282,7 +282,7 @@ const es: Record<LegalDoc, LegalText> = {
       {
         heading: 'Menores',
         body: [
-          'Meztli es para personas de 13 años o más (16 o más en la UE, el Reino Unido y Canadá). No recibimos datos de nadie a sabiendas, incluidos menores.',
+          'Evie es para personas de 13 años o más (16 o más en la UE, el Reino Unido y Canadá). No recibimos datos de nadie a sabiendas, incluidos menores.',
         ],
       },
       {

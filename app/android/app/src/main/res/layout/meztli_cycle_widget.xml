@@ -35,7 +35,7 @@
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:maxLines="2"
-        android:text="Open Meztli"
+        android:text="Open Evie"
         android:textColor="#3C2430"
         android:textSize="23sp" />
 

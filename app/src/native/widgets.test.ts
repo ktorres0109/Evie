@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { widgetSnapshotFor } from './widgets'
 
-const base = { appName: 'Meztli', privateDetail: 'Tap to log today', headline: 'Day 14', detail: 'Next: Nov 16–20', now: new Date('2026-11-02T12:00:00Z') }
+const base = { appName: 'Evie', privateDetail: 'Tap to log today', headline: 'Day 14', detail: 'Next: Nov 16–20', now: new Date('2026-11-02T12:00:00Z') }
 
 describe('widgetSnapshotFor', () => {
   it('is private by default', () => {
-    expect(widgetSnapshotFor({ ...base, showCycle: false, locked: false })).toMatchObject({ headline: 'Meztli', detail: 'Tap to log today' })
+    expect(widgetSnapshotFor({ ...base, showCycle: false, locked: false })).toMatchObject({ headline: 'Evie', detail: 'Tap to log today' })
   })
   it('stays private while the app lock is on, even if she opted in', () => {
-    expect(widgetSnapshotFor({ ...base, showCycle: true, locked: true }).headline).toBe('Meztli')
+    expect(widgetSnapshotFor({ ...base, showCycle: true, locked: true }).headline).toBe('Evie')
   })
   it('lets the widget count the day forward', () => {
     const snap = widgetSnapshotFor({ ...base, showCycle: true, locked: false, counting: { template: 'Day {n}', cycleDay: 14, today: '2026-11-02' } })

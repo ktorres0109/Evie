@@ -8,7 +8,7 @@ import './styles/base.css'
 import './styles/app.css'
 import './styles/health-import.css'
 
-// Retire service workers left behind by pre-native development builds. Meztli
+// Retire service workers left behind by pre-native development builds. Evie
 // no longer registers a PWA or depends on service-worker caching.
 if ('serviceWorker' in navigator) {
   void navigator.serviceWorker

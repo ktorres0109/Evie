@@ -151,7 +151,7 @@ public class MeztliNativePlugin extends Plugin {
 
                 String requestedName = call.getString("jobName");
                 String jobName = requestedName == null || requestedName.trim().isEmpty()
-                    ? "Meztli cycle report"
+                    ? "Evie cycle report"
                     : requestedName;
 
                 try {
@@ -370,7 +370,7 @@ public class MeztliNativePlugin extends Plugin {
         final AtomicBoolean completed = new AtomicBoolean(false);
         final java.util.concurrent.Executor executor = ContextCompat.getMainExecutor(getContext());
         BiometricPrompt.Builder builder = new BiometricPrompt.Builder(getActivity())
-            .setTitle("Unlock Meztli")
+            .setTitle("Unlock Evie")
             .setDescription(reason)
             .setNegativeButton("Cancel", executor, (dialog, which) -> {
                 if (completed.compareAndSet(false, true)) {

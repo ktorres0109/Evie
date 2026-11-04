@@ -28,7 +28,7 @@ export default function App() {
     // Persist legacy/fresh-install profile state outside Dexie's read-only
     // liveQuery context.
     void ensureHealthProfile().catch((error: unknown) => {
-      console.error('[Meztli startup] Could not persist the health profile migration.', error)
+      console.error('[Evie startup] Could not persist the health profile migration.', error)
     })
   }, [])
 

@@ -1,4 +1,4 @@
-# Meztli: install and test
+# Evie: install and test
 
 Three parts, in this order: deploy the relay, put the app on Jasmine's phone, put the partner app on your iPhone.
 
@@ -47,7 +47,7 @@ In Xcode:
 ## 4. Pair (together, same room)
 
 1. Her phone: **You → Partner sharing → Invite your partner**. Pick what to share → **Show pairing code**.
-2. Your phone: open Meztli → **I'm a partner** → scan the QR with the iPhone Camera, or type the 6-character code.
+2. Your phone: open Evie → **I'm a partner** → scan the QR with the iPhone Camera, or type the 6-character code.
 3. Both screens show **4 words**. Only if they match exactly, she taps **They match**.
 4. Your app now shows a read-only view. Her phone uploads a few seconds after she logs; yours fetches when you open the app or tap Refresh (and every 15 minutes while it's open).
 
@@ -66,7 +66,7 @@ She can **pause** or **stop sharing** at any time from the same screen. Stopping
 | Partner | Do you see only what she chose? Pause, then resume |
 | Look | Night Bloom vs Day Bloom; anything cut off, overlapping, too small |
 | Big text | Phone Settings → Display → Font size at max: anything overlapping or cut off? |
-| Widget | Add the Meztli widget; it should say only "Meztli" until Privacy → "Show your cycle on the widget" is on |
+| Widget | Add the Evie widget; it should say only "Evie" until Privacy → "Show your cycle on the widget" is on |
 | Lock | Wrong PIN 5 times: a wait appears and survives closing the app. "Forgot your PIN?" offers erase only |
 | Birth control | If she picked pill/patch/IUD in setup, Today asks to finish it; after that, pack day shows |
 | Reminders | A check-in reminder shouldn't come on a day she already logged; tapping it opens the log |

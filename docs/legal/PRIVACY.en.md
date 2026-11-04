@@ -12,7 +12,7 @@ Your period and flow, symptoms, moods, notes, tests and temperatures you log; bi
 
 This lives inside the app’s private storage on your phone, which is protected by your phone’s own encryption. You can add a PIN or fingerprint lock in the app.
 
-We never see it. There is no Meztli server holding a copy.
+We never see it. There is no Evie server holding a copy.
 
 ## What leaves your phone, and only if you choose
 
@@ -44,7 +44,7 @@ Laws that give you rights over health data a company holds (for example access o
 
 ## Children
 
-Meztli is for people aged 13 and older (16 and older in the EU, UK and Canada). We don’t knowingly receive anyone’s data, including children’s.
+Evie is for people aged 13 and older (16 and older in the EU, UK and Canada). We don’t knowingly receive anyone’s data, including children’s.
 
 ## Changes and contact
 

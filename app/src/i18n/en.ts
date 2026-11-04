@@ -711,7 +711,7 @@ export const en = {
   'privacy.restore.body': 'Entries in the file are added to what’s already here. A day in both keeps the file’s version.',
   'privacy.restore.file': 'Export file',
   'privacy.restore.go': 'Restore',
-  'privacy.restore.notFile': 'That doesn’t look like a Meztli export file.',
+  'privacy.restore.notFile': 'That doesn’t look like a Evie export file.',
   'privacy.restore.wrongPass': 'That passphrase didn’t unlock the file.',
   'privacy.restore.done.one': 'Restored {n} day.',
   'privacy.restore.done.other': 'Restored {n} days.',
@@ -1140,7 +1140,7 @@ export const en = {
   'ob.lock.note': 'You can add fingerprint or face later in You → App lock.',
 
   // ---------- About ----------
-  'about.meaning': '“Meztli” is Nahuatl for moon and month.',
+  'about.meaning': 'Evie is a small, private companion for your cycle.',
   'about.source': 'Source code',
   'about.sourceRow': 'Get the source code',
   'about.license': 'AGPL-3.0. You can read, change and share it.',
@@ -1153,7 +1153,7 @@ export const en = {
   // Doctor summary
   'doctor.title': 'Doctor summary',
   'doctor.heading': 'Cycle summary',
-  'doctor.jobName': 'Meztli doctor summary',
+  'doctor.jobName': 'Evie doctor summary',
   'doctor.export': 'Print or save as PDF',
   'doctor.exportFailed': 'The print sheet didn’t open. Try again.',
   'doctor.generated': 'Made {date} from self-reported data',
@@ -1197,7 +1197,7 @@ export const en = {
   'doctor.ofCheckIns': '{n} of {total} check-ins',
   'doctor.none': 'Nothing logged.',
   'doctor.method.note': 'Cycle lengths count from one period start to the next. The estimate uses her whole history, with unusual cycles left out as listed above. Ovulation and pregnancy tests are observations, not confirmations.',
-  'doctor.disclaimer': 'For discussion with a healthcare provider. Meztli is not a medical device and doesn’t diagnose anything.',
+  'doctor.disclaimer': 'For discussion with a healthcare provider. Evie is not a medical device and doesn’t diagnose anything.',
 } as const
 
 export type MessageKey = keyof typeof en

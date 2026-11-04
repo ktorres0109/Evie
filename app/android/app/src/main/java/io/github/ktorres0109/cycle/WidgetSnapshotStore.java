@@ -97,7 +97,7 @@ final class WidgetSnapshotStore {
         }
 
         static Snapshot empty() {
-            return new Snapshot("Open Meztli", "Log today to see your cycle at a glance.");
+            return new Snapshot("Open Evie", "Log today to see your cycle at a glance.");
         }
     }
 }

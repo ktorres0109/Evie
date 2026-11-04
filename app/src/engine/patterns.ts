@@ -248,7 +248,7 @@ export function analyzePatterns(
           phaseRate: peak.rate,
           baselineRate,
         },
-        explanation: `Meztli compared ${signalObservations.length} ${signal.toLowerCase()} entries across ${cycles.size} completed cycles, using only check-ins you marked complete. The card appears because the complete-check-in rate in one phase was at least 35% higher than its overall rate.`,
+        explanation: `Evie compared ${signalObservations.length} ${signal.toLowerCase()} entries across ${cycles.size} completed cycles, using only check-ins you marked complete. The card appears because the complete-check-in rate in one phase was at least 35% higher than its overall rate.`,
       })
     }
 

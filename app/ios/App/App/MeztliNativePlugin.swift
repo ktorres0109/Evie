@@ -53,7 +53,7 @@ public final class MeztliNativePlugin: CAPPlugin, CAPBridgedPlugin {
 
             let controller = UIPrintInteractionController.shared
             let info = UIPrintInfo(dictionary: nil)
-            info.jobName = call.getString("jobName") ?? "Meztli cycle report"
+            info.jobName = call.getString("jobName") ?? "Evie cycle report"
             info.outputType = .general
             controller.printInfo = info
             controller.printFormatter = webView.viewPrintFormatter()

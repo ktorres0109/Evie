@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
   appId: 'io.github.ktorres0109.cycle',
-  appName: 'Meztli',
+  appName: 'Evie',
   webDir: 'dist',
   backgroundColor: '#14111C',
   ios: {

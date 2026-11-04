@@ -710,7 +710,7 @@ export const es: Record<MessageKey, string> = {
   'privacy.restore.body': 'Lo que hay en el archivo se suma a lo que ya está aquí. Si un día está en ambos, se queda la versión del archivo.',
   'privacy.restore.file': 'Archivo exportado',
   'privacy.restore.go': 'Restaurar',
-  'privacy.restore.notFile': 'Eso no parece un archivo exportado de Meztli.',
+  'privacy.restore.notFile': 'Eso no parece un archivo exportado de Evie.',
   'privacy.restore.wrongPass': 'Esa contraseña no abrió el archivo.',
   'privacy.restore.done.one': 'Se restauró {n} día.',
   'privacy.restore.done.other': 'Se restauraron {n} días.',
@@ -1139,7 +1139,7 @@ export const es: Record<MessageKey, string> = {
   'ob.lock.note': 'Después puedes agregar huella o cara en Tú → Bloqueo de la app.',
 
   // ---------- About ----------
-  'about.meaning': '“Meztli” significa luna y mes en náhuatl.',
+  'about.meaning': 'Evie es una pequeña compañera privada para tu ciclo.',
   'about.source': 'Código fuente',
   'about.sourceRow': 'Obtener el código fuente',
   'about.license': 'AGPL-3.0. Puedes leerlo, cambiarlo y compartirlo.',
@@ -1152,7 +1152,7 @@ export const es: Record<MessageKey, string> = {
   // Resumen para el médico
   'doctor.title': 'Resumen para el médico',
   'doctor.heading': 'Resumen del ciclo',
-  'doctor.jobName': 'Resumen médico de Meztli',
+  'doctor.jobName': 'Resumen médico de Evie',
   'doctor.export': 'Imprimir o guardar como PDF',
   'doctor.exportFailed': 'No se abrió la hoja de impresión. Inténtalo otra vez.',
   'doctor.generated': 'Hecho el {date} con datos autorreportados',
@@ -1196,5 +1196,5 @@ export const es: Record<MessageKey, string> = {
   'doctor.ofCheckIns': '{n} de {total} registros',
   'doctor.none': 'Nada registrado.',
   'doctor.method.note': 'La duración del ciclo se cuenta de un inicio de periodo al siguiente. La estimación usa todo su historial y deja fuera los ciclos inusuales indicados arriba. Las pruebas de ovulación y embarazo son observaciones, no confirmaciones.',
-  'doctor.disclaimer': 'Para hablarlo con un profesional de salud. Meztli no es un dispositivo médico y no diagnostica nada.',
+  'doctor.disclaimer': 'Para hablarlo con un profesional de salud. Evie no es un dispositivo médico y no diagnostica nada.',
 }

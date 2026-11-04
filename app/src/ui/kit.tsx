@@ -1,5 +1,5 @@
 /**
- * Meztli component kit (design spec §04). Small, dependency-free building
+ * Evie component kit (design spec §04). Small, dependency-free building
  * blocks; every screen composes these instead of styling from scratch.
  */
 import { useEffect, useId, useRef, type ReactNode } from 'react'
@@ -17,7 +17,7 @@ export function BrandBar({ trailing }: { trailing?: ReactNode }) {
     <header className="mz-appbar">
       <div className="mz-brand">
         <span className="mz-brand__dot" aria-hidden="true" />
-        <span className="mz-brand__name">Meztli</span>
+        <span className="mz-brand__name">Evie</span>
       </div>
       {trailing}
     </header>

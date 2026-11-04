@@ -2,7 +2,7 @@
  * Support resources shown after a pregnancy ends and in Privacy & data.
  * US-focused, non-judgemental, and verified against each organisation's own
  * site on `lastChecked`. Recheck before every release; numbers and hours change.
- * Not legal advice, and Meztli is not affiliated with any of them.
+ * Not legal advice, and Evie is not affiliated with any of them.
  */
 export interface CareResource {
   id: string

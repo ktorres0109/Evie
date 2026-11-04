@@ -267,3 +267,8 @@ Evie conflict source: <https://eviering.com/>, <https://movanohealth.com/evie-th
 - 2025 Meta verdict and $59.5M settlement: <https://www.hipaajournal.com/jury-trial-meta-flo-health-consumer-privacy/>, <https://www.rivkinrounds.com/2025/08/flo-health-data-sharing-case-ends-in-major-jury-verdict-against-meta/>
 
 Not legal advice. Get a lawyer's read before a public store release.
+
+
+## Name (updated November 4, 2026)
+
+The app is **Evie** again (Kelvin's call; he likes it, like the Pokémon). "Meztli" was used for a while; internal identifiers kept that spelling on purpose (database name `meztli`, link scheme `meztli://`, native class names, `meztli-debug-apk`), because renaming the database would erase installed data. Note from research: an unrelated "Evie" smart ring by Movano exists; worth a trademark check before any store release.

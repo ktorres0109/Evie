@@ -1,6 +1,6 @@
 # Next session: start here
 
-Where Meztli stands and how to handle Jasmine's feedback. Last updated November 4, 2026.
+Where Evie stands and how to handle Jasmine's feedback. Last updated November 4, 2026.
 
 ## Where things are
 

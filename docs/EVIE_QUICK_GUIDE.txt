@@ -1,5 +1,5 @@
-MEZTLI — QUICK GUIDE
-====================
+EVIE — QUICK GUIDE
+==================
 
 PART 1 — FOR KELVIN (read this, 1 minute)
 -----------------------------------------
@@ -28,7 +28,7 @@ Best questions to ask
 PART 2 — FOR JASMINE (show her this)
 ------------------------------------
 What it is
-  Meztli (Nahuatl for "moon") is a private period and cycle tracker, in Spanish and English.
+  Evie is a private period and cycle tracker, in Spanish and English.
 
 Private by design
   - Everything stays on your phone. No account, no ads, no tracking, no AI.
@@ -45,7 +45,7 @@ How to use it
   - Birth control: add it under You -> Birth control for pack-day info and reminders.
   - Something unusual affecting your cycle? You -> Things that affect your cycle.
     It stays private and is never shared.
-  - Lost? You -> How Meztli works (a 2-minute guide).
+  - Lost? You -> How Evie works (a 2-minute guide).
 
 Good to know
   - It gives estimates, not diagnoses, and it is NOT birth control.
@@ -56,7 +56,7 @@ Good to know
 
 PARA JASMINE (en español)
 -------------------------
-  - Meztli ("luna" en náhuatl) es una app privada para tu periodo y tu ciclo.
+  - Evie es una app privada para tu periodo y tu ciclo.
   - Todo se queda en tu teléfono. Kelvin no puede ver nada, a menos que tú decidas
     compartir algo, y lo puedes quitar cuando quieras.
   - Al empezar, si recuerdas cuándo empezaron tus últimos 2 o 3 periodos, ponlos:

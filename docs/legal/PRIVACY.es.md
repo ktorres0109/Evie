@@ -12,7 +12,7 @@ Tu periodo y flujo, síntomas, ánimo, notas, pruebas y temperaturas que registr
 
 Todo vive dentro del almacenamiento privado de la app en tu teléfono, protegido por el cifrado de tu propio teléfono. Puedes agregar un PIN o huella en la app.
 
-Nunca lo vemos. No hay un servidor de Meztli con una copia.
+Nunca lo vemos. No hay un servidor de Evie con una copia.
 
 ## Qué sale de tu teléfono, y solo si tú eliges
 
@@ -44,7 +44,7 @@ Las leyes que te dan derechos sobre los datos de salud que una empresa tiene (po
 
 ## Menores
 
-Meztli es para personas de 13 años o más (16 o más en la UE, el Reino Unido y Canadá). No recibimos datos de nadie a sabiendas, incluidos menores.
+Evie es para personas de 13 años o más (16 o más en la UE, el Reino Unido y Canadá). No recibimos datos de nadie a sabiendas, incluidos menores.
 
 ## Cambios y contacto
 

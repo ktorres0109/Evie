@@ -2,15 +2,15 @@
 
 _Última actualización: 4 de noviembre de 2026 · version 2026-11-04_
 
-- Meztli te ayuda a entender tu propio ciclo. Da estimaciones, no diagnósticos, y no es un método anticonceptivo.
+- Evie te ayuda a entender tu propio ciclo. Da estimaciones, no diagnósticos, y no es un método anticonceptivo.
 - Lo que registras se queda en tu teléfono. Tú decides si compartes algo y puedes dejar de hacerlo cuando quieras.
 - Es software gratuito y de código abierto, ofrecido tal cual.
 
 ## Quiénes somos
 
-Meztli es un proyecto independiente y de código abierto, no una empresa. "Nosotros" se refiere a quienes lo crean y mantienen. El código es público en https://github.com/ktorres0109/Evie.
+Evie es un proyecto independiente y de código abierto, no una empresa. "Nosotros" se refiere a quienes lo crean y mantienen. El código es público en https://github.com/ktorres0109/Evie.
 
-Al usar Meztli aceptas estos términos. Si no estás de acuerdo, por favor no lo uses.
+Al usar Evie aceptas estos términos. Si no estás de acuerdo, por favor no lo uses.
 
 ## Quién puede usarlo
 
@@ -18,9 +18,9 @@ Debes tener al menos 13 años, o al menos 16 en la Unión Europea, el Reino Unid
 
 ## No es consejo médico ni anticonceptivo
 
-Meztli no es un dispositivo médico. Sus estimaciones (tu próximo periodo, días fértiles, patrones) salen de lo que registras y pueden fallar, sobre todo con pocos ciclos, ciclos irregulares, un embarazo reciente, anticonceptivos hormonales o condiciones de salud.
+Evie no es un dispositivo médico. Sus estimaciones (tu próximo periodo, días fértiles, patrones) salen de lo que registras y pueden fallar, sobre todo con pocos ciclos, ciclos irregulares, un embarazo reciente, anticonceptivos hormonales o condiciones de salud.
 
-No uses Meztli para evitar un embarazo. Si eso te importa, usa un método diseñado para ello y habla con un profesional de salud.
+No uses Evie para evitar un embarazo. Si eso te importa, usa un método diseñado para ello y habla con un profesional de salud.
 
 Nada en la app sustituye a un médico, enfermera, asistente médico, partera o farmacéutico. Si algo no se siente bien, busca atención. En una emergencia llama al 911 (o al número de emergencias de tu país).
 
@@ -36,7 +36,7 @@ La Política de privacidad explica exactamente qué se guarda, dónde y qué sal
 
 Puedes compartir una vista pequeña, de solo lectura, con una persona. Tú eliges qué se comparte, confirmas el enlace en persona y puedes pausarlo o terminarlo cuando quieras. Hay cosas que nunca se comparten, elijas lo que elijas.
 
-Úsalo solo con alguien de confianza y por decisión propia. Nunca uses Meztli para vigilar o rastrear a otra persona sin que lo sepa y lo acepte.
+Úsalo solo con alguien de confianza y por decisión propia. Nunca uses Evie para vigilar o rastrear a otra persona sin que lo sepa y lo acepte.
 
 Si eres la pareja: lo que ves pertenece a quien lo comparte. Respeta su decisión de cambiarlo o terminarlo.
 
@@ -44,11 +44,11 @@ Si eres la pareja: lo que ves pertenece a quien lo comparte. Respeta su decisió
 
 No abuses del servicio para compartir: nada de intentar romperlo, saturarlo o entrar a buzones que no son tuyos.
 
-El código tiene licencia GNU Affero General Public License v3.0 (AGPL-3.0). Puedes estudiarlo, modificarlo y compartirlo bajo esa licencia. Meztli se basa en Lunara de Blueturboguy07 y colaboradores.
+El código tiene licencia GNU Affero General Public License v3.0 (AGPL-3.0). Puedes estudiarlo, modificarlo y compartirlo bajo esa licencia. Evie se basa en Lunara de Blueturboguy07 y colaboradores.
 
 ## Sin garantía
 
-Meztli se ofrece "tal cual", sin garantías de ningún tipo, en la medida máxima que permita la ley. Hacemos lo posible para que sea preciso, privado y confiable, pero no podemos prometer que siempre funcione o que no tenga errores.
+Evie se ofrece "tal cual", sin garantías de ningún tipo, en la medida máxima que permita la ley. Hacemos lo posible para que sea preciso, privado y confiable, pero no podemos prometer que siempre funcione o que no tenga errores.
 
 En la medida máxima que permita la ley, no somos responsables de pérdidas indirectas por usar la app, incluidas decisiones basadas en sus estimaciones o datos perdidos de tu teléfono. Nada de esto limita derechos que la ley de donde vives no permite renunciar.
 
@@ -56,7 +56,7 @@ En la medida máxima que permita la ley, no somos responsables de pérdidas indi
 
 Si cambiamos estos términos de forma importante, la app te mostrará la nueva versión y te pedirá aceptarla antes de seguir.
 
-Puedes dejar de usar Meztli cuando quieras. Tú → Privacidad y datos → Borrar todo lo elimina de este teléfono.
+Puedes dejar de usar Evie cuando quieras. Tú → Privacidad y datos → Borrar todo lo elimina de este teléfono.
 
 Estos términos se rigen por las leyes de California, EE. UU., salvo donde la ley de tu lugar de residencia diga otra cosa.
 

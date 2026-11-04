@@ -11,7 +11,7 @@ interface MeztliMarkProps {
 }
 
 /**
- * The canonical Meztli brand mark.
+ * The canonical Evie brand mark.
  *
  * Keep the geometry in sync with the source SVGs under app/brand when native
  * launcher or splash assets are regenerated.
@@ -19,7 +19,7 @@ interface MeztliMarkProps {
 export function MeztliMark({
   className = '',
   decorative = false,
-  label = 'Meztli',
+  label = 'Evie',
   size = 32,
 }: MeztliMarkProps) {
   return (
