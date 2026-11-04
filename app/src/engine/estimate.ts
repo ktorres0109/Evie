@@ -610,8 +610,13 @@ export function computeCycleState(inputs: CycleInputs): CycleState {
   // Bleeding now: flow logged today or yesterday inside the latest episode.
   const episodes = bleedingEpisodes(logs.filter((l) => l.date <= today))
   const currentEpisode = episodes.at(-1)
+  // Yesterday's flow carries over to today, unless she said today it ended.
+  const endedToday = logs.some((l) => l.date === today && l.noBleeding)
   const bleedingNow =
-    currentEpisode !== undefined && daysBetween(currentEpisode.end, today) <= 1 && daysBetween(currentEpisode.start, today) < 12
+    !endedToday &&
+    currentEpisode !== undefined &&
+    daysBetween(currentEpisode.end, today) <= 1 &&
+    daysBetween(currentEpisode.start, today) < 12
   const periodDay = bleedingNow ? daysBetween(currentEpisode!.start, today) + 1 : null
 
   const medianLength = used.length >= 2 ? median(used.map((c) => c.length)) : null

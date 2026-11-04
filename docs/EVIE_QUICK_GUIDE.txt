@@ -40,6 +40,8 @@ How to use it
     Then you get an estimate right away. Rough dates are fine.
   - Every day (or whenever): tap + and log what you want: flow, symptoms, mood.
     Hold a symptom to say how strong it was. Skipping days is fine.
+  - When your period is due, Today asks "Did your period start?". One tap logs it.
+    During your period it asks "Still on your period today?" each day. One tap again.
   - Next period: you get a range of days, not one fake-exact date.
     "Why this estimate?" shows how it got there.
   - Birth control: add it under You -> Birth control for pack-day info and reminders.
@@ -62,6 +64,8 @@ PARA JASMINE (en español)
   - Al empezar, si recuerdas cuándo empezaron tus últimos 2 o 3 periodos, ponlos:
     así ves una estimación desde el primer día.
   - Toca + para registrar lo que quieras. Puedes saltarte días.
+  - Cuando te toque, Hoy te pregunta "¿Te bajó?" y lo registras con un toque.
+    Durante tu periodo te pregunta cada día si sigues; otro toque.
   - Te da un rango de días para tu próximo periodo, no una fecha exacta inventada.
   - No es anticonceptivo. No la desinstales (se borra todo).
     Haz un respaldo de vez en cuando en Tú -> Privacidad y datos -> Exportar todo.

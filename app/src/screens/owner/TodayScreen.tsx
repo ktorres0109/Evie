@@ -15,7 +15,10 @@ import { dailyLogHasEntry, getSetting, removeSetting, setSetting } from '../../d
 import { greetingKey, useOwnerName } from '../../state/profileName'
 import { GUIDE_SEEN } from './GuideScreen'
 import { activeRegimenOn } from '../../db/regimen'
-import { daysBetween } from '../../engine/cycle'
+import { addDays, daysBetween } from '../../engine/cycle'
+import { setBleeding } from '../../db/logs'
+
+const ASK_DISMISSED = 'today.askPeriod.dismissed'
 import { useNav, type QuickKind } from '../../state/nav'
 import type { Prefs } from '../../state/prefs'
 import type { CycleData } from '../../state/useCycle'
@@ -97,6 +100,22 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
   const insight = useMemo(() => pickInsight(data, t), [data, t.locale])
   const methodPending = useLiveQuery(async () => (await getSetting(SK_METHOD_PENDING)) === '1', [])
   const guideSeen = useLiveQuery(async () => (await getSetting(GUIDE_SEEN)) === '1', [])
+  // Ask once a day from two days before the estimated window, or when late,
+  // unless she's already bleeding, on a hormonal method/pregnant (withheld), or said not yet today.
+  const askDismissed = useLiveQuery(async () => (await getSetting(ASK_DISMISSED)) ?? '', [])
+  const todayLog = data.logsByDate.get(data.today)
+  // Yesterday was a flow day and today is still empty: offer one tap either way.
+  const yesterdayFlow = data.logsByDate.get(addDays(data.today, -1))?.flow
+  const askContinue = s.periodDay !== null && Boolean(yesterdayFlow) && !todayLog?.flow && !todayLog?.spotting && !todayLog?.noBleeding
+  const askPeriod =
+    askDismissed !== undefined &&
+    askDismissed !== data.today &&
+    s.status === 'ok' &&
+    s.periodDay === null &&
+    !todayLog?.flow &&
+    !todayLog?.spotting &&
+    s.window !== null &&
+    data.today >= addDays(s.window.start, -2)
   const ownerName = useOwnerName()
 
   const pregnancy =
@@ -208,6 +227,49 @@ export function TodayScreen({ data, prefs, locked }: { data: CycleData; prefs: P
           </button>
         </div>
       </section>
+
+      {/* ---------- During a period, today not logged yet: still going? ---------- */}
+      {askContinue && (
+        <section className="mz-section">
+          <div className="mz-card mz-stack" style={{ gap: 10 }}>
+            <div className="mz-title">{t('today.still.title')}</div>
+            <div className="mz-row">
+              <button type="button" className="mz-btn mz-btn--secondary mz-grow" onClick={() => void setBleeding(data.today, 'none')}>
+                {t('today.still.ended')}
+              </button>
+              <button type="button" className="mz-btn mz-btn--primary mz-grow" onClick={() => void setBleeding(data.today, yesterdayFlow ?? 'medium')}>
+                {t('today.still.yes')}
+              </button>
+            </div>
+            <p className="mz-caption">{t('today.still.note')}</p>
+          </div>
+        </section>
+      )}
+
+      {/* ---------- Period due or late: one tap to log it ---------- */}
+      {askPeriod && (
+        <section className="mz-section">
+          <div className="mz-card mz-stack" style={{ gap: 10, boxShadow: 'inset 0 0 0 1.5px var(--berry-hi)' }}>
+            <div className="mz-title">{t('today.ask.title')}</div>
+            <p className="mz-body-sm mz-muted">{t('today.ask.body')}</p>
+            <div className="mz-row">
+              <button type="button" className="mz-btn mz-btn--ghost mz-grow" onClick={() => void setSetting(ASK_DISMISSED, data.today)}>
+                {t('today.ask.no')}
+              </button>
+              <button
+                type="button"
+                className="mz-btn mz-btn--primary mz-grow"
+                onClick={async () => {
+                  await setBleeding(data.today, 'medium')
+                  openQuick('flow', data.today)
+                }}
+              >
+                {t('today.ask.yes')}
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ---------- First days: a short guide ---------- */}
       {guideSeen === false && (

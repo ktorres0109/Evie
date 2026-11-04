@@ -255,3 +255,14 @@ describe('phaseAnalysisInput', () => {
     expect(input.logs.some((l) => l.date === sick)).toBe(false)
   })
 })
+
+describe('period day', () => {
+  it('stops counting period days once today is marked as no bleeding', () => {
+    const starts = startsFrom('2026-01-01', [29, 29, 29])
+    const last = starts.at(-1)!
+    const logs = [...periods(starts.slice(0, -1)), { date: last, flow: 'heavy' as const }]
+    const today = addDays(last, 1)
+    expect(computeCycleState({ today, logs }).periodDay).toBe(2)
+    expect(computeCycleState({ today, logs: [...logs, { date: today, noBleeding: true }] }).periodDay).toBeNull()
+  })
+})
