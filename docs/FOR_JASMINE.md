@@ -15,6 +15,7 @@ A guide for you (Kelvin): how to install it, what to tell her, when to check in,
 
 **Updating later:** send her the newer APK and install it over the old one. Her data stays.
 **Never uninstall it.** Uninstalling deletes everything she logged. Before each update, have her do **You → Privacy & data → Export everything** (with a passphrase) as a safety net.
+Phone backups (Google, Samsung Cloud) deliberately do **not** include Meztli, for privacy. If she ever switches phones, her own export is the only way to bring her history: export on the old phone, then **Restore from a file** on the new one.
 
 Partner sharing with your iPhone needs the relay deployed and the iPhone app built on your Mac (see `docs/TESTING.md`). It's optional: she can use the app fully without it. Pair later if she wants to.
 

@@ -19,8 +19,6 @@
 	</dict>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Use Face ID to unlock your private Meztli data.</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Meztli imports only the health categories you choose so your cycle history can stay current on this device.</string>
 	<key>CAPACITOR_DEBUG</key>
 	<string>$(CAPACITOR_DEBUG)</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
