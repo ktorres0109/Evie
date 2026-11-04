@@ -6,7 +6,7 @@
  */
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useState } from 'react'
-import { db, putHealthProfile, removeSetting, type ContraceptionMethod } from '../../db/schema'
+import { db, getSetting, putHealthProfile, removeSetting, type ContraceptionMethod } from '../../db/schema'
 import { activeRegimenOn, regimenId, type MethodConfig, type RegimenRecord, type TrackableMethod } from '../../db/regimen'
 import { addDays, daysBetween } from '../../engine/cycle'
 import { isHormonalMethod, withdrawalBleedFor } from '../../engine/estimate'
@@ -364,8 +364,10 @@ function MethodSetup({
       }
       // Switching: close whatever was active the day before the new one starts.
       // A placeholder from onboarding (no details yet) is replaced, not kept.
-      const current = activeRegimenOn(await db.regimenRecords.toArray(), start) ?? activeRegimenOn(await db.regimenRecords.toArray(), today)
-      if (current && !current.config) await db.regimenRecords.delete(current.id)
+      const all = await db.regimenRecords.toArray()
+      const current = activeRegimenOn(all, start) ?? activeRegimenOn(all, today)
+      const placeholder = current && !current.config && (await getSetting(SK_METHOD_PENDING)) === '1'
+      if (current && placeholder) await db.regimenRecords.delete(current.id)
       else if (current) await db.regimenRecords.put({ ...current, endDate: addDays(start, -1), updatedAt: now })
       await db.regimenRecords.put({
         id: regimenId(method, start) + (choice === 'patch' || choice === 'ring' ? `:${choice}` : ''),

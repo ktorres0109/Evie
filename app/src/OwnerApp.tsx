@@ -2,6 +2,7 @@
  * The owner app: four tabs and the raised Log button, a stack of pushed
  * screens, the full log sheet and the quick one-category sheets.
  */
+import { useLiveQuery } from 'dexie-react-hooks'
 import { useEffect } from 'react'
 import { onReminderTap, scheduleAllReminders } from './native/schedule'
 import { publishWidgetSnapshot, widgetSnapshotFor } from './native/widgets'
@@ -101,13 +102,13 @@ export function OwnerApp({ prefs, locked }: { prefs: Prefs; locked: boolean }) {
         : null
     : null
   const widgetDetail = data && data.state.status === 'ok' ? rangeText(data.state, t, true) : null
+  const hasPin = useLiveQuery(async () => Boolean(await getSetting(SK.pinHash)), [])
   useEffect(() => {
-    if (!data) return
-    void getSetting(SK.pinHash).then((pin) =>
-      publishWidgetSnapshot(
+    if (!data || hasPin === undefined) return
+    void publishWidgetSnapshot(
         widgetSnapshotFor({
           showCycle: prefs.widgetShowsCycle,
-          locked: Boolean(pin),
+          locked: hasPin,
           appName: APP_NAME,
           privateDetail: t('widget.private'),
           headline: widgetHeadline,
@@ -119,9 +120,8 @@ export function OwnerApp({ prefs, locked }: { prefs: Prefs; locked: boolean }) {
               ? { template: t('today.hero.day', { n: '{n}' }), cycleDay: data.state.cycleDay, today: data.today }
               : undefined,
         }),
-      ).catch(() => undefined),
-    )
-  }, [Boolean(data), prefs.widgetShowsCycle, widgetHeadline, widgetDetail, t])
+      ).catch(() => undefined)
+  }, [Boolean(data), hasPin, prefs.widgetShowsCycle, widgetHeadline, widgetDetail, t])
 
   // Back from a non-Today tab returns to Today before leaving the app.
   useEffect(() => {

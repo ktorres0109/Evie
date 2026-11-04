@@ -4,9 +4,10 @@ import { db, SK, type ContentBookmark, type DailyLog, type HealthProfile, type L
 
 /** Settings that must never leave the device: lock secrets and pairing keys. */
 const SECRET_KEYS: string[] = [SK.pinSalt, SK.pinHash, SK.aiKey]
-const SECRET_PREFIXES = ['dev-secret.', 'partner.']
+// lock.* (wrong-PIN counter, wait) and method.setupPending belong to this phone only.
+const SECRET_PREFIXES = ['dev-secret.', 'partner.', 'lock.', 'method.setupPending']
 
-function exportable(setting: Setting): boolean {
+export function exportable(setting: Setting): boolean {
   return !SECRET_KEYS.includes(setting.key) && !SECRET_PREFIXES.some((p) => setting.key.startsWith(p))
 }
 

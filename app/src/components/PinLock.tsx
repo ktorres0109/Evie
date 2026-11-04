@@ -3,7 +3,7 @@
  * fallback. Wrong PINs add a growing wait that survives restarting the app.
  * Forgetting the PIN leaves one honest way out: erasing the data it protects.
  */
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { hashPin } from '../crypto/vault'
 import { getSetting, setSetting, SK } from '../db/schema'
 import { useT } from '../i18n'
@@ -24,7 +24,15 @@ export function lockoutSeconds(fails: number): number {
 export function PinLock() {
   const t = useT()
   const setLocked = useApp((s) => s.setLocked)
-  const [entered, setEntered] = useState('')
+  const [entered, setEnteredState] = useState('')
+  // The ref is the source of truth so fast typing never reads a stale value,
+  // and `checking` ignores input between a full entry and the reset.
+  const enteredRef = useRef('')
+  const checking = useRef(false)
+  const setEntered = useCallback((next: string | ((x: string) => string)) => {
+    enteredRef.current = typeof next === 'function' ? next(enteredRef.current) : next
+    setEnteredState(enteredRef.current)
+  }, [])
   const [wrong, setWrong] = useState(false)
   const [bio, setBio] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -73,14 +81,16 @@ export function PinLock() {
 
   const press = useCallback(
     async (d: string) => {
-      if (waiting || busy) return
+      if (waiting || busy || checking.current) return
       setWrong(false)
-      const next = (entered + d).slice(0, 4)
+      const next = (enteredRef.current + d).slice(0, 4)
       setEntered(next)
       if (next.length < 4) return
+      checking.current = true
       const [salt, hash] = await Promise.all([getSetting(SK.pinSalt), getSetting(SK.pinHash)])
       if (salt && hash && (await hashPin(next, salt)) === hash) {
         await setSetting(FAILS, '0')
+        checking.current = false
         setLocked(false)
         return
       }
@@ -94,9 +104,12 @@ export function PinLock() {
         setNow(Date.now())
       }
       setWrong(true)
-      window.setTimeout(() => setEntered(''), 300)
+      window.setTimeout(() => {
+        setEntered('')
+        checking.current = false
+      }, 300)
     },
-    [entered, waiting, busy, setLocked],
+    [waiting, busy, setLocked, setEntered],
   )
 
   // A hardware keyboard works too.

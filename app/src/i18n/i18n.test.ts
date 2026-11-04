@@ -52,3 +52,11 @@ describe('resolveLocale', () => {
     expect(resolveLocale(langs)).toBe(expected)
   })
 })
+
+describe('translator identity', () => {
+  it('is the same function for the same locale, so hook deps on t stay stable', async () => {
+    const { translatorFor } = await import('./index')
+    expect(translatorFor('en')).toBe(translatorFor('en'))
+    expect(translatorFor('es')).not.toBe(translatorFor('en'))
+  })
+})

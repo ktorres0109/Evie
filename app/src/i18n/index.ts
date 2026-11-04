@@ -84,7 +84,18 @@ export interface Translator {
   locale: Locale
 }
 
+const TRANSLATORS = new Map<Locale, Translator>()
+
+/** One translator per locale, so `t` is stable across renders (safe in hook deps). */
 export function translatorFor(locale: Locale): Translator {
+  const cached = TRANSLATORS.get(locale)
+  if (cached) return cached
+  const made = makeTranslator(locale)
+  TRANSLATORS.set(locale, made)
+  return made
+}
+
+function makeTranslator(locale: Locale): Translator {
   const cat = CATALOGUES[locale]
   const fn = ((key: MessageKey, vars?: Vars) => format(cat[key] ?? en[key], vars)) as Translator
   fn.n = (key, n, vars) => {
