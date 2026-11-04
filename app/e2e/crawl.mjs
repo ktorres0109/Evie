@@ -8,7 +8,7 @@ import { SHOTS, APP, RELAY } from './env.mjs'
 import { createRequire } from 'node:module'
 import fs from 'node:fs'
 
-const URL = APP
+const APP_URL = APP
 const LOCALE = process.argv[2] || 'en-US'
 const SCENARIO = process.argv[3] || 'natural' // natural | pill
 const MAX_DEPTH = Number(process.argv[4] || 3)
@@ -61,7 +61,7 @@ async function fresh() {
     const open = window.open
     window.open = (...a) => { window.__opened = (window.__opened || 0) + 1; return null }
   })
-  await page.goto(URL, { waitUntil: 'networkidle' })
+  await page.goto(APP_URL, { waitUntil: 'networkidle' })
   await seed(page)
   await page.reload({ waitUntil: 'networkidle' })
   await page.waitForTimeout(400)
