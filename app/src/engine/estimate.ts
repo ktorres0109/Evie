@@ -752,7 +752,8 @@ export function companionState(entryDates: ISODate[], today: ISODate, cycleStart
     checkIns,
     stage: stage as CompanionState['stage'],
     nextThreshold: PLANT_THRESHOLDS.find((t) => t > checkIns) ?? null,
-    resting: last !== null && daysBetween(last, today) >= 7,
+    // A seed has nothing to rest from (and setup's past dates aren't a gap).
+    resting: stage > 0 && last !== null && daysBetween(last, today) >= 7,
     lastCheckIn: last,
     checkInsThisCycle: cycleStart ? dates.filter((d) => d >= cycleStart).length : checkIns,
   }

@@ -105,6 +105,8 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
   const [purposes, setPurposes] = useState<Purpose[]>([])
   const [lastPeriod, setLastPeriod] = useState<string>('')
   const [notSure, setNotSure] = useState(false)
+  // Up to two earlier period starts, so a fresh install can estimate right away.
+  const [earlier, setEarlier] = useState<string[]>([])
   const [method, setMethod] = useState<MethodPick | null>(null)
   const [tone, setTone] = useState<NotificationTone>('neutral')
   const [pin, setPin] = useState('')
@@ -150,9 +152,9 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
         },
       }),
     )
-    if (lastPeriod) {
-      const existing = await db.dailyLogs.get(lastPeriod)
-      if (!existing?.flow) await db.dailyLogs.put({ ...(existing ?? { date: lastPeriod }), date: lastPeriod, flow: 'medium', periodStart: true })
+    for (const start of [lastPeriod, ...earlier].filter(Boolean)) {
+      const existing = await db.dailyLogs.get(start)
+      if (!existing?.flow) await db.dailyLogs.put({ ...(existing ?? { date: start }), date: start, flow: 'medium', periodStart: true })
     }
     // Methods with a schedule get set up properly in You → Birth control; record what we know now.
     if (method === 'pill' || method === 'patch-ring') {
@@ -390,7 +392,28 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
             {notSure && <span aria-hidden="true">✓</span>}
             {t('ob.last.notSure')}
           </button>
-          <p className="mz-caption">{t('ob.last.note')}</p>
+          {lastPeriod &&
+            [0, 1].map((i) => {
+              const after = i === 0 ? lastPeriod : earlier[0]
+              if (i === 1 && !earlier[0]) return null
+              return (
+                <label key={i} className="mz-field" style={{ marginTop: 8 }}>
+                  <span className="mz-field__label">{t(i === 0 ? 'ob.last.before' : 'ob.last.beforeThat')}</span>
+                  <input
+                    className="mz-input"
+                    type="date"
+                    value={earlier[i] ?? ''}
+                    min={addDays(after, -90)}
+                    max={addDays(after, -15)}
+                    onChange={(e) => {
+                      const v = e.currentTarget.value
+                      setEarlier((xs) => (i === 0 ? (v ? [v, ...xs.slice(1)] : []) : v ? [xs[0], v] : [xs[0]]))
+                    }}
+                  />
+                </label>
+              )
+            })}
+          <p className="mz-caption">{lastPeriod ? t('ob.last.whyEarlier') : t('ob.last.note')}</p>
         </div>
       </Frame>
     )

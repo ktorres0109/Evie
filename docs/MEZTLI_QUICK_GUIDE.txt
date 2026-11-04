@@ -1,0 +1,68 @@
+MEZTLI — QUICK GUIDE
+====================
+
+PART 1 — FOR KELVIN (read this, 1 minute)
+-----------------------------------------
+Install
+  1. github.com/ktorres0109/Evie -> Actions -> newest green "CI" run -> Artifacts -> meztli-debug-apk
+  2. Unzip, send app-debug.apk to her phone, tap it, allow install ("Install anyway" if warned).
+  3. Let HER do the setup. Don't help unless she asks.
+
+Rules
+  - Never uninstall (it deletes her data). Install updates on top of the old app.
+  - Before each update: You -> Privacy & data -> Export everything.
+
+Check in with her
+  - Day 1, day 4, end of week 2, the day after her next period, and at about 6-8 weeks.
+  - Short chats. Write down her exact words. Screenshots help most.
+
+Best questions to ask
+  1. What confused you or made you stop?
+  2. What do you log, and what did you look for but couldn't find?
+  3. Does the "next period" range feel believable?
+  4. As a future PA: is any health wording wrong or scary?
+  5. If you could change one thing tomorrow, what would it be?
+  (Full list: docs/FOR_JASMINE.md. Bring answers back using docs/FEEDBACK_TEMPLATE.md.)
+
+
+PART 2 — FOR JASMINE (show her this)
+------------------------------------
+What it is
+  Meztli (Nahuatl for "moon") is a private period and cycle tracker, in Spanish and English.
+
+Private by design
+  - Everything stays on your phone. No account, no ads, no tracking, no AI.
+  - Kelvin can't see anything. If you ever want, you can share a little with him.
+    You pick what, and you can stop anytime.
+
+How to use it
+  - Setup: if you remember when your last 2-3 periods started, enter them.
+    Then you get an estimate right away. Rough dates are fine.
+  - Every day (or whenever): tap + and log what you want: flow, symptoms, mood.
+    Hold a symptom to say how strong it was. Skipping days is fine.
+  - Next period: you get a range of days, not one fake-exact date.
+    "Why this estimate?" shows how it got there.
+  - Birth control: add it under You -> Birth control for pack-day info and reminders.
+  - Something unusual affecting your cycle? You -> Things that affect your cycle.
+    It stays private and is never shared.
+  - Lost? You -> How Meztli works (a 2-minute guide).
+
+Good to know
+  - It gives estimates, not diagnoses, and it is NOT birth control.
+  - Don't uninstall it. Make a backup now and then:
+    You -> Privacy & data -> Export everything.
+  - It's a test version. Tell Kelvin anything that's confusing, broken, or annoying.
+
+
+PARA JASMINE (en español)
+-------------------------
+  - Meztli ("luna" en náhuatl) es una app privada para tu periodo y tu ciclo.
+  - Todo se queda en tu teléfono. Kelvin no puede ver nada, a menos que tú decidas
+    compartir algo, y lo puedes quitar cuando quieras.
+  - Al empezar, si recuerdas cuándo empezaron tus últimos 2 o 3 periodos, ponlos:
+    así ves una estimación desde el primer día.
+  - Toca + para registrar lo que quieras. Puedes saltarte días.
+  - Te da un rango de días para tu próximo periodo, no una fecha exacta inventada.
+  - No es anticonceptivo. No la desinstales (se borra todo).
+    Haz un respaldo de vez en cuando en Tú -> Privacidad y datos -> Exportar todo.
+  - Si algo es confuso o no funciona, díselo a Kelvin, con captura de pantalla si puedes.

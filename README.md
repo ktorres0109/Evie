@@ -26,6 +26,7 @@ confident date.
 | Research | [`docs/design/evie/RESEARCH_2026-09-28.md`](docs/design/evie/RESEARCH_2026-09-28.md) |
 | Install and test on a phone | [`docs/TESTING.md`](docs/TESTING.md) |
 | First user test (what to say, what to ask) | [`docs/FOR_JASMINE.md`](docs/FOR_JASMINE.md) · [`docs/FEEDBACK_TEMPLATE.md`](docs/FEEDBACK_TEMPLATE.md) |
+| One-page guide (for Kelvin and Jasmine) | [`docs/MEZTLI_QUICK_GUIDE.txt`](docs/MEZTLI_QUICK_GUIDE.txt) |
 | Where things stand / next steps | [`docs/NEXT_SESSION.md`](docs/NEXT_SESSION.md) |
 | Terms of Use · Privacy Policy | [`docs/legal/`](docs/legal/) (generated from the in-app text) |
 | Browser checks | [`app/e2e/`](app/e2e/) |
